@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Ssl | Shady Minds]]></title>
+  <link href="http://fe2s.github.io/blog/categories/ssl/atom.xml" rel="self"/>
+  <link href="http://fe2s.github.io/"/>
+  <updated>2014-08-21T18:50:33+03:00</updated>
+  <id>http://fe2s.github.io/</id>
+  <author>
+    <name><![CDATA[Oleksiy Dyagilev]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[How to Decrypt Jetty's Https Tcp Dump]]></title>
+    <link href="http://fe2s.github.io/blog/2013/03/26/how-to-decrypt-jettys-https-tcp-dump/"/>
+    <updated>2013-03-26T15:22:03+02:00</updated>
+    <id>http://fe2s.github.io/blog/2013/03/26/how-to-decrypt-jettys-https-tcp-dump</id>
+    <content type="html"><![CDATA[<p>If you want to capture jetty&rsquo;s tcp dump of https and analyze encrypted packets later - here is an instruction. Applies for Jetty 7, not sure if the same works for other versions.</p>
+
+<!-- more -->
+
+
+<p><strong>Step 1.</strong> Find obfuscated password in jetty.xml, it should start with OBF: prefix. Run it through the following deobfuscating function which I found in jetty sources.</p>
+
+<pre><code class="java">    public class Password {
+        public static final String __OBFUSCATE = "OBF:";
+
+        public static String deobfuscate(String s) {
+        if (s.startsWith(__OBFUSCATE)) s = s.substring(4);
+
+        byte[] b = new byte[s.length() / 2];
+        int l = 0;
+        for (int i = 0; i &lt; s.length(); i += 4) {
+            String x = s.substring(i, i + 4);
+            int i0 = Integer.parseInt(x, 36);
+            int i1 = (i0 / 256);
+            int i2 = (i0 % 256);
+            b[l++] = (byte) ((i1 + i2 - 254) / 2);
+        }
+
+        return new String(b, 0, l);
+        }
+    }
+</code></pre>
+
+<p><strong>Step 2.</strong> Now you should have the password for keystore. The location of keystore should be listed in jetty.xml. Import keys to intermediate PKCS12 format</p>
+
+<pre><code>$ /usr/java/jdk1.6.0_13/bin/keytool -importkeystore -srckeystore $YOUR_PATH_HERE/keystore -destkeystore intermediate.p12 -deststoretype PKCS12
+</code></pre>
+
+<p><strong>Step 3</strong>. Extract RSA key from PKCS12</p>
+
+<pre><code>$ openssl pkcs12 -in intermediate.p12  -nocerts -nodes -passin pass:$YOUR_PASS_HERE | openssl rsa -out privateRSAKey.pem
+</code></pre>
+
+<p><strong>Step 4.</strong> Now you are good to feed wireshark or other preferred tool with RSA key.</p>
+]]></content>
+  </entry>
+  
+</feed>

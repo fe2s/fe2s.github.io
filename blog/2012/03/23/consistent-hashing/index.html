@@ -1,0 +1,255 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Consistent Hashing - Shady Minds</title>
+  <meta name="author" content="Oleksiy Dyagilev">
+
+  
+  <meta name="description" content="Техника консистентного хеширования consistent hashing довольно популярна при создании распределенных систем, тем не менее я не смог найти описания &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://fe2s.github.io/blog/2012/03/23/consistent-hashing">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Shady Minds" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Shady Minds</a></h1>
+  
+    <h2>on computer science and related ..</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:fe2s.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Consistent Hashing</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2012-03-23T14:34:54+02:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2012</span></span> <span class='time'>2:34 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Техника консистентного хеширования <a href="http://en.wikipedia.org/wiki/Consistent_hashing">consistent hashing</a> довольно популярна при создании распределенных систем, тем не менее я не смог найти описания алгоритма на русском языке. Попробую изложить, возможно кому-то пригодится.</p>
+
+<!-- more -->
+
+
+<h2>Проблема</h2>
+
+<p>Предположим вы разрабатываете приложение и решили кешировать данные для улучшения производительности. Так же вы решили использовать горизонтальное масштабирование и разнести данные на N серверов.</p>
+
+<p>Итого, есть N серверов и необходимо реализовать две функции:</p>
+
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kt">void</span> <span class="nf">put</span><span class="o">(</span><span class="n">Key</span> <span class="n">k</span><span class="o">,</span> <span class="n">Item</span> <span class="n">i</span><span class="o">)</span> <span class="c1">// положить элемент i с ключом k в кеш</span>
+</span><span class='line'><span class="n">Item</span> <span class="nf">get</span><span class="o">(</span><span class="n">Key</span> <span class="n">k</span><span class="o">);</span> <span class="c1">// вытащить элемент по ключу k</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+
+<p>Имея ключ k, как узнать на каком сервере лежит соответствующий ему элемент?</p>
+
+<h2>Решение</h2>
+
+<p>Первое что приходит в голову - использовать обычную хеш-таблицу. Берем ключ k, применяем к нему хеш-функцию и считаем остаток от деления на количество серверов N - <code>hash(k) mod N</code>. Да, это будет работать, но что произойдет когда мы захотим добавить ещё один сервер ? Нам необходимо будет перехешировать все данные, большую часть которых нужно будет загрузить на новые сервера. Это дорогая операция. Также не понятно что делать в случае падения существующего сервера.</p>
+
+<p>Здесь появляется консистентное кеширование. Идея простая, возьмем окружность и будем рассматривать ее как интервал на котором определена хеш-функция функция. Применив хеш-функцию к набору ключей (синие точки) и серверов (зеленые точки) сможем разместить их на окружности.</p>
+
+<p><img src="/images/consistent-hashing/consistent_hashing11.png" width="50%" height="50%" /></p>
+
+<p>Для того чтобы определить на каком сервере размещен ключ, найдем ключ на окружности и будем двигаться по часовой стрелке до ближайшего сервера.</p>
+
+<p>Теперь в случае падения (недоступности) сервера, загрузить на новые сервер необходимо только недоступные данные. Все остальные хеши не меняют свое местоположение, то есть консистенты.</p>
+
+<p><img src="/images/consistent-hashing/consistent_hashing2.png" width="50%" height="50%" /></p>
+
+<p>При добавлении нового сервера соседний разделяет с ним часть своих данных.</p>
+
+<p><img src="/images/consistent-hashing/consistent_hashing3.png" width="50%" height="50%" /></p>
+
+<p>В целом ето все. На практике также применяют следующий трюк. Сервер можно пометить на окружности не одной точкой, а несколькими.</p>
+
+<p><img src="/images/consistent-hashing/consistent_hashing4.png" width="50%" height="50%" /></p>
+
+<p>Что ето дает ?
+- более равномерное распределение данных по серверам
+- при падении сервера данные распределяются не на один соседний, а на несколько, распределяя тем самым нагрузку
+- при добавлении нового сервера, точки можно делать ‘активными’ постепенно одна за другой, предотвращая шквальную нагрузку на сервер
+- если конфигурация серверов отличается, например размером диска, количество данных можно контролировать числом его точек. Больше точек - большая длина окружности принадлежит етому серверу и соответственно больше данных.</p>
+
+<h2>Реализация</h2>
+
+<p>Храним хеши серверов в виде какого-либо дерева, например Red-Black. Операция поиска сервера по ключу будет занимать <code>O(log n)</code>.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Oleksiy Dyagilev</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2012-03-23T14:34:54+02:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2012</span></span> <span class='time'>2:34 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/consistent/'>consistent</a>, <a class='category' href='/blog/categories/hash/'>hash</a>, <a class='category' href='/blog/categories/hashing/'>hashing</a>, <a class='category' href='/blog/categories/konsistientnoie/'>консистентное</a>, <a class='category' href='/blog/categories/khieshirovaniie/'>хеширование</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://fe2s.github.io/blog/2012/03/23/consistent-hashing/" data-via="" data-counturl="http://fe2s.github.io/blog/2012/03/23/consistent-hashing/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/03/21/code-refactoring-detection/" title="Previous Post: Code refactoring detection">&laquo; Code refactoring detection</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/03/29/fractal-tree-indexes/" title="Next Post: Fractal Tree Indexes">Fractal Tree Indexes &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/08/21/gigaspaces-storm/">GigaSpaces and Storm Integration</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/14/xap-kafka/">GigaSpaces With Kafka</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/26/how-to-decrypt-jettys-https-tcp-dump/">How to Decrypt Jetty's Https Tcp Dump</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/29/fractal-tree-indexes/">Fractal Tree Indexes</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/23/consistent-hashing/">Consistent Hashing</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Oleksiy Dyagilev -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
