@@ -1,0 +1,10 @@
+---
+layout: post
+title: "Hello blog"
+date: 2012-03-21 14:11:52 +0300
+comments: true
+categories: 
+---
+
+This blog is my shady nook to write some random thoughts on computer science and related topics.
+
