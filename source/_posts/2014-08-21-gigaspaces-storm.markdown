@@ -117,6 +117,7 @@ builder.setSpout("pageViewSpout", new PageViewSpout());
 For spout to be maximally performant, we want an ability to scale the number of instances to control the parallelism of reader threads. 
 
 There are several spout APIs available that we could potentially use for our XAPTranscationalTridentSpout implementation:
+
 - `IPartitionedTridentSpout`: A transactional spout that reads from a partitioned data source. The problem with this API is that it doesn’t acknowledge when batch is successfully processed which is critical for in memory solutions since we want to remove items from the grid as soon as they have been processed. Another option would be to use XAP’s lease capability to remove items by time out. This might be unsafe, if we keep items too long, we might consume all available memory.     
 - `ITridentSpout`: The most general API. Setting parallelism hint for this spout to N will create N spout instances, single coordinator and N emitters. When coordinator issues new transaction id, it passes this id to all emitters. Emitter reads its portion of transaction by given transaction id. Merged data from all emitters forms transaction.
 
@@ -247,6 +248,7 @@ public class TotalActiveUsersBolt extends XAPAwareBasicBolt {
 In this section we demonstrate how to build highly available, scalable equivalent of *Real-time Google Analytics* application and deploy it to cloud with one click using *Cloudify*. 
 
 Real-Time Google Analytics allows you to monitor activity as it happens on your site. The reports are updated continuously and each page view is reported seconds after it occurs on your site. For example, you can see:
+
 - how many people are on your site right now
 - dynamic of page views during last minute
 - users geographic locations 
