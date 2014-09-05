@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Realtime, | Shady Minds]]></title>
   <link href="http://fe2s.github.io/blog/categories/realtime/atom.xml" rel="self"/>
   <link href="http://fe2s.github.io/"/>
-  <updated>2014-09-05T15:35:58+03:00</updated>
+  <updated>2014-09-05T15:46:55+03:00</updated>
   <id>http://fe2s.github.io/</id>
   <author>
     <name><![CDATA[Oleksiy Dyagilev]]></name>
@@ -124,9 +124,13 @@ builder.setSpout("pageViewSpout", new PageViewSpout());
 
 <p>For spout to be maximally performant, we want an ability to scale the number of instances to control the parallelism of reader threads.</p>
 
-<p>There are several spout APIs available that we could potentially use for our XAPTranscationalTridentSpout implementation:
-- <code>IPartitionedTridentSpout</code>: A transactional spout that reads from a partitioned data source. The problem with this API is that it doesn’t acknowledge when batch is successfully processed which is critical for in memory solutions since we want to remove items from the grid as soon as they have been processed. Another option would be to use XAP’s lease capability to remove items by time out. This might be unsafe, if we keep items too long, we might consume all available memory.   <br/>
-- <code>ITridentSpout</code>: The most general API. Setting parallelism hint for this spout to N will create N spout instances, single coordinator and N emitters. When coordinator issues new transaction id, it passes this id to all emitters. Emitter reads its portion of transaction by given transaction id. Merged data from all emitters forms transaction.</p>
+<p>There are several spout APIs available that we could potentially use for our XAPTranscationalTridentSpout implementation:</p>
+
+<ul>
+<li><code>IPartitionedTridentSpout</code>: A transactional spout that reads from a partitioned data source. The problem with this API is that it doesn’t acknowledge when batch is successfully processed which is critical for in memory solutions since we want to remove items from the grid as soon as they have been processed. Another option would be to use XAP’s lease capability to remove items by time out. This might be unsafe, if we keep items too long, we might consume all available memory.</li>
+<li><code>ITridentSpout</code>: The most general API. Setting parallelism hint for this spout to N will create N spout instances, single coordinator and N emitters. When coordinator issues new transaction id, it passes this id to all emitters. Emitter reads its portion of transaction by given transaction id. Merged data from all emitters forms transaction.</li>
+</ul>
+
 
 <p>For our implementation we choose <code>ITridentSpout</code> API.</p>
 
@@ -249,12 +253,16 @@ TridentState state = topology.newStaticState(XAPReadOnlyStateFactory.bySqlQuery(
 
 <p>In this section we demonstrate how to build highly available, scalable equivalent of <em>Real-time Google Analytics</em> application and deploy it to cloud with one click using <em>Cloudify</em>.</p>
 
-<p>Real-Time Google Analytics allows you to monitor activity as it happens on your site. The reports are updated continuously and each page view is reported seconds after it occurs on your site. For example, you can see:
-- how many people are on your site right now
-- dynamic of page views during last minute
-- users geographic locations
-- traffic sources that referred them
-- which pages or events they&rsquo;re interacting with</p>
+<p>Real-Time Google Analytics allows you to monitor activity as it happens on your site. The reports are updated continuously and each page view is reported seconds after it occurs on your site. For example, you can see:</p>
+
+<ul>
+<li>how many people are on your site right now</li>
+<li>dynamic of page views during last minute</li>
+<li>users geographic locations</li>
+<li>traffic sources that referred them</li>
+<li>which pages or events they&rsquo;re interacting with</li>
+</ul>
+
 
 <p><img src="/images/xap-storm/storm-screen-with-browser.jpg" /></p>
 
