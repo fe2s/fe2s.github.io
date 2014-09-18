@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Review, | Shady Minds]]></title>
+  <link href="http://fe2s.github.io/blog/categories/review/atom.xml" rel="self"/>
+  <link href="http://fe2s.github.io/"/>
+  <updated>2014-09-05T15:46:55+03:00</updated>
+  <id>http://fe2s.github.io/</id>
+  <author>
+    <name><![CDATA[Oleksiy Dyagilev]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Code Refactoring Detection]]></title>
+    <link href="http://fe2s.github.io/blog/2012/03/21/code-refactoring-detection/"/>
+    <updated>2012-03-21T14:13:35+02:00</updated>
+    <id>http://fe2s.github.io/blog/2012/03/21/code-refactoring-detection</id>
+    <content type="html"><![CDATA[<p>An idea of feature I would love to see in code review and diff/merge tools.</p>
+
+<p>Consider you are reviewing code changes or making 3-way merge where among various things a name of some method has changed. Personally I don’t want to go through tens of files and check that all usages of method changed accordingly.</p>
+
+<p>I would like to see it in more declarative way. One phrase saying ‘method <code>Foo.bar()</code> has changed to <code>Foo.bar2()</code>’ would be enough. Imagine you could accept this particular change and now tool ignores it making the whole picture clearer.</p>
+
+<p>Say for  static object-oriented languages I can imagine a number of refactoring types  where this could be useful - method extract, all kind of renames, replacing inheritance with delegation, replacing constructor with factory methods and so on.</p>
+
+<p>How difficult would it be to implement semantic aware diff on top of Intellij IDEA ?</p>
+]]></content>
+  </entry>
+  
+</feed>
