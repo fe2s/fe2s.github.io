@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Storm, | Shady Minds]]></title>
   <link href="http://fe2s.github.io/blog/categories/storm/atom.xml" rel="self"/>
   <link href="http://fe2s.github.io/"/>
-  <updated>2014-09-18T22:10:42+03:00</updated>
+  <updated>2014-09-18T22:16:32+03:00</updated>
   <id>http://fe2s.github.io/</id>
   <author>
     <name><![CDATA[Oleksiy Dyagilev]]></name>
@@ -382,6 +382,32 @@ mvn os:deploy
 <li>Once installation completed, open Cloudify Management Console and check the ip address of <code>xap-management</code> service. Google Analytics UI should be available at <code>http://&lt;xap_management_service_ip&gt;:8090/web</code></li>
 </ol>
 
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Optimization Trick]]></title>
+    <link href="http://fe2s.github.io/blog/2014/05/13/optimization-trick/"/>
+    <updated>2014-05-13T21:48:28+03:00</updated>
+    <id>http://fe2s.github.io/blog/2014/05/13/optimization-trick</id>
+    <content type="html"><![CDATA[<p>An interesting optimization trick from <a href="http://storm.incubator.apache.org/">Storm</a> internals which reminded me some algorithmic problem(see in the end).</p>
+
+<p>For those who haven&rsquo;t heard about Storm, in short it&rsquo;s a distributed realtime computation system. Scalable, fault tolerant and guarantees that every message is fully processed.</p>
+
+<!-- more -->
+
+
+<p><img src="/images/storm/storm.png"  /></p>
+
+<p>The incoming tuple(message in Storm terminology) is processed by the bolt(processing node). Bolt can spawn more tuples which in their turn are further processed by succeeding bolt(s). So you end up with a tuple tree (directed acyclic graph actually).</p>
+
+<p>The question is how to guarantee that every tuple is fully processed, i.e if some bolt fails, the tuple is replayed. We have to acknowledge when intermediate tuple created and when it&rsquo;s processed. With huge tuple trees, tracking the entire tree state is memory expensive.</p>
+
+<p>Strom designers decided to use an elegant trick which allows to know when tuple is fully processed with O(1) memory.</p>
+
+<p>Tuple is associated with a random 64bit id. The tree state is also 64bit value called &lsquo;ack val&rsquo;. Whenever tuple is created or acknowledged, just <code>XOR</code> tuple id with ack val. When ack val becomes 0, the tree is fully processed. Yes, there is a a small probability of mistake, at 10K acks per second, it will take 50,000,000 years until a mistake is made. And even then, it will only cause data loss if that tuple happens to fail.</p>
+
+<p>Now the algorithmic problem. Given an array of integer numbers. Each number except one appears exactly twice. The remaining number appears only once in the array, find this number with one iteration and O(1) memory. Easy, yay!</p>
 ]]></content>
   </entry>
   

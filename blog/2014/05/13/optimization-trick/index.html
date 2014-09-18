@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: Ssl - Shady Minds</title>
+  <title>Optimization Trick - Shady Minds</title>
   <meta name="author" content="Oleksiy Dyagilev">
 
   
-  <meta name="description" content="Category: ssl">
+  <meta name="description" content="An interesting optimization trick from Storm internals which reminded me some algorithmic problem(see in the end). For those who haven&rsquo;t heard &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://fe2s.github.io/blog/categories/ssl">
+  <link rel="canonical" href="http://fe2s.github.io/blog/2014/05/13/optimization-trick">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Shady Minds" type="application/atom+xml">
@@ -76,36 +76,96 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Ssl</h1>
+    
+      <h1 class="entry-title">Optimization Trick</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-05-13T21:48:28+03:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>9:48 pm</span></time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p>An interesting optimization trick from <a href="http://storm.incubator.apache.org/">Storm</a> internals which reminded me some algorithmic problem(see in the end).</p>
 
-  
-  <h2>2013</h2>
+<p>For those who haven&rsquo;t heard about Storm, in short it&rsquo;s a distributed realtime computation system. Scalable, fault tolerant and guarantees that every message is fully processed.</p>
 
-<article>
-  
-<h1><a href="/blog/2013/03/26/how-to-decrypt-jettys-https-tcp-dump/">How to Decrypt Jetty&#8217;s Https Tcp Dump</a></h1>
-<time datetime="2013-03-26T15:22:03+02:00" pubdate><span class='month'>Mar</span> <span class='day'>26</span> <span class='year'>2013</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/https/'>https</a>, <a class='category' href='/blog/categories/jetty/'>jetty</a>, <a class='category' href='/blog/categories/ssl/'>ssl</a>, <a class='category' href='/blog/categories/tcp/'>tcp</a></span>
-</footer>
+<!-- more -->
 
 
-</article>
+<p><img src="/images/storm/storm.png"  /></p>
 
+<p>The incoming tuple(message in Storm terminology) is processed by the bolt(processing node). Bolt can spawn more tuples which in their turn are further processed by succeeding bolt(s). So you end up with a tuple tree (directed acyclic graph actually).</p>
+
+<p>The question is how to guarantee that every tuple is fully processed, i.e if some bolt fails, the tuple is replayed. We have to acknowledge when intermediate tuple created and when it&rsquo;s processed. With huge tuple trees, tracking the entire tree state is memory expensive.</p>
+
+<p>Strom designers decided to use an elegant trick which allows to know when tuple is fully processed with O(1) memory.</p>
+
+<p>Tuple is associated with a random 64bit id. The tree state is also 64bit value called &lsquo;ack val&rsquo;. Whenever tuple is created or acknowledged, just <code>XOR</code> tuple id with ack val. When ack val becomes 0, the tree is fully processed. Yes, there is a a small probability of mistake, at 10K acks per second, it will take 50,000,000 years until a mistake is made. And even then, it will only cause data loss if that tuple happens to fail.</p>
+
+<p>Now the algorithmic problem. Given an array of integer numbers. Each number except one appears exactly twice. The remaining number appears only once in the array, find this number with one iteration and O(1) memory. Easy, yay!</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Oleksiy Dyagilev</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2014-05-13T21:48:28+03:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>9:48 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/optimization/'>optimization</a>, <a class='category' href='/blog/categories/storm/'>storm,</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://fe2s.github.io/blog/2014/05/13/optimization-trick/" data-via="" data-counturl="http://fe2s.github.io/blog/2014/05/13/optimization-trick/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/03/26/how-to-decrypt-jettys-https-tcp-dump/" title="Previous Post: How to decrypt jetty's https tcp dump">&laquo; How to decrypt jetty's https tcp dump</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/05/14/xap-kafka/" title="Next Post: GigaSpaces with Kafka">GigaSpaces with Kafka &raquo;</a>
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -160,7 +220,10 @@
       var disqus_shortname = 'dyagilev';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://fe2s.github.io/blog/2014/05/13/optimization-trick/';
+        var disqus_url = 'http://fe2s.github.io/blog/2014/05/13/optimization-trick/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
