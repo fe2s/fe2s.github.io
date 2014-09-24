@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "optimization trick"
+title: "Optimization Trick"
 date: 2014-05-13 21:48:28 +0300
 comments: true
 categories: storm, optimization

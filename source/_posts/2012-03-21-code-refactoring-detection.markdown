@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Code refactoring detection"
+title: "Code Refactoring Detection"
 date: 2012-03-21 15:13:35 +0300
 comments: true
 categories: code review, diff, merge, refactoring

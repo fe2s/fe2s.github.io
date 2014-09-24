@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "How to decrypt jetty's https tcp dump"
+title: "How To Decrypt Jetty's Https Tcp Dump"
 date: 2013-03-26 16:22:03 +0300
 comments: true
 categories: https jetty ssl tcp
