@@ -4,7 +4,7 @@
   <title><![CDATA[Shady Minds]]></title>
   <link href="http://fe2s.github.io/atom.xml" rel="self"/>
   <link href="http://fe2s.github.io/"/>
-  <updated>2014-09-23T18:43:12+03:00</updated>
+  <updated>2014-09-24T11:57:04+03:00</updated>
   <id>http://fe2s.github.io/</id>
   <author>
     <name><![CDATA[Oleksiy Dyagilev]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Slides for My Talk on Storm, Kafka and GigaSpaces]]></title>
+    <title type="html"><![CDATA[Slides for my talk on Storm, Kafka and GigaSpaces]]></title>
     <link href="http://fe2s.github.io/blog/2014/09/23/slides-for-my-talk-on-storm-kafka-gigaspaces/"/>
     <updated>2014-09-23T18:39:26+03:00</updated>
     <id>http://fe2s.github.io/blog/2014/09/23/slides-for-my-talk-on-storm-kafka-gigaspaces</id>
@@ -23,7 +23,7 @@
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[GigaSpaces and Storm Integration]]></title>
+    <title type="html"><![CDATA[GigaSpaces and Storm integration]]></title>
     <link href="http://fe2s.github.io/blog/2014/08/21/gigaspaces-storm/"/>
     <updated>2014-08-21T17:27:50+03:00</updated>
     <id>http://fe2s.github.io/blog/2014/08/21/gigaspaces-storm</id>
@@ -487,7 +487,7 @@ If you want to have several streams with the same type, template objects should 
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[GigaSpaces With Kafka]]></title>
+    <title type="html"><![CDATA[GigaSpaces with Kafka]]></title>
     <link href="http://fe2s.github.io/blog/2014/05/14/xap-kafka/"/>
     <updated>2014-05-14T16:46:56+03:00</updated>
     <id>http://fe2s.github.io/blog/2014/05/14/xap-kafka</id>
@@ -710,7 +710,7 @@ You can override the default properties if there is a need to customize GigaSpac
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[How to Decrypt Jetty's Https Tcp Dump]]></title>
+    <title type="html"><![CDATA[How To Decrypt Jetty's Https Tcp Dump]]></title>
     <link href="http://fe2s.github.io/blog/2013/03/26/how-to-decrypt-jettys-https-tcp-dump/"/>
     <updated>2013-03-26T15:22:03+02:00</updated>
     <id>http://fe2s.github.io/blog/2013/03/26/how-to-decrypt-jettys-https-tcp-dump</id>
