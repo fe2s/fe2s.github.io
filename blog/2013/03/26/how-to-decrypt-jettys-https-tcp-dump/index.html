@@ -1,0 +1,296 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>How To Decrypt Jetty's Https Tcp Dump - Shady Minds</title>
+  <meta name="author" content="Oleksiy Dyagilev">
+
+  
+  <meta name="description" content="If you want to capture jetty’s tcp dump of https and analyze encrypted packets later - here is an instruction. Applies for Jetty 7, not sure if the &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://dyagilev.org/blog/2013/03/26/how-to-decrypt-jettys-https-tcp-dump">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Shady Minds" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-30316607-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Shady Minds</a></h1>
+  
+    <h2>on computer science and related ..</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:dyagilev.org" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">How To Decrypt Jetty's Https Tcp Dump</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2013-03-26T15:22:03+02:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>3:22 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>If you want to capture jetty’s tcp dump of https and analyze encrypted packets later - here is an instruction. Applies for Jetty 7, not sure if the same works for other versions.</p>
+
+<!-- more -->
+
+<p><strong>Step 1.</strong> Find obfuscated password in jetty.xml, it should start with OBF: prefix. Run it through the following deobfuscating function which I found in jetty sources.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+</pre></td><td class="code"><pre><code class="java"><span class="line"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Password</span> <span class="o">{</span>
+</span><span class="line">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">__OBFUSCATE</span> <span class="o">=</span> <span class="s">&quot;OBF:&quot;</span><span class="o">;</span>
+</span><span class="line">
+</span><span class="line">    <span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">deobfuscate</span><span class="o">(</span><span class="n">String</span> <span class="n">s</span><span class="o">)</span> <span class="o">{</span>
+</span><span class="line">	<span class="k">if</span> <span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">startsWith</span><span class="o">(</span><span class="n">__OBFUSCATE</span><span class="o">))</span> <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="mi">4</span><span class="o">);</span>
+</span><span class="line">
+</span><span class="line">	<span class="kt">byte</span><span class="o">[]</span> <span class="n">b</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">byte</span><span class="o">[</span><span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">/</span> <span class="mi">2</span><span class="o">];</span>
+</span><span class="line">	<span class="kt">int</span> <span class="n">l</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+</span><span class="line">	<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">();</span> <span class="n">i</span> <span class="o">+=</span> <span class="mi">4</span><span class="o">)</span> <span class="o">{</span>
+</span><span class="line">	    <span class="n">String</span> <span class="n">x</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">4</span><span class="o">);</span>
+</span><span class="line">	    <span class="kt">int</span> <span class="n">i0</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">36</span><span class="o">);</span>
+</span><span class="line">	    <span class="kt">int</span> <span class="n">i1</span> <span class="o">=</span> <span class="o">(</span><span class="n">i0</span> <span class="o">/</span> <span class="mi">256</span><span class="o">);</span>
+</span><span class="line">	    <span class="kt">int</span> <span class="n">i2</span> <span class="o">=</span> <span class="o">(</span><span class="n">i0</span> <span class="o">%</span> <span class="mi">256</span><span class="o">);</span>
+</span><span class="line">	    <span class="n">b</span><span class="o">[</span><span class="n">l</span><span class="o">++]</span> <span class="o">=</span> <span class="o">(</span><span class="kt">byte</span><span class="o">)</span> <span class="o">((</span><span class="n">i1</span> <span class="o">+</span> <span class="n">i2</span> <span class="o">-</span> <span class="mi">254</span><span class="o">)</span> <span class="o">/</span> <span class="mi">2</span><span class="o">);</span>
+</span><span class="line">	<span class="o">}</span>
+</span><span class="line">
+</span><span class="line">	<span class="k">return</span> <span class="k">new</span> <span class="nf">String</span><span class="o">(</span><span class="n">b</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">l</span><span class="o">);</span>
+</span><span class="line">    <span class="o">}</span>
+</span><span class="line"><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><strong>Step 2.</strong> Now you should have the password for keystore. The location of keystore should be listed in jetty.xml. Import keys to intermediate PKCS12 format</p>
+
+<pre><code>$ /usr/java/jdk1.6.0_13/bin/keytool -importkeystore -srckeystore $YOUR_PATH_HERE/keystore -destkeystore intermediate.p12 -deststoretype PKCS12
+</code></pre>
+
+<p><strong>Step 3</strong>. Extract RSA key from PKCS12</p>
+
+<pre><code>$ openssl pkcs12 -in intermediate.p12  -nocerts -nodes -passin pass:$YOUR_PASS_HERE | openssl rsa -out privateRSAKey.pem
+</code></pre>
+
+<p><strong>Step 4.</strong> Now you are good to feed wireshark or other preferred tool with RSA key.</p>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Oleksiy Dyagilev</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2013-03-26T15:22:03+02:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>3:22 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/https/'>https</a>, <a class='category' href='/blog/categories/jetty/'>jetty</a>, <a class='category' href='/blog/categories/ssl/'>ssl</a>, <a class='category' href='/blog/categories/tcp/'>tcp</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://dyagilev.org/blog/2013/03/26/how-to-decrypt-jettys-https-tcp-dump/" data-via="" data-counturl="http://dyagilev.org/blog/2013/03/26/how-to-decrypt-jettys-https-tcp-dump/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/03/29/fractal-tree-indexes/" title="Previous Post: Fractal Tree Indexes">&laquo; Fractal Tree Indexes</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/05/13/optimization-trick/" title="Next Post: Optimization Trick">Optimization Trick &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/03/07/Keep-up-with-Spark-Streaming-at-in-memory-speed-using-GigaSpaces-XAP/">Keep up with Spark Streaming at in-memory speed using GigaSpaces XAP</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/09/23/slides-for-my-talk-on-storm-kafka-gigaspaces/">Slides for my talk on Storm, Kafka and GigaSpaces</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/08/21/gigaspaces-storm/">GigaSpaces and Storm integration</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/14/xap-kafka/">GigaSpaces with Kafka</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/13/optimization-trick/">Optimization Trick</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Oleksiy Dyagilev -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'dyagilev';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://dyagilev.org/blog/2013/03/26/how-to-decrypt-jettys-https-tcp-dump/';
+        var disqus_url = 'http://dyagilev.org/blog/2013/03/26/how-to-decrypt-jettys-https-tcp-dump/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
