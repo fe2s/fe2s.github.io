@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Jetty | Shady Minds]]></title>
+  <title><![CDATA[Category: jetty | Shady Minds]]></title>
   <link href="http://fe2s.github.io/blog/categories/jetty/atom.xml" rel="self"/>
   <link href="http://fe2s.github.io/"/>
-  <updated>2014-09-18T22:10:42+03:00</updated>
+  <updated>2014-09-24T11:57:04+03:00</updated>
   <id>http://fe2s.github.io/</id>
   <author>
     <name><![CDATA[Oleksiy Dyagilev]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[How to Decrypt Jetty's Https Tcp Dump]]></title>
+    <title type="html"><![CDATA[How To Decrypt Jetty's Https Tcp Dump]]></title>
     <link href="http://fe2s.github.io/blog/2013/03/26/how-to-decrypt-jettys-https-tcp-dump/"/>
     <updated>2013-03-26T15:22:03+02:00</updated>
     <id>http://fe2s.github.io/blog/2013/03/26/how-to-decrypt-jettys-https-tcp-dump</id>

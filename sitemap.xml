@@ -3,6 +3,12 @@
   
   
   <url>
+    <loc>http://fe2s.github.io/blog/2014/09/23/slides-for-my-talk-on-storm-kafka-gigaspaces/</loc>
+    <lastmod>2014-09-23T18:39:26+03:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
     <loc>http://fe2s.github.io/blog/2014/08/21/gigaspaces-storm/</loc>
     <lastmod>2014-08-21T17:27:50+03:00</lastmod>
     <priority>0.8</priority>
@@ -11,6 +17,12 @@
   <url>
     <loc>http://fe2s.github.io/blog/2014/05/14/xap-kafka/</loc>
     <lastmod>2014-05-14T16:46:56+03:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://fe2s.github.io/blog/2014/05/13/optimization-trick/</loc>
+    <lastmod>2014-05-13T21:48:28+03:00</lastmod>
     <priority>0.8</priority>
   </url>
   
@@ -47,14 +59,14 @@
   
   <url>
     <loc>http://fe2s.github.io/</loc>
-    <lastmod>2014-09-18T22:10:42+03:00</lastmod>
+    <lastmod>2014-09-24T11:57:04+03:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   
   <url>
     <loc>http://fe2s.github.io/blog/archives/</loc>
-    <lastmod>2014-09-18T22:10:42+03:00</lastmod>
+    <lastmod>2014-09-24T11:57:04+03:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
