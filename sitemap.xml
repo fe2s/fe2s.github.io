@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<<<<<<< HEAD
   <url>
     <loc>http://dyagilev.org/blog/2015/03/07/Keep-up-with-Spark-Streaming-at-in-memory-speed-using-GigaSpaces-XAP/</loc>
     <lastmod>2015-03-07T21:33:06+02:00</lastmod>
@@ -48,4 +49,78 @@
     <loc>http://dyagilev.org/</loc>
     <lastmod>2015-03-08T00:07:49+02:00</lastmod>
   </url>
+=======
+  
+  
+  <url>
+    <loc>http://fe2s.github.io/blog/2014/09/23/slides-for-my-talk-on-storm-kafka-gigaspaces/</loc>
+    <lastmod>2014-09-23T18:39:26+03:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://fe2s.github.io/blog/2014/08/21/gigaspaces-storm/</loc>
+    <lastmod>2014-08-21T17:27:50+03:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://fe2s.github.io/blog/2014/05/14/xap-kafka/</loc>
+    <lastmod>2014-05-14T16:46:56+03:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://fe2s.github.io/blog/2014/05/13/optimization-trick/</loc>
+    <lastmod>2014-05-13T21:48:28+03:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://fe2s.github.io/blog/2013/03/26/how-to-decrypt-jettys-https-tcp-dump/</loc>
+    <lastmod>2013-03-26T15:22:03+02:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://fe2s.github.io/blog/2012/03/29/fractal-tree-indexes/</loc>
+    <lastmod>2012-03-29T15:58:13+03:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://fe2s.github.io/blog/2012/03/23/consistent-hashing/</loc>
+    <lastmod>2012-03-23T14:34:54+02:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://fe2s.github.io/blog/2012/03/21/code-refactoring-detection/</loc>
+    <lastmod>2012-03-21T14:13:35+02:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://fe2s.github.io/blog/2012/03/21/hello/</loc>
+    <lastmod>2012-03-21T13:11:52+02:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  
+  <url>
+    <loc>http://fe2s.github.io/</loc>
+    <lastmod>2014-09-24T11:57:04+03:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  
+  <url>
+    <loc>http://fe2s.github.io/blog/archives/</loc>
+    <lastmod>2014-09-24T11:57:04+03:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  
+>>>>>>> eadf7510401b6903e88006e2b54dc3cbdc44b994
 </urlset>

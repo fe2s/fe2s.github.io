@@ -2,10 +2,17 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: optimization | Shady Minds]]></title>
+<<<<<<< HEAD
   <link href="http://dyagilev.org/blog/categories/optimization/atom.xml" rel="self"/>
   <link href="http://dyagilev.org/"/>
   <updated>2015-03-08T00:07:49+02:00</updated>
   <id>http://dyagilev.org/</id>
+=======
+  <link href="http://fe2s.github.io/blog/categories/optimization/atom.xml" rel="self"/>
+  <link href="http://fe2s.github.io/"/>
+  <updated>2014-09-24T11:57:04+03:00</updated>
+  <id>http://fe2s.github.io/</id>
+>>>>>>> eadf7510401b6903e88006e2b54dc3cbdc44b994
   <author>
     <name><![CDATA[Oleksiy Dyagilev]]></name>
     
@@ -15,6 +22,7 @@
   
   <entry>
     <title type="html"><![CDATA[Optimization Trick]]></title>
+<<<<<<< HEAD
     <link href="http://dyagilev.org/blog/2014/05/13/optimization-trick/"/>
     <updated>2014-05-13T21:48:28+03:00</updated>
     <id>http://dyagilev.org/blog/2014/05/13/optimization-trick</id>
@@ -36,6 +44,29 @@
 
 <p>Now the algorithmic problem. Given an array of integer numbers. Each number except one appears exactly twice. The remaining number appears only once in the array, find this number with one iteration and O(1) memory. Easy, yay!</p>
 
+=======
+    <link href="http://fe2s.github.io/blog/2014/05/13/optimization-trick/"/>
+    <updated>2014-05-13T21:48:28+03:00</updated>
+    <id>http://fe2s.github.io/blog/2014/05/13/optimization-trick</id>
+    <content type="html"><![CDATA[<p>An interesting optimization trick from <a href="http://storm.incubator.apache.org/">Storm</a> internals which reminded me some algorithmic problem(see in the end).</p>
+
+<p>For those who haven&rsquo;t heard about Storm, in short it&rsquo;s a distributed realtime computation system. Scalable, fault tolerant and guarantees that every message is fully processed.</p>
+
+<!-- more -->
+
+
+<p><img src="/images/storm/storm.png"  /></p>
+
+<p>The incoming tuple(message in Storm terminology) is processed by the bolt(processing node). Bolt can spawn more tuples which in their turn are further processed by succeeding bolt(s). So you end up with a tuple tree (directed acyclic graph actually).</p>
+
+<p>The question is how to guarantee that every tuple is fully processed, i.e if some bolt fails, the tuple is replayed. We have to acknowledge when intermediate tuple created and when it&rsquo;s processed. With huge tuple trees, tracking the entire tree state is memory expensive.</p>
+
+<p>Strom designers decided to use an elegant trick which allows to know when tuple is fully processed with O(1) memory.</p>
+
+<p>Tuple is associated with a random 64bit id. The tree state is also 64bit value called &lsquo;ack val&rsquo;. Whenever tuple is created or acknowledged, just <code>XOR</code> tuple id with ack val. When ack val becomes 0, the tree is fully processed. Yes, there is a a small probability of mistake, at 10K acks per second, it will take 50,000,000 years until a mistake is made. And even then, it will only cause data loss if that tuple happens to fail.</p>
+
+<p>Now the algorithmic problem. Given an array of integer numbers. Each number except one appears exactly twice. The remaining number appears only once in the array, find this number with one iteration and O(1) memory. Easy, yay!</p>
+>>>>>>> eadf7510401b6903e88006e2b54dc3cbdc44b994
 ]]></content>
   </entry>
   

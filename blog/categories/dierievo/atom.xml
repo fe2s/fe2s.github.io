@@ -2,10 +2,17 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: дерево | Shady Minds]]></title>
+<<<<<<< HEAD
   <link href="http://dyagilev.org/blog/categories/dierievo/atom.xml" rel="self"/>
   <link href="http://dyagilev.org/"/>
   <updated>2015-03-08T00:07:49+02:00</updated>
   <id>http://dyagilev.org/</id>
+=======
+  <link href="http://fe2s.github.io/blog/categories/dierievo/atom.xml" rel="self"/>
+  <link href="http://fe2s.github.io/"/>
+  <updated>2014-09-24T11:57:04+03:00</updated>
+  <id>http://fe2s.github.io/</id>
+>>>>>>> eadf7510401b6903e88006e2b54dc3cbdc44b994
   <author>
     <name><![CDATA[Oleksiy Dyagilev]]></name>
     
@@ -15,16 +22,27 @@
   
   <entry>
     <title type="html"><![CDATA[Fractal Tree Indexes]]></title>
+<<<<<<< HEAD
     <link href="http://dyagilev.org/blog/2012/03/29/fractal-tree-indexes/"/>
     <updated>2012-03-29T15:58:13+03:00</updated>
     <id>http://dyagilev.org/blog/2012/03/29/fractal-tree-indexes</id>
+=======
+    <link href="http://fe2s.github.io/blog/2012/03/29/fractal-tree-indexes/"/>
+    <updated>2012-03-29T15:58:13+03:00</updated>
+    <id>http://fe2s.github.io/blog/2012/03/29/fractal-tree-indexes</id>
+>>>>>>> eadf7510401b6903e88006e2b54dc3cbdc44b994
     <content type="html"><![CDATA[<p>Парни из <a href="http://www.tokutek.com/">Tokutek</a> реализовали engine <a href="http://en.wikipedia.org/wiki/TokuDB">TokuDB</a> для MySQL как замену InnoDB, улучшив производительность операций вставки, запросов и компрессии. В основе индекса лежит  так называемое Fractal Tree.</p>
 
 <p>Посмотрим за счет чего достигается скорость вставки и поиска по сравнению с классическим B-tree.</p>
 
 <!-- more -->
 
+<<<<<<< HEAD
 <h2 id="section">Асимптотическая оценка</h2>
+=======
+
+<h2>Асимптотическая оценка</h2>
+>>>>>>> eadf7510401b6903e88006e2b54dc3cbdc44b994
 
 <p>Необходимо оговориться, что мы рассматриваем случай когда индекс хранится на диске, а не в памяти. Поэтому нас интересует оценка количества операций IO, а не операций CPU. Операции CPU занимают ничтожно малое время по сравнению с IO.</p>
 
@@ -45,6 +63,7 @@
 <p>Итак, упрощенный вариант Fractal Tree:</p>
 
 <ul>
+<<<<<<< HEAD
   <li><code>log N</code> массивов размером <code>2^i</code></li>
   <li>каждый массив или полностью пустой или полностью заполнен</li>
   <li>каждый массив отсортирован</li>
@@ -60,17 +79,45 @@
 <p>проходимся по массивам, в кажом массиве используем бинарный поиск. Итого - <code>O((log N)^2)</code>. Это медленнее чем B-tree. Как это можно ускорить?</p>
 
 <p>Идея состоит в том, чтобы во время поиска в очередном массиве использовать некоторую информацию из поиска предыдущего массива. И так по цепочке. А информация следующая - каждый элемент массива хранит ссылку на его ‘виртуальное’ место в следующем массиве. Называется ето fractional cascading. 
+=======
+<li><code>log N</code> массивов размером <code>2^i</code></li>
+<li>каждый массив или полностью пустой или полностью заполнен</li>
+<li>каждый массив отсортирован</li>
+</ul>
+
+
+<p><img src="/images/fractal-tree/fractal_tree1.png" width="50%" height="50%" /></p>
+
+<h3>Вставка</h3>
+
+<p>Начинаем сверху. Смотрим на верхний массив размером 1. Если он пустой - кладем туда элемент. Иначе вынимаем элемент и сортируем с данным во временом массиве. Спускаемся вниз к массиву размером 2. Если он пустой - кладем туда нашу пару. Если нет - мержим их с временным массивом. Так как оба массива отсортированы, то делаем ето за <code>O(X)</code>, где <code>X</code> ето длина массива. По сути ето операция merge из merge-сортировки.
+Амортизированное время вставки занимает <code>O((log N)/B)</code>, хотя в худшем случае вставка одного элемента может повлечь за собой перезапись огромного количества данных по цепочке. Чтобы избежать пиков с длительным ответом TokuDB порождает отдельный поток для вставки, ответ для клиента возвращается немедленно.</p>
+
+<h3>Поиск</h3>
+
+<p>проходимся по массивам, в кажом массиве используем бинарный поиск. Итого - <code>O((log N)^2)</code>. Это медленнее чем B-tree. Как это можно ускорить?</p>
+
+<p>Идея состоит в том, чтобы во время поиска в очередном массиве использовать некоторую информацию из поиска предыдущего массива. И так по цепочке. А информация следующая - каждый элемент массива хранит ссылку на его &lsquo;виртуальное&rsquo; место в следующем массиве. Называется ето fractional cascading.
+>>>>>>> eadf7510401b6903e88006e2b54dc3cbdc44b994
 Итого, <code>log N</code> массивов, константное время на каждом массиве дает <code>O(log N)</code>.</p>
 
 <p><img src="/images/fractal-tree/fractal_tree2.png" width="50%" height="50%" /></p>
 
 <p>В целом товарищи из Tokutek считают что в будущем все перейдут на фрактальные деревья как замена Б-деревьям. Детали алгоритма запатентованы.</p>
 
+<<<<<<< HEAD
 <h3 id="section-3">Ссылки</h3>
 
 <ul>
   <li><a href="http://video.mit.edu/watch/lecture-19-how-tokudb-fractal-tree-indexes-work-1361/">презентация в MIT</a></li>
   <li><a href="http://www.mysqlperformanceblog.com/2009/04/28/detailed-review-of-tokutek-storage-engine/">бенчмаркинг InnoDB vs TokuDB</a></li>
+=======
+<h3>Ссылки</h3>
+
+<ul>
+<li><a href="http://video.mit.edu/watch/lecture-19-how-tokudb-fractal-tree-indexes-work-1361/">презентация в MIT</a></li>
+<li><a href="http://www.mysqlperformanceblog.com/2009/04/28/detailed-review-of-tokutek-storage-engine/">бенчмаркинг InnoDB vs TokuDB</a></li>
+>>>>>>> eadf7510401b6903e88006e2b54dc3cbdc44b994
 </ul>
 
 ]]></content>

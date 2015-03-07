@@ -18,7 +18,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
+<<<<<<< HEAD
   <link rel="canonical" href="http://dyagilev.org/blog/2014/08/21/gigaspaces-storm">
+=======
+  <link rel="canonical" href="http://fe2s.github.io/blog/2014/08/21/gigaspaces-storm">
+>>>>>>> eadf7510401b6903e88006e2b54dc3cbdc44b994
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Shady Minds" type="application/atom+xml">
@@ -62,7 +66,11 @@
   
 <form action="https://www.google.com/search" method="get">
   <fieldset role="search">
+<<<<<<< HEAD
     <input type="hidden" name="q" value="site:dyagilev.org" />
+=======
+    <input type="hidden" name="q" value="site:fe2s.github.io" />
+>>>>>>> eadf7510401b6903e88006e2b54dc3cbdc44b994
     <input class="search" type="text" name="q" results="0" placeholder="Search"/>
   </fieldset>
 </form>
@@ -110,9 +118,16 @@
 
 <!-- more -->
 
+<<<<<<< HEAD
 <h1 id="storm-in-a-nutshell">Storm in a Nutshell</h1>
 
 <p>Storm is a real time, open source data streaming framework that functions entirely in memory.  It constructs a processing graph that feeds data from an input source through processing nodes.  The processing graph is called a “topology”.  The input data sources are called “spouts”, and the processing nodes are called “bolts”.  The data model consists of tuples.  Tuples flow from Spouts to the bolts, which execute user code. Besides simply being locations where data is transformed or accumulated, bolts can also join streams and branch streams.</p>
+=======
+
+<h1>Storm in a Nutshell</h1>
+
+<p>Storm is a real time, open source data streaming framework that functions entirely in memory.  It constructs a processing graph that feeds data from an input source through processing nodes.  The processing graph is called a &ldquo;topology&rdquo;.  The input data sources are called &ldquo;spouts&rdquo;, and the processing nodes are called &ldquo;bolts&rdquo;.  The data model consists of tuples.  Tuples flow from Spouts to the bolts, which execute user code. Besides simply being locations where data is transformed or accumulated, bolts can also join streams and branch streams.</p>
+>>>>>>> eadf7510401b6903e88006e2b54dc3cbdc44b994
 
 <p>Storm is designed to be run on several machines to provide parallelism.  Storm topologies are deployed in a manner somewhat similar to a webapp or a XAP processing unit; a jar file is presented to a deployer which distributes it around the cluster where it is loaded and executed.  A topology runs until it is killed.</p>
 
@@ -122,7 +137,11 @@
 
 <p>Capability to guarantee exactly-once semantics comes with additional cost. To guarantee that, incremental processing should be done on top of persistence data source. Trident has to ensure that all updates are idempotent. Usually that leads to lower throughput and higher latency than similar topology with pure Storm.</p>
 
+<<<<<<< HEAD
 <h1 id="spouts">Spouts</h1>
+=======
+<h1>Spouts</h1>
+>>>>>>> eadf7510401b6903e88006e2b54dc3cbdc44b994
 
 <p>Basically, Spouts provide the source of tuples for Storm processing.  For spouts to be maximally performant and reliable, they need to provide tuples in batches, and be able to replay failed batches when necessary.  Of course, in order to have batches, you need storage, and to be able to replay batches, you need reliable storage.  XAP is about the highest performing, reliable source of data out there, so a spout that serves tuples from XAP is a natural combination.</p>
 
@@ -130,7 +149,11 @@
 
 <p>Depending on domain model and level of guarantees you want to provide, you choose either pure Storm or Trident. We provide Spout implementations for both – <code>XAPSimpleSpout</code> and <code>XAPTranscationalTridentSpout</code> respectively.</p>
 
+<<<<<<< HEAD
 <h2 id="storm-spout">Storm Spout</h2>
+=======
+<h2>Storm Spout</h2>
+>>>>>>> eadf7510401b6903e88006e2b54dc3cbdc44b994
 
 <p><code>XAPSimpleSpout</code> is a spout implementation for pure Storm that reads data in batches from XAP. On XAP side we introduce conception of stream. Please find <code>SimpleStream</code> – a stream implementation that supports writing data in single and batch modes and reading in batch mode. <code>SimpleStream</code> leverages XAP’s FIFO(First In, First Out) capabilities.</p>
 
@@ -140,6 +163,7 @@
 
 <p>Here is an example how one may write data to <code>SimpleStream</code> and process it in Storm topology. Let’s consider we would like to build an application to analyze the stream of page views (user clicks) on website. At first, we create a data model that represents a page view</p>
 
+<<<<<<< HEAD
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -165,10 +189,40 @@
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>The second argument of <code>SimpleStream</code> is a template used to match objects during reading. 
+=======
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@SpaceClass</span><span class="o">(</span><span class="n">fifoSupport</span> <span class="o">=</span> <span class="n">FifoSupport</span><span class="o">.</span><span class="na">OPERATION</span><span class="o">)</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PageView</span> <span class="kd">implements</span> <span class="n">Serializable</span> <span class="o">{</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">String</span> <span class="n">id</span><span class="o">;</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">String</span> <span class="n">page</span><span class="o">;</span>
+</span><span class='line'>   <span class="kd">private</span> <span class="n">String</span> <span class="n">sessionId</span><span class="o">;</span>
+</span><span class='line'>   <span class="o">[</span><span class="n">getters</span> <span class="n">setters</span> <span class="n">omitted</span> <span class="k">for</span> <span class="n">brevity</span><span class="o">]</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+
+<p>Now we would like to create a reference to stream instance and write some data.</p>
+
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">SimpleStream</span><span class="o">&lt;</span><span class="n">PageView</span><span class="o">&gt;</span> <span class="n">stream</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SimpleStream</span><span class="o">&lt;&gt;(</span><span class="n">space</span><span class="o">,</span> <span class="k">new</span> <span class="nf">PageView</span><span class="o">());</span>
+</span><span class='line'><span class="n">stream</span><span class="o">.</span><span class="na">writeBatch</span><span class="o">(</span><span class="n">pageViews</span><span class="o">);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+
+<p>The second argument of <code>SimpleStream</code> is a template used to match objects during reading.
+>>>>>>> eadf7510401b6903e88006e2b54dc3cbdc44b994
 If you want to have several streams with the same type, template objects should differentiate your streams.</p>
 
 <p>Now let’s create a spout for <code>PageView</code> stream.</p>
 
+<<<<<<< HEAD
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -221,11 +275,72 @@ If you want to have several streams with the same type, template objects should 
 </span><span class="line"><span class="n">builder</span><span class="o">.</span><span class="na">setSpout</span><span class="o">(</span><span class="s">&quot;pageViewSpout&quot;</span><span class="o">,</span> <span class="k">new</span> <span class="nf">PageViewSpout</span><span class="o">());</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
+=======
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PageViewSpout</span> <span class="kd">extends</span> <span class="n">XAPSimpleSpout</span><span class="o">&lt;</span><span class="n">PageView</span><span class="o">&gt;</span> <span class="o">{</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="nf">PageViewSpout</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="kd">super</span><span class="o">(</span><span class="k">new</span> <span class="nf">PageViewTupleConverter</span><span class="o">(),</span> <span class="k">new</span> <span class="nf">PageView</span><span class="o">());</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+
+<p>To create a spout, we have to specify how we want our space class be converted to Storm tuple. That is exactly what <code>TupleConverter</code> knows about.</p>
+
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">class</span> <span class="nc">PageViewTupleConverter</span> <span class="kd">implements</span> <span class="n">TupleConverter</span><span class="o">&lt;</span><span class="n">PageView</span><span class="o">&gt;</span> <span class="o">{</span>
+</span><span class='line'>    <span class="nd">@Override</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="n">Fields</span> <span class="nf">tupleFields</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="k">new</span> <span class="nf">Fields</span><span class="o">(</span><span class="s">&quot;page&quot;</span><span class="o">,</span> <span class="s">&quot;session&quot;</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@Override</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;</span> <span class="nf">spaceObjectToTuple</span><span class="o">(</span><span class="n">PageView</span> <span class="n">pageView</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">Arrays</span><span class="o">.&lt;</span><span class="n">Object</span><span class="o">&gt;</span><span class="n">asList</span><span class="o">(</span><span class="n">pageView</span><span class="o">.</span><span class="na">getPage</span><span class="o">(),</span> <span class="n">pageView</span><span class="o">.</span><span class="na">getSessionId</span><span class="o">());</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+
+<p>At this point we have everything ready to build Storm topology with <code>PageViewSpout</code>.</p>
+
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">Config</span> <span class="n">conf</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">Config</span><span class="o">();</span>
+</span><span class='line'><span class="n">conf</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">ConfigConstants</span><span class="o">.</span><span class="na">XAP_SPACE_URL_KEY</span><span class="o">,</span> <span class="s">&quot;jini://*/*/space&quot;</span><span class="o">);</span>
+</span><span class='line'><span class="n">conf</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">ConfigConstants</span><span class="o">.</span> <span class="n">XAP_STREAM_BATCH_SIZE</span><span class="o">,</span> <span class="mi">300</span><span class="o">);</span>
+</span><span class='line'><span class="n">TopologyBuilder</span> <span class="n">builder</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">TopologyBuilder</span><span class="o">();</span>
+</span><span class='line'><span class="n">builder</span><span class="o">.</span><span class="na">setSpout</span><span class="o">(</span><span class="s">&quot;pageViewSpout&quot;</span><span class="o">,</span> <span class="k">new</span> <span class="nf">PageViewSpout</span><span class="o">());</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+
+>>>>>>> eadf7510401b6903e88006e2b54dc3cbdc44b994
 <p><code>ConfigConstants.XAP_SPACE_URL_KEY</code> is a space URL</p>
 
 <p><code>ConfigConstants. XAP_STREAM_BATCH_SIZE</code> is a maximum number of items that spout reads from XAP with one hit.</p>
 
+<<<<<<< HEAD
 <h2 id="trident-spout">Trident Spout</h2>
+=======
+<h2>Trident Spout</h2>
+>>>>>>> eadf7510401b6903e88006e2b54dc3cbdc44b994
 
 <p><code>XAPTranscationalTridentSpout</code> is a scalable, fault-tolerant, transactional spout for Trident, supports pipelining. Let’s discuss all its properties in details.</p>
 
@@ -234,10 +349,18 @@ If you want to have several streams with the same type, template objects should 
 <p>There are several spout APIs available that we could potentially use for our XAPTranscationalTridentSpout implementation:</p>
 
 <ul>
+<<<<<<< HEAD
   <li><code>IPartitionedTridentSpout</code>: A transactional spout that reads from a partitioned data source. The problem with this API is that it doesn’t acknowledge when batch is successfully processed which is critical for in memory solutions since we want to remove items from the grid as soon as they have been processed. Another option would be to use XAP’s lease capability to remove items by time out. This might be unsafe, if we keep items too long, we might consume all available memory.</li>
   <li><code>ITridentSpout</code>: The most general API. Setting parallelism hint for this spout to N will create N spout instances, single coordinator and N emitters. When coordinator issues new transaction id, it passes this id to all emitters. Emitter reads its portion of transaction by given transaction id. Merged data from all emitters forms transaction.</li>
 </ul>
 
+=======
+<li><code>IPartitionedTridentSpout</code>: A transactional spout that reads from a partitioned data source. The problem with this API is that it doesn’t acknowledge when batch is successfully processed which is critical for in memory solutions since we want to remove items from the grid as soon as they have been processed. Another option would be to use XAP’s lease capability to remove items by time out. This might be unsafe, if we keep items too long, we might consume all available memory.</li>
+<li><code>ITridentSpout</code>: The most general API. Setting parallelism hint for this spout to N will create N spout instances, single coordinator and N emitters. When coordinator issues new transaction id, it passes this id to all emitters. Emitter reads its portion of transaction by given transaction id. Merged data from all emitters forms transaction.</li>
+</ul>
+
+
+>>>>>>> eadf7510401b6903e88006e2b54dc3cbdc44b994
 <p>For our implementation we choose <code>ITridentSpout</code> API.</p>
 
 <p><img src="/images/xap-storm/trident-spout.jpg" /></p>
@@ -273,6 +396,7 @@ If you want to have several streams with the same type, template objects should 
 
 <p>Here is an example how to use <code>XAPTransactionalTridentSpout</code>:</p>
 
+<<<<<<< HEAD
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -296,6 +420,32 @@ If you want to have several streams with the same type, template objects should 
 <p>The full example that demonstrates usage of <code>XAPTransactionalTridentSpout</code> to address classic <em>Word Counter</em> problem can be found in <code>XAPTransactionalTridentSpoutTest</code>.</p>
 
 <h1 id="trident-state">Trident State</h1>
+=======
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">Config</span> <span class="n">conf</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">Config</span><span class="o">();</span>
+</span><span class='line'><span class="n">conf</span><span class="o">.</span><span class="na">setMaxSpoutPending</span><span class="o">(</span><span class="mi">20</span><span class="o">);</span>
+</span><span class='line'><span class="n">conf</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">ConfigConstants</span><span class="o">.</span><span class="na">XAP_SPACE_URL_KEY</span><span class="o">,</span> <span class="s">&quot;jini://*/*/space?groups=XAPTransactionalTridentSpoutTest-test&quot;</span><span class="o">);</span>
+</span><span class='line'><span class="n">TridentTopology</span> <span class="n">topology</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">TridentTopology</span><span class="o">();</span>
+</span><span class='line'><span class="n">TridentState</span> <span class="n">wordCounts</span> <span class="o">=</span> <span class="n">topology</span>
+</span><span class='line'>                <span class="o">.</span><span class="na">newStream</span><span class="o">(</span><span class="s">&quot;spout1&quot;</span><span class="o">,</span> <span class="n">spout</span><span class="o">)</span>
+</span><span class='line'>                <span class="o">.</span><span class="na">each</span><span class="o">(</span><span class="k">new</span> <span class="nf">Fields</span><span class="o">(</span><span class="s">&quot;sentence&quot;</span><span class="o">),</span> <span class="k">new</span> <span class="nf">Split</span><span class="o">(),</span> <span class="k">new</span> <span class="nf">Fields</span><span class="o">(</span><span class="s">&quot;word&quot;</span><span class="o">))</span>
+</span><span class='line'>                <span class="o">.</span><span class="na">groupBy</span><span class="o">(</span><span class="k">new</span> <span class="nf">Fields</span><span class="o">(</span><span class="s">&quot;word&quot;</span><span class="o">))</span>
+</span><span class='line'>                <span class="o">.</span><span class="na">persistentAggregate</span><span class="o">(</span><span class="n">stateFactory</span><span class="o">,</span> <span class="k">new</span> <span class="nf">Count</span><span class="o">(),</span> <span class="k">new</span> <span class="nf">Fields</span><span class="o">(</span><span class="s">&quot;count&quot;</span><span class="o">)).</span><span class="na">parallelismHint</span><span class="o">(</span><span class="mi">16</span><span class="o">);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+
+<p>The full example that demonstrates usage of <code>XAPTransactionalTridentSpout</code> to address classic <em>Word Counter</em> problem can be found in <code>XAPTransactionalTridentSpoutTest</code>.</p>
+
+<h1>Trident State</h1>
+>>>>>>> eadf7510401b6903e88006e2b54dc3cbdc44b994
 
 <p>Trident has first-class abstractions for reading from and writing to stateful sources. Details are available on the <a href="https://storm.incubator.apache.org/documentation/Trident-state">Storm wiki site</a>.</p>
 
@@ -305,6 +455,7 @@ If you want to have several streams with the same type, template objects should 
 
 <p>XAP Trident state implementation supports all state types – non-transactional, transactional and opaque.  All you need to create a Trident state is configure space url and choose appropriate factory method of <code>XAPStateFactory</code> class:</p>
 
+<<<<<<< HEAD
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -328,6 +479,32 @@ If you want to have several streams with the same type, template objects should 
 <p>The full example can be found in <code>TridentWordCountTest</code>.</p>
 
 <h2 id="trident-read-only-state">Trident Read-Only state</h2>
+=======
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">Config</span> <span class="n">conf</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">Config</span><span class="o">();</span>
+</span><span class='line'><span class="n">conf</span><span class="o">.</span><span class="na">setMaxSpoutPending</span><span class="o">(</span><span class="mi">20</span><span class="o">);</span>
+</span><span class='line'><span class="n">conf</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">ConfigConstants</span><span class="o">.</span><span class="na">XAP_SPACE_URL_KEY</span><span class="o">,</span> <span class="s">&quot;jini://*/*/space &quot;</span><span class="o">);</span>
+</span><span class='line'><span class="n">StateFactory</span> <span class="n">stateFactory</span> <span class="o">=</span> <span class="n">XAPStateFactory</span><span class="o">.</span><span class="na">transactional</span><span class="o">();</span>
+</span><span class='line'><span class="n">TridentState</span> <span class="n">wordCounts</span> <span class="o">=</span> <span class="n">topology</span>
+</span><span class='line'>                <span class="o">.</span><span class="na">newStream</span><span class="o">(</span><span class="s">&quot;spout1&quot;</span><span class="o">,</span> <span class="n">spout</span><span class="o">).</span><span class="na">parallelismHint</span><span class="o">(</span><span class="mi">16</span><span class="o">)</span>
+</span><span class='line'>                <span class="o">.</span><span class="na">each</span><span class="o">(</span><span class="k">new</span> <span class="nf">Fields</span><span class="o">(</span><span class="s">&quot;sentence&quot;</span><span class="o">),</span> <span class="k">new</span> <span class="nf">Split</span><span class="o">(),</span> <span class="k">new</span> <span class="nf">Fields</span><span class="o">(</span><span class="s">&quot;word&quot;</span><span class="o">))</span>
+</span><span class='line'>                <span class="o">.</span><span class="na">groupBy</span><span class="o">(</span><span class="k">new</span> <span class="nf">Fields</span><span class="o">(</span><span class="s">&quot;word&quot;</span><span class="o">))</span>
+</span><span class='line'>                <span class="o">.</span><span class="na">persistentAggregate</span><span class="o">(</span><span class="n">stateFactory</span><span class="o">,</span> <span class="k">new</span> <span class="nf">Count</span><span class="o">(),</span> <span class="k">new</span> <span class="nf">Fields</span><span class="o">(</span><span class="s">&quot;count&quot;</span><span class="o">)).</span><span class="na">parallelismHint</span><span class="o">(</span><span class="mi">16</span><span class="o">);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+
+<p>The full example can be found in <code>TridentWordCountTest</code>.</p>
+
+<h2>Trident Read-Only state</h2>
+>>>>>>> eadf7510401b6903e88006e2b54dc3cbdc44b994
 
 <p>Trident Read-Only state allows to lookup persistent data during the computation.</p>
 
@@ -337,6 +514,7 @@ If you want to have several streams with the same type, template objects should 
 
 <p>The full example can be found in <code>TridentReachTest</code>.</p>
 
+<<<<<<< HEAD
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -372,11 +550,51 @@ If you want to have several streams with the same type, template objects should 
 <p>The full example can be found in <code>SqlQueryReadOnlyStateTest</code>.</p>
 
 <h1 id="storm-bolts">Storm bolts</h1>
+=======
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">TridentState</span> <span class="n">tweetedUrls</span> <span class="o">=</span> <span class="n">topology</span><span class="o">.</span><span class="na">newStaticState</span><span class="o">(</span><span class="n">XAPReadOnlyStateFactory</span><span class="o">.</span><span class="na">byIds</span><span class="o">(</span><span class="n">TweetedUrl</span><span class="o">.</span><span class="na">class</span><span class="o">));</span>
+</span><span class='line'><span class="n">TridentState</span> <span class="n">followers</span> <span class="o">=</span> <span class="n">topology</span><span class="o">.</span><span class="na">newStaticState</span><span class="o">(</span><span class="n">XAPReadOnlyStateFactory</span><span class="o">.</span><span class="na">byIds</span><span class="o">(</span><span class="n">Followers</span><span class="o">.</span><span class="na">class</span><span class="o">));</span>
+</span><span class='line'>        <span class="n">topology</span><span class="o">.</span><span class="na">newDRPCStream</span><span class="o">(</span><span class="s">&quot;reach&quot;</span><span class="o">,</span> <span class="n">drpc</span><span class="o">)</span>
+</span><span class='line'>                <span class="o">.</span><span class="na">stateQuery</span><span class="o">(</span><span class="n">tweetedUrls</span><span class="o">,</span> <span class="k">new</span> <span class="nf">Fields</span><span class="o">(</span><span class="s">&quot;args&quot;</span><span class="o">),</span> <span class="k">new</span> <span class="nf">MapGet</span><span class="o">(),</span> <span class="k">new</span> <span class="nf">Fields</span><span class="o">(</span><span class="s">&quot;tweetedUrls&quot;</span><span class="o">))</span>
+</span><span class='line'>                <span class="o">.</span><span class="na">each</span><span class="o">(</span><span class="k">new</span> <span class="nf">Fields</span><span class="o">(</span><span class="s">&quot;tweetedUrls&quot;</span><span class="o">),</span> <span class="k">new</span> <span class="nf">ExpandTweetersList</span><span class="o">(),</span> <span class="k">new</span> <span class="nf">Fields</span><span class="o">(</span><span class="s">&quot;tweeter&quot;</span><span class="o">))</span>
+</span><span class='line'>                <span class="o">.</span><span class="na">shuffle</span><span class="o">()</span>
+</span><span class='line'>                <span class="o">.</span><span class="na">stateQuery</span><span class="o">(</span><span class="n">followers</span><span class="o">,</span> <span class="k">new</span> <span class="nf">Fields</span><span class="o">(</span><span class="s">&quot;tweeter&quot;</span><span class="o">),</span> <span class="k">new</span> <span class="nf">MapGet</span><span class="o">(),</span> <span class="k">new</span> <span class="nf">Fields</span><span class="o">(</span><span class="s">&quot;followers&quot;</span><span class="o">))</span>
+</span><span class='line'>                <span class="o">.</span><span class="na">each</span><span class="o">(</span><span class="k">new</span> <span class="nf">Fields</span><span class="o">(</span><span class="s">&quot;followers&quot;</span><span class="o">),</span> <span class="k">new</span> <span class="nf">ExpandFollowersList</span><span class="o">(),</span> <span class="k">new</span> <span class="nf">Fields</span><span class="o">(</span><span class="s">&quot;follower&quot;</span><span class="o">))</span>
+</span><span class='line'>                <span class="o">.</span><span class="na">groupBy</span><span class="o">(</span><span class="k">new</span> <span class="nf">Fields</span><span class="o">(</span><span class="s">&quot;follower&quot;</span><span class="o">))</span>
+</span><span class='line'>                <span class="o">.</span><span class="na">aggregate</span><span class="o">(</span><span class="k">new</span> <span class="nf">One</span><span class="o">(),</span> <span class="k">new</span> <span class="nf">Fields</span><span class="o">(</span><span class="s">&quot;one&quot;</span><span class="o">))</span>
+</span><span class='line'>                <span class="o">.</span><span class="na">aggregate</span><span class="o">(</span><span class="k">new</span> <span class="nf">Fields</span><span class="o">(</span><span class="s">&quot;one&quot;</span><span class="o">),</span> <span class="k">new</span> <span class="nf">Sum</span><span class="o">(),</span> <span class="k">new</span> <span class="nf">Fields</span><span class="o">(</span><span class="s">&quot;reach&quot;</span><span class="o">));</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+
+<p>Another option to create XAP read-only state is to use SQL query. In this case <code>stateQuery’s</code> input arguments are used as SQL parameters:</p>
+
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">SQLQuery</span><span class="o">&lt;</span><span class="n">Person</span><span class="o">&gt;</span> <span class="n">sqlQuery</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SQLQuery</span><span class="o">&lt;&gt;(</span><span class="n">Person</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&quot;name = ? AND age &gt; 30&quot;</span><span class="o">).</span><span class="na">setProjections</span><span class="o">(</span><span class="s">&quot;age&quot;</span><span class="o">);</span>
+</span><span class='line'><span class="n">TridentState</span> <span class="n">state</span> <span class="o">=</span> <span class="n">topology</span><span class="o">.</span><span class="na">newStaticState</span><span class="o">(</span><span class="n">XAPReadOnlyStateFactory</span><span class="o">.</span><span class="na">bySqlQuery</span><span class="o">(</span><span class="n">sqlQuery</span><span class="o">));</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+
+<p>The full example can be found in <code>SqlQueryReadOnlyStateTest</code>.</p>
+
+<h1>Storm bolts</h1>
+>>>>>>> eadf7510401b6903e88006e2b54dc3cbdc44b994
 
 <p>If pure Storm suits better your needs, most likely you will want to read/write data from bolts to persistent storage. For instance, imagine you are processing stream of data and would like to present computation result on UI. So the final bolt in your topology pipeline should write result to XAP which can then be accessed from anywhere. For this purpose we created <code>XAPAwareRichBolt</code> and <code>XAPAwareBasicBolt</code> that have a reference to space proxy. All you need is to configure space url and extend XAP aware bolt.</p>
 
 <p>Example:</p>
 
+<<<<<<< HEAD
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -394,12 +612,33 @@ If you want to have several streams with the same type, template objects should 
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h1 id="illustrative-example-real-time-google-analytics">Illustrative example: Real-time Google Analytics</h1>
+=======
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TotalActiveUsersBolt</span> <span class="kd">extends</span> <span class="n">XAPAwareBasicBolt</span> <span class="o">{</span>
+</span><span class='line'>   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">execute</span><span class="o">(</span><span class="n">Tuple</span> <span class="n">tuple</span><span class="o">,</span> <span class="n">BasicOutputCollector</span> <span class="n">collector</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">ActiveUsersReport</span> <span class="n">report</span> <span class="o">=</span> <span class="err">…</span> <span class="o">;</span> <span class="c1">// compute     </span>
+</span><span class='line'>        <span class="n">space</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">report</span><span class="o">);</span>
+</span><span class='line'>   <span class="o">}</span>
+</span><span class='line'>  <span class="err">…</span><span class="o">.</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+
+<h1>Illustrative example: Real-time Google Analytics</h1>
+>>>>>>> eadf7510401b6903e88006e2b54dc3cbdc44b994
 
 <p>In this section we demonstrate how to build highly available, scalable equivalent of <em>Real-time Google Analytics</em> application and deploy it to cloud with one click using <em>Cloudify</em>.</p>
 
 <p>Real-Time Google Analytics allows you to monitor activity as it happens on your site. The reports are updated continuously and each page view is reported seconds after it occurs on your site. For example, you can see:</p>
 
 <ul>
+<<<<<<< HEAD
   <li>how many people are on your site right now</li>
   <li>dynamic of page views during last minute</li>
   <li>users geographic locations</li>
@@ -410,11 +649,25 @@ If you want to have several streams with the same type, template objects should 
 <p><img src="/images/xap-storm/storm-screen-with-browser.jpg" /></p>
 
 <h2 id="high-level-architecture-diagram">High-level architecture diagram</h2>
+=======
+<li>how many people are on your site right now</li>
+<li>dynamic of page views during last minute</li>
+<li>users geographic locations</li>
+<li>traffic sources that referred them</li>
+<li>which pages or events they&rsquo;re interacting with</li>
+</ul>
+
+
+<p><img src="/images/xap-storm/storm-screen-with-browser.jpg" /></p>
+
+<h2>High-level architecture diagram</h2>
+>>>>>>> eadf7510401b6903e88006e2b54dc3cbdc44b994
 
 <p><img src="/images/xap-storm/google-analytics-high-level.jpg" /></p>
 
 <p><em>PageView feeder</em> is a standalone java application that simulates users on the site. It continuously sends <code>PageView</code> json to rest service endpoints deployed in XAP web PU. PageView looks like this</p>
 
+<<<<<<< HEAD
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -429,17 +682,42 @@ If you want to have several streams with the same type, template objects should 
 </span><span class="line"><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
+=======
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
+</span><span class='line'> <span class="err">“sessionId”:</span>  <span class="err">“sessionid581239234”,</span>
+</span><span class='line'><span class="err">“referral”:</span> <span class="err">“https://www.google.com/#q=gigaspace”,</span>
+</span><span class='line'><span class="err">“page”:</span> <span class="err">“http://www.gigaspaces.com/about”,</span>
+</span><span class='line'><span class="err">“ip”:</span> <span class="err">“89.162.139.2”</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+
+>>>>>>> eadf7510401b6903e88006e2b54dc3cbdc44b994
 <p>Rest service converts JSON documents to space object and writes them to the stream. Stream is consumed by Storm topology which performs all necessary processing in memory and stores results in XAP space. End user is browsing web page hosted in Web PU that continuously updates reports with AJAX requests backed by another rest service. Rest service reads report from XAP space.</p>
 
 <p>We use pure Storm to build topology. There are several reasons why we don’t use Trident for this application. We are tolerant to page views loss if some Storm node fails. We don’t need exactly-once processing semantic. Instead, we want to maximize throughput and minimize latency.</p>
 
+<<<<<<< HEAD
 <h2 id="google-analytics-topology-high-level-overview">Google Analytics Topology. High level overview.</h2>
+=======
+<h2>Google Analytics Topology. High level overview.</h2>
+>>>>>>> eadf7510401b6903e88006e2b54dc3cbdc44b994
 
 <p><img src="/images/xap-storm/google-analytics-topology.jpg" /></p>
 
 <p>PageView spout forks five branches, each branch calculates its report and can be scaled independently. The final bolt in the branch writes data to XAP space.  In the next sections we take a closer look at branches design.</p>
 
+<<<<<<< HEAD
 <h2 id="top-urls-topology-branch">Top urls topology branch</h2>
+=======
+<h2>Top urls topology branch</h2>
+>>>>>>> eadf7510401b6903e88006e2b54dc3cbdc44b994
 
 <p>Top urls report displays top 10 visited urls for the last ten seconds. Topology implements distributed rolling count algorithm. The report is updated every second.</p>
 
@@ -451,7 +729,11 @@ If you want to have several streams with the same type, template objects should 
 
 <p>Top referrals topology branch is identical to top urls one. The only difference in is that we calculate ‘referral’ rather than ‘url’ tuple field.</p>
 
+<<<<<<< HEAD
 <h2 id="active-users-topology-branch">Active users topology branch</h2>
+=======
+<h2>Active users topology branch</h2>
+>>>>>>> eadf7510401b6903e88006e2b54dc3cbdc44b994
 
 <p>Active users report displays how many people on the site right now. We assume that if user hasn’t opened any page for the last N seconds, then user has left the site. Users are uniquely identified by ‘sessionId’ tuple field. For demo purpose N is configured to 5 seconds, though it should be much longer in real life application.</p>
 
@@ -461,7 +743,11 @@ If you want to have several streams with the same type, template objects should 
 
 <p><code>TotalActiveUsersBolt</code> maintains a map of [source_task, count] and emits the total count for all sources. Report is written to XAP.</p>
 
+<<<<<<< HEAD
 <h2 id="page-view-time-series-topology-branch">Page view time series topology branch</h2>
+=======
+<h2>Page view time series topology branch</h2>
+>>>>>>> eadf7510401b6903e88006e2b54dc3cbdc44b994
 
 <p>Page view time series report displays the dynamic of visited pages for last minute. The chart is updated every second.</p>
 
@@ -469,7 +755,11 @@ If you want to have several streams with the same type, template objects should 
 
 <p><code>PageViewCountBolt</code> calculates the number of page views and passes local count to <code>PageViewTimeSeriesBolt</code> every second. <code>PageViewTimeSeriesBolt</code> maintains a sliding window counter and writes report to XAP space.</p>
 
+<<<<<<< HEAD
 <h2 id="geo-topology-branch">Geo topology branch</h2>
+=======
+<h2>Geo topology branch</h2>
+>>>>>>> eadf7510401b6903e88006e2b54dc3cbdc44b994
 
 <p>Geo report displays a map of users’ geographical location. Depending on the volume of traffic from particular country, country is filled with different colors on the map.</p>
 
@@ -477,6 +767,7 @@ If you want to have several streams with the same type, template objects should 
 
 <p>IP address converted to country using <a href="http://dev.maxmind.com/">MaxMind GeoIP database</a>. The database is a binary file loaded into <code>GeoIPBolt’s</code> heap. <code>GeoIpLookupService</code> ensures that it’s loaded only once per JVM.</p>
 
+<<<<<<< HEAD
 <h2 id="building-the-application">Building the Application</h2>
 
 <ol>
@@ -518,10 +809,61 @@ If you want to have several streams with the same type, template objects should 
 </ol>
 
 <h2 id="deploying-to-cloud">Deploying to cloud</h2>
+=======
+<h2>Building the Application</h2>
+
+<ol>
+<li><a href="http://www.gigaspaces.com/LatestProductVersion">Download</a> and <a href="http://wiki.gigaspaces.com/wiki/display/XAP95/Installing+GigaSpaces">install</a> XAP</li>
+<li>Install Maven and the GigaSpaces Maven plug-in</li>
+<li>The application source can be found on <a href="https://github.com/fe2s/xap-storm">github</a></li>
+<li>Build the project by running <code>mvn clean install</code></li>
+</ol>
+
+
+<h2>Deploying in development environment</h2>
+
+<ol>
+<li>Follow this <a href="https://storm.incubator.apache.org/documentation/Setting-up-a-Storm-cluster.html">documentation</a> to install and run Zookeeper, Nimbus, Supervisor and optionally Storm UI.</li>
+<li>Start a <a href="http://wiki.gigaspaces.com/wiki/display/XAP95/The+Grid+Service+Agent">Grid Service Agent</a> by running the <code>gs-agent.sh/bat</code> script</li>
+<li>Deploy space and Web PU by running the following from project root folder:</li>
+</ol>
+
+
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="err">cd</span> <span class="err">google-analytics</span>
+</span><span class='line'><span class="err">mvn</span> <span class="err">os:deploy</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+
+<ol>
+<li>Add <code>apache-storm-0.9.2-incubating/bin</code> to your <code>$PATH</code></li>
+<li>Run the following to deploy topology to Storm cluster
+<code>storm jar ./storm-topology/target/storm-topology-1.0-SNAPSHOT.jar com.gigaspaces.storm.googleanalytics.topology.GoogleAnalyticsTopology google-analytics 127.0.0.1</code></li>
+<li>Run feeder
+<code>java -jar ./feeder/target/feeder-1.0-SNAPSHOT.jar 127.0.0.1</code></li>
+<li>Open browser <a href="http://localhost:8090/web/">http://localhost:8090/web/</a> to view Google Analytics UI</li>
+<li>To undeploy topology run <code>storm kill google-analytics</code></li>
+</ol>
+
+
+<h2>Deploying in development environment with embedded Storm</h2>
+
+<ol>
+<li>To run topology in embedded Storm you don’t need to install Zookeeper and Storm. Follow all steps from previous section except deployment to Strom.</li>
+<li>Open <code>google-analytics/storm-topology/pom.xml</code> and change scope of storm-core artifact from ‘provided’ to ‘compile’.</li>
+<li>Rebuild the project</li>
+<li>Run storm topology <code>java -jar ./storm-topology/target/storm-topology-1.0-SNAPSHOT.jar</code>. Alternatively you can <code>GoogleAnalyticsTopology</code> from your IDE.</li>
+</ol>
+
+
+<h2>Deploying to cloud</h2>
+>>>>>>> eadf7510401b6903e88006e2b54dc3cbdc44b994
 
 <p><em>Please note, recipes tested with Centos 6 only</em></p>
 
 <ol>
+<<<<<<< HEAD
   <li>Install <a href="http://getcloudify.org/">Cloudify 2.7</a></li>
   <li>Make sure that <code>&lt;project_root&gt;/cloudify/apps/storm-demo/deployer/files</code> contains up-to-date version of <code>space-1.0.-SNAPSHOT.jar</code>, <code>web.war</code> and <code>feeder-1.0-SNAPSHOT.jar</code>. As well as <code>&lt;project_root&gt;/cloudify/apps/storm-demo/storm-nimbus/commands</code> contains <code>storm-topology-1.0-SNAPSHOT.jar</code> (you can copy them from maven’s target directories using <code>&lt;project_root&gt;/dev-scripts/copy-artifacts-to-cloudify.sh</code> script)</li>
   <li>Copy <code>&lt;project_root&gt;/cloudify</code> recipes to <code>&lt;cloudify_install&gt;/recipes</code> directory</li>
@@ -530,6 +872,17 @@ If you want to have several streams with the same type, template objects should 
   <li>Start installation <code>install-application storm-demo</code></li>
   <li>Once installation completed, open Cloudify Management Console and check the ip address of <code>xap-management</code> service. Google Analytics UI should be available at <code>http://&lt;xap_management_service_ip&gt;:8090/web</code></li>
 </ol>
+=======
+<li>Install <a href="http://getcloudify.org/">Cloudify 2.7</a></li>
+<li>Make sure that <code>&lt;project_root&gt;/cloudify/apps/storm-demo/deployer/files</code> contains up-to-date version of <code>space-1.0.-SNAPSHOT.jar</code>, <code>web.war</code> and <code>feeder-1.0-SNAPSHOT.jar</code>. As well as <code>&lt;project_root&gt;/cloudify/apps/storm-demo/storm-nimbus/commands</code> contains <code>storm-topology-1.0-SNAPSHOT.jar</code> (you can copy them from maven&rsquo;s target directories using <code>&lt;project_root&gt;/dev-scripts/copy-artifacts-to-cloudify.sh</code> script)</li>
+<li>Copy <code>&lt;project_root&gt;/cloudify</code> recipes to <code>&lt;cloudify_install&gt;/recipes</code> directory</li>
+<li>Run cloudify <code>&lt;cloudify_install&gt;/bin/cloudify.sh</code></li>
+<li>Bootsrap cloud (to bootsrap local cloud, run the following in Cloudify Shell <code>bootstrap-localcloud</code>)</li>
+<li>Start installation <code>install-application storm-demo</code></li>
+<li>Once installation completed, open Cloudify Management Console and check the ip address of <code>xap-management</code> service. Google Analytics UI should be available at <code>http://&lt;xap_management_service_ip&gt;:8090/web</code></li>
+</ol>
+
+>>>>>>> eadf7510401b6903e88006e2b54dc3cbdc44b994
 </div>
 
 
@@ -559,7 +912,11 @@ If you want to have several streams with the same type, template objects should 
     
       <div class="sharing">
   
+<<<<<<< HEAD
   <a href="//twitter.com/share" class="twitter-share-button" data-url="http://dyagilev.org/blog/2014/08/21/gigaspaces-storm/" data-via="" data-counturl="http://dyagilev.org/blog/2014/08/21/gigaspaces-storm/" >Tweet</a>
+=======
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://fe2s.github.io/blog/2014/08/21/gigaspaces-storm/" data-via="" data-counturl="http://fe2s.github.io/blog/2014/08/21/gigaspaces-storm/" >Tweet</a>
+>>>>>>> eadf7510401b6903e88006e2b54dc3cbdc44b994
   
   
   
@@ -592,10 +949,13 @@ If you want to have several streams with the same type, template objects should 
   <ul id="recent_posts">
     
       <li class="post">
+<<<<<<< HEAD
         <a href="/blog/2015/03/07/Keep-up-with-Spark-Streaming-at-in-memory-speed-using-GigaSpaces-XAP/">Keep up with Spark Streaming at in-memory speed using GigaSpaces XAP</a>
       </li>
     
       <li class="post">
+=======
+>>>>>>> eadf7510401b6903e88006e2b54dc3cbdc44b994
         <a href="/blog/2014/09/23/slides-for-my-talk-on-storm-kafka-gigaspaces/">Slides for my talk on Storm, Kafka and GigaSpaces</a>
       </li>
     
@@ -611,6 +971,13 @@ If you want to have several streams with the same type, template objects should 
         <a href="/blog/2014/05/13/optimization-trick/">Optimization Trick</a>
       </li>
     
+<<<<<<< HEAD
+=======
+      <li class="post">
+        <a href="/blog/2013/03/26/how-to-decrypt-jettys-https-tcp-dump/">How To Decrypt Jetty's Https Tcp Dump</a>
+      </li>
+    
+>>>>>>> eadf7510401b6903e88006e2b54dc3cbdc44b994
   </ul>
 </section>
 
@@ -625,7 +992,11 @@ If you want to have several streams with the same type, template objects should 
     </div>
   </div>
   <footer role="contentinfo"><p>
+<<<<<<< HEAD
   Copyright &copy; 2015 - Oleksiy Dyagilev -
+=======
+  Copyright &copy; 2014 - Oleksiy Dyagilev -
+>>>>>>> eadf7510401b6903e88006e2b54dc3cbdc44b994
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
@@ -637,8 +1008,13 @@ If you want to have several streams with the same type, template objects should 
       
         
         // var disqus_developer = 1;
+<<<<<<< HEAD
         var disqus_identifier = 'http://dyagilev.org/blog/2014/08/21/gigaspaces-storm/';
         var disqus_url = 'http://dyagilev.org/blog/2014/08/21/gigaspaces-storm/';
+=======
+        var disqus_identifier = 'http://fe2s.github.io/blog/2014/08/21/gigaspaces-storm/';
+        var disqus_url = 'http://fe2s.github.io/blog/2014/08/21/gigaspaces-storm/';
+>>>>>>> eadf7510401b6903e88006e2b54dc3cbdc44b994
         var disqus_script = 'embed.js';
       
     (function () {
