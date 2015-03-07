@@ -12,6 +12,9 @@ In this article we describe how we use GigaSpaces XAP in-memory datagrid to addr
 
 <!-- more -->
 
+* list element with functor item
+{:toc}
+
 
 # Introduction #
 
