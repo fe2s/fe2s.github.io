@@ -4,7 +4,7 @@
   <title><![CDATA[Category: xap, | Shady Minds]]></title>
   <link href="http://dyagilev.org/blog/categories/xap/atom.xml" rel="self"/>
   <link href="http://dyagilev.org/"/>
-  <updated>2015-03-08T00:22:11+02:00</updated>
+  <updated>2015-03-08T00:26:34+02:00</updated>
   <id>http://dyagilev.org/</id>
   <author>
     <name><![CDATA[Oleksiy Dyagilev]]></name>
@@ -31,6 +31,33 @@
 <p>Sources are available on <a href="https://github.com/fe2s/xap-storm">github</a></p>
 
 <!-- more -->
+
+<ul id="markdown-toc">
+  <li><a href="#storm-in-a-nutshell" id="markdown-toc-storm-in-a-nutshell">Storm in a Nutshell</a></li>
+  <li><a href="#spouts" id="markdown-toc-spouts">Spouts</a>    <ul>
+      <li><a href="#storm-spout" id="markdown-toc-storm-spout">Storm Spout</a></li>
+      <li><a href="#trident-spout" id="markdown-toc-trident-spout">Trident Spout</a></li>
+    </ul>
+  </li>
+  <li><a href="#trident-state" id="markdown-toc-trident-state">Trident State</a>    <ul>
+      <li><a href="#trident-read-only-state" id="markdown-toc-trident-read-only-state">Trident Read-Only state</a></li>
+    </ul>
+  </li>
+  <li><a href="#storm-bolts" id="markdown-toc-storm-bolts">Storm bolts</a></li>
+  <li><a href="#illustrative-example-real-time-google-analytics" id="markdown-toc-illustrative-example-real-time-google-analytics">Illustrative example: Real-time Google Analytics</a>    <ul>
+      <li><a href="#high-level-architecture-diagram" id="markdown-toc-high-level-architecture-diagram">High-level architecture diagram</a></li>
+      <li><a href="#google-analytics-topology-high-level-overview" id="markdown-toc-google-analytics-topology-high-level-overview">Google Analytics Topology. High level overview.</a></li>
+      <li><a href="#top-urls-topology-branch" id="markdown-toc-top-urls-topology-branch">Top urls topology branch</a></li>
+      <li><a href="#active-users-topology-branch" id="markdown-toc-active-users-topology-branch">Active users topology branch</a></li>
+      <li><a href="#page-view-time-series-topology-branch" id="markdown-toc-page-view-time-series-topology-branch">Page view time series topology branch</a></li>
+      <li><a href="#geo-topology-branch" id="markdown-toc-geo-topology-branch">Geo topology branch</a></li>
+      <li><a href="#building-the-application" id="markdown-toc-building-the-application">Building the Application</a></li>
+      <li><a href="#deploying-in-development-environment" id="markdown-toc-deploying-in-development-environment">Deploying in development environment</a></li>
+      <li><a href="#deploying-in-development-environment-with-embedded-storm" id="markdown-toc-deploying-in-development-environment-with-embedded-storm">Deploying in development environment with embedded Storm</a></li>
+      <li><a href="#deploying-to-cloud" id="markdown-toc-deploying-to-cloud">Deploying to cloud</a></li>
+    </ul>
+  </li>
+</ul>
 
 <h1 id="storm-in-a-nutshell">Storm in a Nutshell</h1>
 
