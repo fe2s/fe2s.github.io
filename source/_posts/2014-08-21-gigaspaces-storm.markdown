@@ -20,6 +20,9 @@ Sources are available on [github](https://github.com/fe2s/xap-storm)
 
 <!-- more -->
 
+* list element with functor item
+{:toc}
+
 # Storm in a Nutshell #
 
 Storm is a real time, open source data streaming framework that functions entirely in memory.  It constructs a processing graph that feeds data from an input source through processing nodes.  The processing graph is called a "topology".  The input data sources are called "spouts", and the processing nodes are called "bolts".  The data model consists of tuples.  Tuples flow from Spouts to the bolts, which execute user code. Besides simply being locations where data is transformed or accumulated, bolts can also join streams and branch streams. 
