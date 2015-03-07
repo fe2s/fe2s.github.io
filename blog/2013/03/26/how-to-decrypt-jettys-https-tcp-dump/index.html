@@ -9,11 +9,7 @@
   <meta name="author" content="Oleksiy Dyagilev">
 
   
-<<<<<<< HEAD
   <meta name="description" content="If you want to capture jetty’s tcp dump of https and analyze encrypted packets later - here is an instruction. Applies for Jetty 7, not sure if the &hellip;">
-=======
-  <meta name="description" content="If you want to capture jetty&rsquo;s tcp dump of https and analyze encrypted packets later - here is an instruction. Applies for Jetty 7, not sure if &hellip;">
->>>>>>> eadf7510401b6903e88006e2b54dc3cbdc44b994
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -22,11 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-<<<<<<< HEAD
   <link rel="canonical" href="http://dyagilev.org/blog/2013/03/26/how-to-decrypt-jettys-https-tcp-dump">
-=======
-  <link rel="canonical" href="http://fe2s.github.io/blog/2013/03/26/how-to-decrypt-jettys-https-tcp-dump">
->>>>>>> eadf7510401b6903e88006e2b54dc3cbdc44b994
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Shady Minds" type="application/atom+xml">
@@ -70,11 +62,7 @@
   
 <form action="https://www.google.com/search" method="get">
   <fieldset role="search">
-<<<<<<< HEAD
     <input type="hidden" name="q" value="site:dyagilev.org" />
-=======
-    <input type="hidden" name="q" value="site:fe2s.github.io" />
->>>>>>> eadf7510401b6903e88006e2b54dc3cbdc44b994
     <input class="search" type="text" name="q" results="0" placeholder="Search"/>
   </fieldset>
 </form>
@@ -108,7 +96,6 @@
   </header>
 
 
-<<<<<<< HEAD
 <div class="entry-content"><p>If you want to capture jetty’s tcp dump of https and analyze encrypted packets later - here is an instruction. Applies for Jetty 7, not sure if the same works for other versions.</p>
 
 <!-- more -->
@@ -155,56 +142,6 @@
 </span><span class="line"><span class="o">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-=======
-<div class="entry-content"><p>If you want to capture jetty&rsquo;s tcp dump of https and analyze encrypted packets later - here is an instruction. Applies for Jetty 7, not sure if the same works for other versions.</p>
-
-<!-- more -->
-
-
-<p><strong>Step 1.</strong> Find obfuscated password in jetty.xml, it should start with OBF: prefix. Run it through the following deobfuscating function which I found in jetty sources.</p>
-
-<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Password</span> <span class="o">{</span>
-</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">__OBFUSCATE</span> <span class="o">=</span> <span class="s">&quot;OBF:&quot;</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">deobfuscate</span><span class="o">(</span><span class="n">String</span> <span class="n">s</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>  <span class="k">if</span> <span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">startsWith</span><span class="o">(</span><span class="n">__OBFUSCATE</span><span class="o">))</span> <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="mi">4</span><span class="o">);</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="kt">byte</span><span class="o">[]</span> <span class="n">b</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">byte</span><span class="o">[</span><span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">/</span> <span class="mi">2</span><span class="o">];</span>
-</span><span class='line'>  <span class="kt">int</span> <span class="n">l</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-</span><span class='line'>  <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">();</span> <span class="n">i</span> <span class="o">+=</span> <span class="mi">4</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>      <span class="n">String</span> <span class="n">x</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">4</span><span class="o">);</span>
-</span><span class='line'>      <span class="kt">int</span> <span class="n">i0</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">36</span><span class="o">);</span>
-</span><span class='line'>      <span class="kt">int</span> <span class="n">i1</span> <span class="o">=</span> <span class="o">(</span><span class="n">i0</span> <span class="o">/</span> <span class="mi">256</span><span class="o">);</span>
-</span><span class='line'>      <span class="kt">int</span> <span class="n">i2</span> <span class="o">=</span> <span class="o">(</span><span class="n">i0</span> <span class="o">%</span> <span class="mi">256</span><span class="o">);</span>
-</span><span class='line'>      <span class="n">b</span><span class="o">[</span><span class="n">l</span><span class="o">++]</span> <span class="o">=</span> <span class="o">(</span><span class="kt">byte</span><span class="o">)</span> <span class="o">((</span><span class="n">i1</span> <span class="o">+</span> <span class="n">i2</span> <span class="o">-</span> <span class="mi">254</span><span class="o">)</span> <span class="o">/</span> <span class="mi">2</span><span class="o">);</span>
-</span><span class='line'>  <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">return</span> <span class="k">new</span> <span class="nf">String</span><span class="o">(</span><span class="n">b</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">l</span><span class="o">);</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-
->>>>>>> eadf7510401b6903e88006e2b54dc3cbdc44b994
 <p><strong>Step 2.</strong> Now you should have the password for keystore. The location of keystore should be listed in jetty.xml. Import keys to intermediate PKCS12 format</p>
 
 <pre><code>$ /usr/java/jdk1.6.0_13/bin/keytool -importkeystore -srckeystore $YOUR_PATH_HERE/keystore -destkeystore intermediate.p12 -deststoretype PKCS12
@@ -216,10 +153,7 @@
 </code></pre>
 
 <p><strong>Step 4.</strong> Now you are good to feed wireshark or other preferred tool with RSA key.</p>
-<<<<<<< HEAD
 
-=======
->>>>>>> eadf7510401b6903e88006e2b54dc3cbdc44b994
 </div>
 
 
@@ -249,11 +183,7 @@
     
       <div class="sharing">
   
-<<<<<<< HEAD
   <a href="//twitter.com/share" class="twitter-share-button" data-url="http://dyagilev.org/blog/2013/03/26/how-to-decrypt-jettys-https-tcp-dump/" data-via="" data-counturl="http://dyagilev.org/blog/2013/03/26/how-to-decrypt-jettys-https-tcp-dump/" >Tweet</a>
-=======
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://fe2s.github.io/blog/2013/03/26/how-to-decrypt-jettys-https-tcp-dump/" data-via="" data-counturl="http://fe2s.github.io/blog/2013/03/26/how-to-decrypt-jettys-https-tcp-dump/" >Tweet</a>
->>>>>>> eadf7510401b6903e88006e2b54dc3cbdc44b994
   
   
   
@@ -286,13 +216,10 @@
   <ul id="recent_posts">
     
       <li class="post">
-<<<<<<< HEAD
         <a href="/blog/2015/03/07/Keep-up-with-Spark-Streaming-at-in-memory-speed-using-GigaSpaces-XAP/">Keep up with Spark Streaming at in-memory speed using GigaSpaces XAP</a>
       </li>
     
       <li class="post">
-=======
->>>>>>> eadf7510401b6903e88006e2b54dc3cbdc44b994
         <a href="/blog/2014/09/23/slides-for-my-talk-on-storm-kafka-gigaspaces/">Slides for my talk on Storm, Kafka and GigaSpaces</a>
       </li>
     
@@ -308,13 +235,6 @@
         <a href="/blog/2014/05/13/optimization-trick/">Optimization Trick</a>
       </li>
     
-<<<<<<< HEAD
-=======
-      <li class="post">
-        <a href="/blog/2013/03/26/how-to-decrypt-jettys-https-tcp-dump/">How To Decrypt Jetty's Https Tcp Dump</a>
-      </li>
-    
->>>>>>> eadf7510401b6903e88006e2b54dc3cbdc44b994
   </ul>
 </section>
 
@@ -329,11 +249,7 @@
     </div>
   </div>
   <footer role="contentinfo"><p>
-<<<<<<< HEAD
   Copyright &copy; 2015 - Oleksiy Dyagilev -
-=======
-  Copyright &copy; 2014 - Oleksiy Dyagilev -
->>>>>>> eadf7510401b6903e88006e2b54dc3cbdc44b994
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
@@ -345,13 +261,8 @@
       
         
         // var disqus_developer = 1;
-<<<<<<< HEAD
         var disqus_identifier = 'http://dyagilev.org/blog/2013/03/26/how-to-decrypt-jettys-https-tcp-dump/';
         var disqus_url = 'http://dyagilev.org/blog/2013/03/26/how-to-decrypt-jettys-https-tcp-dump/';
-=======
-        var disqus_identifier = 'http://fe2s.github.io/blog/2013/03/26/how-to-decrypt-jettys-https-tcp-dump/';
-        var disqus_url = 'http://fe2s.github.io/blog/2013/03/26/how-to-decrypt-jettys-https-tcp-dump/';
->>>>>>> eadf7510401b6903e88006e2b54dc3cbdc44b994
         var disqus_script = 'embed.js';
       
     (function () {
