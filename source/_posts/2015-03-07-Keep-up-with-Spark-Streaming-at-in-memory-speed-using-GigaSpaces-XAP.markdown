@@ -3,7 +3,7 @@ layout: post
 title: "Keep up with Spark Streaming at in-memory speed using GigaSpaces XAP"
 date: 2015-03-07 21:33:06 +0200
 comments: true
-categories: 
+categories: spark, GigaSpaces, XAP, streaming
 ---
 
 Spark Streaming is a popular engine for stream processing and its ability to compute data in memory makes it very attractive. However Spark Streaming is not self-sufficient, it relies on external data source and storage to output computation results. Therefore, in many cases the overall performance is limited by slow external components that are not able to keep up with Spark's throughput and/or introduce unacceptable latency. 
