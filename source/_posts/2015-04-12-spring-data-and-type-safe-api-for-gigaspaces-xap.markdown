@@ -23,11 +23,11 @@ Spring Data API with a number of fancy extensions is now available for GigaSpace
 - CRUD and Paging repositories extended with XAP specific features such as projections, change API, lease, take, etc
 - repository for XAP Documents
 - selectively exposing CRUD methods
-- query methods (e.g. findByNameAndAge)
+- query methods (e.g. `findByNameAndAge`)
 - custom methods
 - common query lookup strategies
 - property expressions
-- special parameters handling including Sort and Pageable
+- special parameters handling including `Sort` and `Pageable`
 - native XAP API support
 - seamless integration with all native XAP features - persistence, transcations, event processing, security, indexes, lease, etc
 - ability to work with multiple spaces
