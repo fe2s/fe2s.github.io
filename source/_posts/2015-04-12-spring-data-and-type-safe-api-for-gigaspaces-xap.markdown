@@ -19,7 +19,7 @@ Spring Data API with a number of fancy extensions is now available for GigaSpace
 
 ## Features ##
 
-- Spring configuration support using Java based @Configuration classes or XML namespace, filters support
+- Spring configuration support using Java based `@Configuration` classes or XML namespace, filters support
 - CRUD and Paging repositories extended with XAP specific features such as projections, change API, lease, take, etc
 - repository for XAP Documents
 - selectively exposing CRUD methods
