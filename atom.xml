@@ -4,7 +4,7 @@
   <title><![CDATA[Shady Minds]]></title>
   <link href="http://dyagilev.org/atom.xml" rel="self"/>
   <link href="http://dyagilev.org/"/>
-  <updated>2015-03-08T17:39:35+02:00</updated>
+  <updated>2015-04-12T22:57:37+03:00</updated>
   <id>http://dyagilev.org/</id>
   <author>
     <name><![CDATA[Oleksiy Dyagilev]]></name>
@@ -12,6 +12,51 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Spring Data and type-safe API for GigaSpaces XAP]]></title>
+    <link href="http://dyagilev.org/blog/2015/04/12/spring-data-and-type-safe-api-for-gigaspaces-xap/"/>
+    <updated>2015-04-12T21:21:13+03:00</updated>
+    <id>http://dyagilev.org/blog/2015/04/12/spring-data-and-type-safe-api-for-gigaspaces-xap</id>
+    <content type="html"><![CDATA[<p>Spring Data API with a number of fancy extensions is now available for GigaSpaces XAP. Check it out on <a href="https://github.com/Gigaspaces/xap-spring-data">github</a></p>
+
+<h3 id="motivation">Motivation:</h3>
+
+<ul>
+  <li>make it easy to use in-memory datagrid for those who already have experience with Spring Data APIs such as Spring Data MongoDB, JPA, Redis, etc.</li>
+  <li>significantly reduce the amount of boilerplate code required to implement data access layer</li>
+  <li>reduce the amount of effort in switching from any Spring Data implementation to XAP</li>
+  <li>catch API errors at compile time (type-safe API using QueryDSL)</li>
+</ul>
+
+<!-- more -->
+
+<h2 id="features">Features</h2>
+
+<ul>
+  <li>Spring configuration support using Java based @Configuration classes or XML namespace, filters support</li>
+  <li>CRUD and Paging repositories extended with XAP specific features such as projections, change API, lease, take, etc</li>
+  <li>repository for XAP Documents</li>
+  <li>selectively exposing CRUD methods</li>
+  <li>query methods (e.g. findByNameAndAge)</li>
+  <li>custom methods</li>
+  <li>common query lookup strategies</li>
+  <li>property expressions</li>
+  <li>special parameters handling including Sort and Pageable</li>
+  <li>native XAP API support</li>
+  <li>seamless integration with all native XAP features - persistence, transcations, event processing, security, indexes, lease, etc</li>
+  <li>ability to work with multiple spaces</li>
+  <li>QueryDSL integration to support type-safe API(queries, projection, change API)</li>
+</ul>
+
+<h2 id="getting-started">Getting Started</h2>
+<ul>
+  <li>documentation including 5-mins guide <a href="http://docs.gigaspaces.com/sbp/spring-data.html">http://docs.gigaspaces.com/sbp/spring-data.html</a></li>
+  <li><a href="https://github.com/Gigaspaces/xap-spring-data/tree/master/examples">examples</a> and <a href="https://github.com/Gigaspaces/xap-spring-data">sources</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Keep up with Spark Streaming at in-memory speed using GigaSpaces XAP]]></title>

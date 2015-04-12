@@ -4,7 +4,7 @@
   <title><![CDATA[Category: xap, | Shady Minds]]></title>
   <link href="http://dyagilev.org/blog/categories/xap/atom.xml" rel="self"/>
   <link href="http://dyagilev.org/"/>
-  <updated>2015-03-08T17:39:35+02:00</updated>
+  <updated>2015-04-12T22:57:37+03:00</updated>
   <id>http://dyagilev.org/</id>
   <author>
     <name><![CDATA[Oleksiy Dyagilev]]></name>
@@ -12,6 +12,292 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Spring Data and type-safe API for GigaSpaces XAP]]></title>
+    <link href="http://dyagilev.org/blog/2015/04/12/spring-data-and-type-safe-api-for-gigaspaces-xap/"/>
+    <updated>2015-04-12T21:21:13+03:00</updated>
+    <id>http://dyagilev.org/blog/2015/04/12/spring-data-and-type-safe-api-for-gigaspaces-xap</id>
+    <content type="html"><![CDATA[<p>Spring Data API with a number of fancy extensions is now available for GigaSpaces XAP. Check it out on <a href="https://github.com/Gigaspaces/xap-spring-data">github</a></p>
+
+<h3 id="motivation">Motivation:</h3>
+
+<ul>
+  <li>make it easy to use in-memory datagrid for those who already have experience with Spring Data APIs such as Spring Data MongoDB, JPA, Redis, etc.</li>
+  <li>significantly reduce the amount of boilerplate code required to implement data access layer</li>
+  <li>reduce the amount of effort in switching from any Spring Data implementation to XAP</li>
+  <li>catch API errors at compile time (type-safe API using QueryDSL)</li>
+</ul>
+
+<!-- more -->
+
+<h2 id="features">Features</h2>
+
+<ul>
+  <li>Spring configuration support using Java based @Configuration classes or XML namespace, filters support</li>
+  <li>CRUD and Paging repositories extended with XAP specific features such as projections, change API, lease, take, etc</li>
+  <li>repository for XAP Documents</li>
+  <li>selectively exposing CRUD methods</li>
+  <li>query methods (e.g. findByNameAndAge)</li>
+  <li>custom methods</li>
+  <li>common query lookup strategies</li>
+  <li>property expressions</li>
+  <li>special parameters handling including Sort and Pageable</li>
+  <li>native XAP API support</li>
+  <li>seamless integration with all native XAP features - persistence, transcations, event processing, security, indexes, lease, etc</li>
+  <li>ability to work with multiple spaces</li>
+  <li>QueryDSL integration to support type-safe API(queries, projection, change API)</li>
+</ul>
+
+<h2 id="getting-started">Getting Started</h2>
+<ul>
+  <li>documentation including 5-mins guide <a href="http://docs.gigaspaces.com/sbp/spring-data.html">http://docs.gigaspaces.com/sbp/spring-data.html</a></li>
+  <li><a href="https://github.com/Gigaspaces/xap-spring-data/tree/master/examples">examples</a> and <a href="https://github.com/Gigaspaces/xap-spring-data">sources</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Keep up with Spark Streaming at in-memory speed using GigaSpaces XAP]]></title>
+    <link href="http://dyagilev.org/blog/2015/03/07/Keep-up-with-Spark-Streaming-at-in-memory-speed-using-GigaSpaces-XAP/"/>
+    <updated>2015-03-07T21:33:06+02:00</updated>
+    <id>http://dyagilev.org/blog/2015/03/07/Keep-up-with-Spark-Streaming-at-in-memory-speed-using-GigaSpaces-XAP</id>
+    <content type="html"><![CDATA[<p>Spark Streaming is a popular engine for stream processing and its ability to compute data in memory makes it very attractive. However Spark Streaming is not self-sufficient, it relies on external data source and storage to output computation results. Therefore, in many cases the overall performance is limited by slow external components that are not able to keep up with Spark’s throughput and/or introduce unacceptable latency.</p>
+
+<p>In this article we describe how we use GigaSpaces XAP in-memory datagrid to address this challenge. Code sources are available on <a href="https://github.com/fe2s/xap-spark">github</a></p>
+
+<!-- more -->
+
+<ul id="markdown-toc">
+  <li><a href="#introduction" id="markdown-toc-introduction">Introduction</a></li>
+  <li><a href="#challenge" id="markdown-toc-challenge">Challenge</a></li>
+  <li><a href="#solution" id="markdown-toc-solution">Solution</a>    <ul>
+      <li><a href="#xap-stream" id="markdown-toc-xap-stream">XAP Stream</a></li>
+      <li><a href="#spark-input-dstream" id="markdown-toc-spark-input-dstream">Spark Input DStream</a></li>
+      <li><a href="#output-spark-computation-results-to-xap" id="markdown-toc-output-spark-computation-results-to-xap">Output Spark computation results to XAP</a></li>
+    </ul>
+  </li>
+  <li><a href="#word-counter-demo" id="markdown-toc-word-counter-demo">Word Counter Demo</a>    <ul>
+      <li><a href="#high-level-design" id="markdown-toc-high-level-design">High-level design</a></li>
+      <li><a href="#installing-and-building-the-demo-application" id="markdown-toc-installing-and-building-the-demo-application">Installing and building the Demo application</a></li>
+      <li><a href="#deploying-xap-space-and-web-pu" id="markdown-toc-deploying-xap-space-and-web-pu">Deploying XAP Space and Web PU</a></li>
+      <li><a href="#launch-spark-application" id="markdown-toc-launch-spark-application">Launch Spark Application</a>        <ul>
+          <li><a href="#option-a-run-embedded-spark-cluster" id="markdown-toc-option-a-run-embedded-spark-cluster">Option A. Run embedded Spark cluster</a></li>
+          <li><a href="#option-b-run-spark-standalone-mode-cluster" id="markdown-toc-option-b-run-spark-standalone-mode-cluster">Option B. Run Spark standalone mode cluster</a>            <ul>
+              <li><a href="#run-spark" id="markdown-toc-run-spark">Run Spark</a></li>
+              <li><a href="#submit-application" id="markdown-toc-submit-application">Submit application</a></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li><a href="#launch-feeder-application" id="markdown-toc-launch-feeder-application">Launch Feeder application</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="introduction">Introduction</h1>
+
+<p>Real-time processing is becoming more and more popular. <a href="https://spark.apache.org/streaming/">Spark Streaming</a> is an extension of the core Spark API that allows scalable, high-throughput, fault-tolerant stream processing of live data streams.</p>
+
+<p>Spark Streaming has many use cases: user activity analytics on web, recommendation systems, censor data analytics, fraud detection, sentiment analytics and more.</p>
+
+<p>Data can be ingested to Spark cluster from many sources like HDS, Kafka, Flume, etc and can be processed using complex algorithms expressed with high-level functions like <code>map</code>, <code>reduce</code>, <code>join</code> and <code>window</code>. Finally, processed data can be pushed out to filesystems or databases.</p>
+
+<p><img src="/images/xap-spark/spark-streaming.jpg" /></p>
+
+<h1 id="challenge">Challenge</h1>
+
+<p>Spark cluster keeps intermediate chunks of data (RDD) in memory and, if required, rarely touches HDFS to checkpoint stateful computation, therefore it is able to process huge volumes of data at in-memory speed. However, in many cases the overall performance is limited by slow input and output data sources that are not able to stream and store data with in-memory speed.</p>
+
+<h1 id="solution">Solution</h1>
+
+<p>In this pattern we address performance challenge by integrating Spark Streaming with XAP. XAP is used as a stream data source and a scalable, fast, reliable persistent storage.</p>
+
+<p><img src="/images/xap-spark/high-level.jpg" /></p>
+
+<ol>
+  <li>Producer writes the data to XAP stream</li>
+  <li>Spark worker reads the data from XAP stream and propagates it further for computation</li>
+  <li>Spark saves computation results to XAP datagrid where they can be queried to display on UI</li>
+</ol>
+
+<p>Let’s discuss this in more details.</p>
+
+<h2 id="xap-stream">XAP Stream</h2>
+
+<p>On XAP side we introduce the concept of stream. Please find <code>XAPStream</code> – an implementation that supports writing data in single and batch modes and reading in batch mode. <code>XAPStream</code> leverages XAP’s <code>FIFO</code> (First In, First Out) capabilities.</p>
+
+<p>Here is an example how one can write data to <code>XAPStream</code>. Let’s consider we are building a Word Counter application and would like to write sentences of text to the stream.</p>
+
+<p>At first we create a data model that represents a sentence. Note, that the space class should be annotated with <code>FIFO</code> support.</p>
+
+<p><code>java
+@SpaceClass(fifoSupport = FifoSupport.OPERATION)
+public class Sentence implements Serializable {
+    private String id;
+    private String text;
+    [getters setters omitted for brevity]
+}
+</code>
+&gt; Complete sources of Sentence.java can be found <a href="https://github.com/fe2s/xap-spark/blob/master/word-counter-demo/space-model/src/main/java/com/gigaspaces/spark/streaming/wordcounter/Sentence.java">here</a></p>
+
+<h2 id="spark-input-dstream">Spark Input DStream</h2>
+
+<p>In order to ingest data from XAP to Spark, we implemented a custom <code>ReceiverInputDStream</code> that starts the <code>XAPReceiver</code> on Spark worker nodes to receive the data.</p>
+
+<p><code>XAPReceiver</code> is a stream consumer that reads batches of data in multiple threads in parallel to achieve the maximum throughput.</p>
+
+<p><code>XAPInputDStream</code> can be created using the following function in <code>XAPUtils</code> object.</p>
+
+<p><code>scala
+/**
+   * Creates InputDStream with GigaSpaces XAP used as an external data store
+   *
+   * @param ssc streaming context
+   * @param storageLevel RDD persistence level
+   * @param template template used to match items when reading from XAP stream
+   * @param batchSize number of items to read from
+   * @param readRetryInterval time to wait till the next read attempt if nothing consumed
+   * @param parallelReaders number of parallel readers
+   * @tparam T Class type of the object of this stream
+   * @return Input DStream
+   */
+  def createStream[T &lt;: java.io.Serializable : ClassTag](ssc: StreamingContext, template: T, batchSize:Int, readRetryInterval: Duration = Milliseconds(100), parallelReaders: Int, storageLevel: StorageLevel = MEMORY_AND_DISK_SER){…}
+</code></p>
+
+<p>Here is an example of creating XAP Input stream. At first we set XAP space url in Spark config:</p>
+
+<p><code>scala
+  val sparkConf = new SparkConf()
+      .setAppName("XAPWordCount")
+      .setMaster(config.sparkMaster)
+      .setJars(Seq(config.jarLocation))
+      .set(XAPUtils.SPACE_URL_CONF_KEY, "jini://*/*/space")
+</code></p>
+
+<p>And then we create a stream by merging two parallel sub-streams:</p>
+
+<p><code>scala
+val numStreams = 2
+val streams = (1 to numStreams).map(_ =&gt; XAPUtils.createStream(context, new Sentence(), 50, Milliseconds(100), 4))
+val stream = context.union(streams)
+</code></p>
+
+<p>Once the stream is created, we can apply any Spark functions like <code>map</code>, <code>filter</code>, <code>reduce</code>, <code>transform</code>, etc.</p>
+
+<p>For instance, to compute a word counter of five-letter words over a sliding window, one can do the following:</p>
+
+<p><code>scala
+val words = stream.flatMap(_.getText.split(" ")).filter(_.size == 5)
+val wordCountWindow = words
+      .map((_, 1))
+      .reduceByKeyAndWindow(_ + _, Seconds(5))
+      .map { case (word, count) =&gt; (count, word)}
+      .transform(_.sortByKey(ascending = false))
+</code></p>
+
+<h2 id="output-spark-computation-results-to-xap">Output Spark computation results to XAP</h2>
+
+<p>Output operations allow the <code>DStream</code>’s data to be pushed out to external systems. Please refer to <a href="https://spark.apache.org/docs/1.1.0/streaming-programming-guide.html#output-operations-on-dstreams">Spark documentation</a> for the details.</p>
+
+<p>To minimize the cost of creating XAP connection for each <code>RDD</code>, we created a connection pool named <code>GigaSpaceFactory</code>. Here is an example how to output <code>RDD</code> to XAP:</p>
+
+<p><code>scala
+wordCountWindow.foreachRDD(rdd =&gt; {
+      val gigaSpace = GigaSpaceFactory.getOrCreate(config.spaceUrl)
+      val topList = rdd.take(10).map { case (count, word) =&gt; new WordCount(word, count)}
+      gigaSpace.write(new TopWordCounts(topList))
+})
+</code></p>
+
+<blockquote>
+  <p>Please, note that in this example a XAP connection is created and data is written from Spark driver. In some cases, one may want to write data from the Spark worker. Please, refer to Spark documentation - it explains different design patterns using <code>foreachRDD</code>.</p>
+</blockquote>
+
+<h1 id="word-counter-demo">Word Counter Demo</h1>
+
+<p>As a part of this integration pattern, we demonstrate how to build an application that consumes live stream of text and displays top 10 five-letter words over a sliding window in real-time. The user interface consists of a simple single page web application displaying a table of top 10 words and a word cloud. The data on UI is updated every second.</p>
+
+<p><img src="/images/xap-spark/spark-word-counter.jpg" /></p>
+
+<h2 id="high-level-design">High-level design</h2>
+
+<p>The high-level design diagram of the Word Counter Demo is below:</p>
+
+<p><img src="/images/xap-spark/example.jpg" /></p>
+
+<ol>
+  <li>Feeder is a standalone scala application that reads book from text file in a cycle and writes lines to XAP Stream.</li>
+  <li>Stream is consumed by the Spark cluster which performs all necessary computing.</li>
+  <li>Computation results are stored in the XAP space.</li>
+  <li>End user is browsing the web page hosted in a Web PU that continuously updates dashboard with AJAX requests backed by the rest service.</li>
+</ol>
+
+<h2 id="installing-and-building-the-demo-application">Installing and building the Demo application</h2>
+
+<ol>
+  <li>Download <a href="http://www.gigaspaces.com/LatestProductVersion">XAP</a></li>
+  <li><a href="http://docs.gigaspaces.com/xap100/installation.html">Install XAP</a></li>
+  <li>Install Maven and the <a href="http://docs.gigaspaces.com/xap100/maven-plugin.html">XAP Maven plug-in</a></li>
+  <li>Download the application <a href="https://github.com/fe2s/xap-spark">source code</a></li>
+  <li>Build a project by running <code>mvn clean install</code></li>
+</ol>
+
+<h2 id="deploying-xap-space-and-web-pu">Deploying XAP Space and Web PU</h2>
+
+<ol>
+  <li>Set the XAP lookup group to <code>spark</code> by adding <code>export LOOKUPGROUPS=spark</code> line to <code>&lt;XAP_HOME&gt;/bin/setenv.sh/bat</code></li>
+  <li>Start a Grid Service Agent by running the <code>gs-agent.sh/bat</code> script</li>
+  <li>Deploy a space by running <code>mvn os:deploy -Dgroups=spark</code> from <code>&lt;project_root&gt;/word-counter-demo</code> directory</li>
+</ol>
+
+<h2 id="launch-spark-application">Launch Spark Application</h2>
+
+<h3 id="option-a-run-embedded-spark-cluster">Option A. Run embedded Spark cluster</h3>
+
+<p>This is the simplest option that doesn’t require downloading and installing Spark distributive, which is useful for the development purposes. Spark runs in the embedded mode with as many worker threads as logical cores on your machine.</p>
+
+<ol>
+  <li>Navigate to the <code>&lt;project_root&gt;/word-counter-demo/spark/target</code> directory</li>
+  <li>Run the following command <code>java -jar spark-wordcounter.jar -s jini://*/*/space?groups=spark -m local[*]</code></li>
+</ol>
+
+<h3 id="option-b-run-spark-standalone-mode-cluster">Option B. Run Spark standalone mode cluster</h3>
+
+<p>In this option Spark runs a cluster in the standalone mode (as an alternative to running on a Mesos or YARN cluster managers).</p>
+
+<h4 id="run-spark">Run Spark</h4>
+
+<ol>
+  <li>Download Spark (tested with Spark 1.2.1 pre-built with Hadoop 2.4)</li>
+  <li>Follow <a href="http://spark.apache.org/docs/1.2.0/spark-standalone.html">instructions</a> to run a master and 2 workers. Here is an example of commands with hostname <code>fe2s</code> (remember to substitute it with yours)
+<code>
+./sbin/start-master.sh
+./bin/spark-class org.apache.spark.deploy.worker.Worker spark://fe2s:7077
+./bin/spark-class org.apache.spark.deploy.worker.Worker spark://fe2s:7077
+</code></li>
+</ol>
+
+<h4 id="submit-application">Submit application</h4>
+
+<ol>
+  <li>Submit an application to Spark (in this example driver runs locally)</li>
+  <li>Navigate to the <code>&lt;project_root&gt;/word-counter-demo/spark/target</code> directory</li>
+  <li>Run <code>java -jar spark-wordcounter.jar -s jini://*/*/space?groups=spark -m spark://fe2s:7077 -j ./spark-wordcounter.jar</code></li>
+  <li>Spark web console should be available at <a href="http://fe2s:8080">http://fe2s:8080</a></li>
+</ol>
+
+<h2 id="launch-feeder-application">Launch Feeder application</h2>
+
+<ol>
+  <li>Navigate to <code>&lt;project_root&gt;/word-counter-demo/feeder/target</code></li>
+  <li>Run <code>java -jar feeder.jar -g spark -n 500</code></li>
+</ol>
+
+<p>At this point all components should be up and running. The application is available at <a href="http://localhost:8090/web/">http://localhost:8090/web/</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[GigaSpaces and Storm integration]]></title>

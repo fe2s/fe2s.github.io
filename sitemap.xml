@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://dyagilev.org/blog/2015/04/12/spring-data-and-type-safe-api-for-gigaspaces-xap/</loc>
+    <lastmod>2015-04-12T21:21:13+03:00</lastmod>
+  </url>
+  <url>
     <loc>http://dyagilev.org/blog/2015/03/07/Keep-up-with-Spark-Streaming-at-in-memory-speed-using-GigaSpaces-XAP/</loc>
     <lastmod>2015-03-07T21:33:06+02:00</lastmod>
   </url>
@@ -42,10 +46,10 @@
   </url>
   <url>
     <loc>http://dyagilev.org/blog/archives/</loc>
-    <lastmod>2015-03-08T17:39:35+02:00</lastmod>
+    <lastmod>2015-04-12T22:57:37+03:00</lastmod>
   </url>
   <url>
     <loc>http://dyagilev.org/</loc>
-    <lastmod>2015-03-08T17:39:35+02:00</lastmod>
+    <lastmod>2015-04-12T22:57:37+03:00</lastmod>
   </url>
 </urlset>
