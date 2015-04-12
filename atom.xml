@@ -4,7 +4,7 @@
   <title><![CDATA[Shady Minds]]></title>
   <link href="http://dyagilev.org/atom.xml" rel="self"/>
   <link href="http://dyagilev.org/"/>
-  <updated>2015-04-12T22:57:37+03:00</updated>
+  <updated>2015-04-12T23:13:47+03:00</updated>
   <id>http://dyagilev.org/</id>
   <author>
     <name><![CDATA[Oleksiy Dyagilev]]></name>
@@ -38,11 +38,11 @@
   <li>CRUD and Paging repositories extended with XAP specific features such as projections, change API, lease, take, etc</li>
   <li>repository for XAP Documents</li>
   <li>selectively exposing CRUD methods</li>
-  <li>query methods (e.g. findByNameAndAge)</li>
+  <li>query methods (e.g. <code>findByNameAndAge</code>)</li>
   <li>custom methods</li>
   <li>common query lookup strategies</li>
   <li>property expressions</li>
-  <li>special parameters handling including Sort and Pageable</li>
+  <li>special parameters handling including <code>Sort</code> and <code>Pageable</code></li>
   <li>native XAP API support</li>
   <li>seamless integration with all native XAP features - persistence, transcations, event processing, security, indexes, lease, etc</li>
   <li>ability to work with multiple spaces</li>
