@@ -4,7 +4,7 @@
   <title><![CDATA[Category: xap, | Shady Minds]]></title>
   <link href="http://dyagilev.org/blog/categories/xap/atom.xml" rel="self"/>
   <link href="http://dyagilev.org/"/>
-  <updated>2015-04-12T23:17:55+03:00</updated>
+  <updated>2015-05-15T20:45:45+03:00</updated>
   <id>http://dyagilev.org/</id>
   <author>
     <name><![CDATA[Oleksiy Dyagilev]]></name>
@@ -18,7 +18,7 @@
     <link href="http://dyagilev.org/blog/2015/04/12/spring-data-and-type-safe-api-for-gigaspaces-xap/"/>
     <updated>2015-04-12T21:21:13+03:00</updated>
     <id>http://dyagilev.org/blog/2015/04/12/spring-data-and-type-safe-api-for-gigaspaces-xap</id>
-    <content type="html"><![CDATA[<p>Spring Data API with a number of fancy extensions is now available for GigaSpaces XAP. Check it out on <a href="https://github.com/Gigaspaces/xap-spring-data">github</a></p>
+    <content type="html"><![CDATA[<p>We have developed Spring Data API for GigaSpaces XAP with a number of fancy extensions. Check it out on <a href="https://github.com/Gigaspaces/xap-spring-data">github</a></p>
 
 <h3 id="motivation">Motivation:</h3>
 
