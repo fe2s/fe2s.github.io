@@ -6,7 +6,7 @@ comments: true
 categories: GigaSpaces, XAP, Spring
 ---
 
-Spring Data API with a number of fancy extensions is now available for GigaSpaces XAP. Check it out on [github](https://github.com/Gigaspaces/xap-spring-data)     
+We have developed Spring Data API for GigaSpaces XAP with a number of fancy extensions. Check it out on [github](https://github.com/Gigaspaces/xap-spring-data)     
 
 ### Motivation: ###
 
