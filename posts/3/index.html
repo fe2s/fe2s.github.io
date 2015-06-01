@@ -9,7 +9,7 @@
   <meta name="author" content="Oleksiy Dyagilev">
 
   
-  <meta name="description" content="This blog is my shady nook to write some random thoughts on computer science and related topics. ">
+  <meta name="description" content="An idea of feature I would love to see in code review and diff/merge tools. Consider you are reviewing code changes or making 3-way merge where among &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -50,7 +50,7 @@
   <header role="banner"><hgroup>
   <h1><a href="/">Shady Minds</a></h1>
   
-    <h2>on computer science and related ..</h2>
+    <h2>Oleksiy Dyagilev on computer science and related ..</h2>
   
 </hgroup>
 
@@ -77,6 +77,43 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/21/code-refactoring-detection/">Code Refactoring Detection</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2012-03-21T14:13:35+02:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2012</span></span> <span class='time'>2:13 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>An idea of feature I would love to see in code review and diff/merge tools.</p>
+
+<p>Consider you are reviewing code changes or making 3-way merge where among various things a name of some method has changed. Personally I don’t want to go through tens of files and check that all usages of method changed accordingly.</p>
+
+<p>I would like to see it in more declarative way. One phrase saying ‘method <code>Foo.bar()</code> has changed to <code>Foo.bar2()</code>’ would be enough. Imagine you could accept this particular change and now tool ignores it making the whole picture clearer.</p>
+
+<p>Say for  static object-oriented languages I can imagine a number of refactoring types  where this could be useful - method extract, all kind of renames, replacing inheritance with delegation, replacing constructor with factory methods and so on.</p>
+
+<p>How difficult would it be to implement semantic aware diff on top of Intellij IDEA ?</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -123,6 +160,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/06/01/distributed-configuration-for-saas-application/">Distributed Configuration for SaaS application</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/04/12/spring-data-and-type-safe-api-for-gigaspaces-xap/">Spring Data and type-safe API for GigaSpaces XAP</a>
       </li>
     
@@ -136,10 +177,6 @@
     
       <li class="post">
         <a href="/blog/2014/08/21/gigaspaces-storm/">GigaSpaces and Storm integration</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/05/14/xap-kafka/">GigaSpaces with Kafka</a>
       </li>
     
   </ul>
