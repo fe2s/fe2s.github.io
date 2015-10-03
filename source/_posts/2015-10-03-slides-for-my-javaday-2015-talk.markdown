@@ -6,7 +6,7 @@ comments: true
 categories: JavaDay slides Monad Monoid
 ---
 
-Slides for my [JavaDay 2015](http://javaday.org.ua/) talk
+Slides for my [JavaDay 2015](http://javaday.org.ua/) talk ...
 
 <!-- more -->
 
