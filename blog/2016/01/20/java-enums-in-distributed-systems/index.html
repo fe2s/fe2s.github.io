@@ -1,0 +1,264 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Java enums in distributed systems - Shady Minds</title>
+  <meta name="author" content="Oleksiy Dyagilev">
+
+  
+  <meta name="description" content="Did you ever think about how hashCode() of java.lang.Enum implemented? Surprisingly or not it’s 1
+2
+3
+public final int hashCode() { return super. &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://dyagilev.org/blog/2016/01/20/java-enums-in-distributed-systems">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Shady Minds" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-30316607-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Shady Minds</a></h1>
+  
+    <h2>Oleksiy Dyagilev on computer science and related ..</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:dyagilev.org" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Java enums in distributed systems</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-01-20T23:01:20+02:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>11:01 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Did you ever think about how <code>hashCode()</code> of <code>java.lang.Enum</code> implemented?</p>
+
+<!-- more -->
+
+<p>Surprisingly or not it’s</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="java"><span class="line"><span class="kd">public</span> <span class="kd">final</span> <span class="kt">int</span> <span class="nf">hashCode</span><span class="o">()</span> <span class="o">{</span>
+</span><span class="line">  <span class="k">return</span> <span class="kd">super</span><span class="o">.</span><span class="na">hashCode</span><span class="o">();</span>
+</span><span class="line"><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>it returns the <code>Object</code>’s <code>hashCode</code> which is an internal address of the object to a certain extend. From the first glance it totally makes sense since <code>Enum</code> values are singletons.</p>
+
+<p>Now imagine you are building distributed system. Distributed systems use <code>hashCode</code> to</p>
+
+<ul>
+  <li>determine which worker in a cluster should handle part of a huge job</li>
+  <li>determine which node in a cluster should store given item of dataset (e.g. in distributed cache)</li>
+</ul>
+
+<p>The same <code>Enum</code> instance would give you a different <code>hashCode</code> value in different JVMs/hosts, screwing up your Hadoop job or put/lookup in distributed storage. Just something I faced recently.</p>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Oleksiy Dyagilev</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-01-20T23:01:20+02:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>11:01 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/distributed/'>distributed</a>, <a class='category' href='/blog/categories/enum/'>enum</a>, <a class='category' href='/blog/categories/java/'>java</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://dyagilev.org/blog/2016/01/20/java-enums-in-distributed-systems/" data-via="" data-counturl="http://dyagilev.org/blog/2016/01/20/java-enums-in-distributed-systems/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/10/03/slides-for-my-javaday-2015-talk/" title="Previous Post: Slides for my JavaDay 2015 talk">&laquo; Slides for my JavaDay 2015 talk</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/01/20/java-enums-in-distributed-systems/">Java enums in distributed systems</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/10/03/slides-for-my-javaday-2015-talk/">Slides for my JavaDay 2015 talk</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/10/resilient-distributed-systems-with-netflix-hystrix/">Resilient distributed systems with Netflix Hystrix</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/15/understanding-parser-combinators-in-scala/">Understanding Parser Combinators in Scala</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/06/01/distributed-configuration-for-saas-application/">Distributed Configuration for SaaS application</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Oleksiy Dyagilev -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'dyagilev';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://dyagilev.org/blog/2016/01/20/java-enums-in-distributed-systems/';
+        var disqus_url = 'http://dyagilev.org/blog/2016/01/20/java-enums-in-distributed-systems/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
