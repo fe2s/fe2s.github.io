@@ -9,7 +9,7 @@
   <meta name="author" content="Oleksiy Dyagilev">
 
   
-  <meta name="description" content="We have developed Spring Data API for GigaSpaces XAP with a number of fancy extensions. Check it out on github Motivation: make it easy to use in- &hellip;">
+  <meta name="description" content="Recently I was involved into discussion of SaaS application design. One of the questions was how to manage configuration in large scale SaaS. The &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,40 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/06/01/distributed-configuration-for-saas-application/">Distributed Configuration for SaaS application</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-01T21:36:36+03:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>9:36 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Recently I was involved into discussion of SaaS application design. One of the questions was how to manage configuration in large scale SaaS. The rise of clouds, microservices and container virtualization influence approaches used in configuration management.  In this article we will look what we can learn from these concepts and how we can apply these lessons in SaaS and other generic distributed systems. In the second part of the article, we will build a PoC of elastic tenant aware application leveraging <a href="http://zookeeper.apache.org/">Zookeeper</a> with 200 lines in Scala.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/06/01/distributed-configuration-for-saas-application/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -230,42 +264,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/05/14/xap-kafka/">GigaSpaces with Kafka</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2014-05-14T16:46:56+03:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>4:46 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://kafka.apache.org/">Apache Kafka</a> is a distributed publish-subscribe messaging system. It is designed to support persistent messaging with a O(1) disk structures that provides constant time performance even with many TB of stored messages. Apache Kafka provides High-throughput even with very modest hardware, Kafka can support hundreds of thousands of messages per second. Apache Kafka supports partitioning the messages over Kafka servers and distributing consumption over a cluster of consumer machines while maintaining per-partition ordering semantics. Many times Apache Kafka is used to perform parallel data load into Hadoop.</p>
-
-<p>This pattern integrates <a href="http://www.gigaspaces.com/">GigaSpaces</a> with Apache Kafka. GigaSpaces’ write-behind IMDG operations to Kafka making it available for the subscribers. Such could be Hadoop or other data warehousing systems using the data for reporting and processing. Sources are available on <a href="https://github.com/fe2s/xap-kafka">github</a></p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2014/05/14/xap-kafka/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/3">&larr; Older</a>
@@ -283,6 +281,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/05/30/scalable-machine-learning-with-insightedge-mobile-advertisement-clicks-prediction/">Scalable machine learning with InsightEdge: mobile advertisement clicks prediction</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/01/20/java-enums-in-distributed-systems/">Java enums in distributed systems</a>
       </li>
     
@@ -296,10 +298,6 @@
     
       <li class="post">
         <a href="/blog/2015/07/15/understanding-parser-combinators-in-scala/">Understanding Parser Combinators in Scala</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/06/01/distributed-configuration-for-saas-application/">Distributed Configuration for SaaS application</a>
       </li>
     
   </ul>

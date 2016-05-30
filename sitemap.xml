@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://dyagilev.org/blog/2016/05/30/scalable-machine-learning-with-insightedge-mobile-advertisement-clicks-prediction/</loc>
+    <lastmod>2016-05-30T20:34:42+03:00</lastmod>
+  </url>
+  <url>
     <loc>http://dyagilev.org/blog/2016/01/20/java-enums-in-distributed-systems/</loc>
     <lastmod>2016-01-20T23:01:20+02:00</lastmod>
   </url>
@@ -66,10 +70,10 @@
   </url>
   <url>
     <loc>http://dyagilev.org/blog/archives/</loc>
-    <lastmod>2016-05-30T20:30:29+03:00</lastmod>
+    <lastmod>2016-05-30T20:52:40+03:00</lastmod>
   </url>
   <url>
     <loc>http://dyagilev.org/</loc>
-    <lastmod>2016-05-30T20:30:29+03:00</lastmod>
+    <lastmod>2016-05-30T20:52:40+03:00</lastmod>
   </url>
 </urlset>
