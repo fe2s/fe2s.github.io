@@ -4,7 +4,7 @@
   <title><![CDATA[Category: machine | Shady Minds]]></title>
   <link href="http://dyagilev.org/blog/categories/machine/atom.xml" rel="self"/>
   <link href="http://dyagilev.org/"/>
-  <updated>2016-05-30T20:52:40+03:00</updated>
+  <updated>2016-06-11T14:57:12+03:00</updated>
   <id>http://dyagilev.org/</id>
   <author>
     <name><![CDATA[Oleksiy Dyagilev]]></name>
@@ -18,7 +18,7 @@
     <link href="http://dyagilev.org/blog/2016/05/30/scalable-machine-learning-with-insightedge-mobile-advertisement-clicks-prediction/"/>
     <updated>2016-05-30T20:34:42+03:00</updated>
     <id>http://dyagilev.org/blog/2016/05/30/scalable-machine-learning-with-insightedge-mobile-advertisement-clicks-prediction</id>
-    <content type="html"><![CDATA[<p>In this blog post we will look how to use machine learning algorithms with InsightEdge. For this purpose we will predict mobile advertisement click-through rate with the <a href="https://www.kaggle.com/c/avazu-ctr-prediction">Avazu’s dataset</a>.</p>
+    <content type="html"><![CDATA[<p>This blog post will provide an introduction into using machine learning algorithms with <a href="http://insightedge.io/">InsightEdge</a>. We will go through an exercise to predict mobile advertisement click-through rate with <a href="https://www.kaggle.com/c/avazu-ctr-prediction">Avazu’s dataset</a>.</p>
 
 <!-- more -->
 
@@ -40,7 +40,7 @@
 <p>There are several compensation models in online advertising industry, probably the most notable is CPC (Cost Per Click), in which an advertiser pays a publisher when the ad is clicked.
 Search engine advertising is one of the most popular forms of CPC. It allows advertisers to bid for ad placement in a search engine’s sponsored links when someone searches on a keyword that is related to their business offering.</p>
 
-<p>For the search engines, like Google, advertising became the key source of their revenue. The challenge for the advertising system is to determine what ad should be displayed for each query search engine receives.</p>
+<p>For the search engines like Google, advertising is one of the main sources of their revenue. The challenge for the advertising system is to determine what ad should be displayed for each query that the search engine receives.</p>
 
 <p>The revenue search engine can get is essentially:</p>
 
@@ -48,10 +48,9 @@ Search engine advertising is one of the most popular forms of CPC. It allows adv
 
 <p>The goal is to maximize the revenue for every search engine query. Whereis the <code>bid</code> is a known value, the <code>probability_of_click</code> is not. Thus predicting the probability of click becomes the key task.</p>
 
-<p>Working on machine learning problem involves a lot of experiments with feature selection, feature transformation, training different models and tuning parameters.
-While there are a few excellent machine learning libraries for Python and R like scikit-learn, their capabilities are typically limited to relatively small datasets that you can fit into a single machine.</p>
+<p>Working on a machine learning problem involves a lot of experiments with feature selection, feature transformation, training different models and tuning parameters.While there are a few excellent machine learning libraries for Python and R, like scikit-learn, their capabilities are typically limited to relatively small datasets that you fit on a single machine.</p>
 
-<p>With the large datasets and/or CPU intensive workloads you may want to scale out beyond a single machine. And this is not a problem for InsightEdge at all, since it can scale the computation and data storage layers across many machines in the cluster.</p>
+<p>With the large datasets and/or CPU intensive workloads you may want to scale out beyond a single machine. This is one of the key benefits of InsightEdge, since it’s able to scale the computation and data storage layers across many machines under one unified cluster.</p>
 
 <h2 id="loading-the-data">Loading the data</h2>
 
