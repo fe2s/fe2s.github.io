@@ -6,7 +6,7 @@ comments: true
 categories: InsightEdge, Spark, Machine Learning
 ---
 
-In this blog post we will look how to use machine learning algorithms with InsightEdge. For this purpose we will predict mobile advertisement click-through rate with the [Avazu's dataset](https://www.kaggle.com/c/avazu-ctr-prediction).
+This blog post will provide an introduction into using machine learning algorithms with [InsightEdge](http://insightedge.io/). We will go through an exercise to predict mobile advertisement click-through rate with [Avazu's dataset](https://www.kaggle.com/c/avazu-ctr-prediction).
 
 
 <!-- more -->
@@ -17,9 +17,9 @@ In this blog post we will look how to use machine learning algorithms with Insig
 ## Overview
 
 There are several compensation models in online advertising industry, probably the most notable is CPC (Cost Per Click), in which an advertiser pays a publisher when the ad is clicked.
-Search engine advertising is one of the most popular forms of CPC. It allows advertisers to bid for ad placement in a search engine's sponsored links when someone searches on a keyword that is related to their business offering.
+Search engine advertising is one of the most popular forms of CPC. It allows advertisers to bid for ad placement in a search engine’s sponsored links when someone searches on a keyword that is related to their business offering.
 
-For the search engines, like Google, advertising became the key source of their revenue. The challenge for the advertising system is to determine what ad should be displayed for each query search engine receives.
+For the search engines like Google, advertising is one of the main sources of their revenue. The challenge for the advertising system is to determine what ad should be displayed for each query that the search engine receives.
 
 The revenue search engine can get is essentially:
 
@@ -27,10 +27,9 @@ The revenue search engine can get is essentially:
 
 The goal is to maximize the revenue for every search engine query. Whereis the `bid` is a known value, the `probability_of_click` is not. Thus predicting the probability of click becomes the key task.
 
-Working on machine learning problem involves a lot of experiments with feature selection, feature transformation, training different models and tuning parameters.
-While there are a few excellent machine learning libraries for Python and R like scikit-learn, their capabilities are typically limited to relatively small datasets that you can fit into a single machine.
+Working on a machine learning problem involves a lot of experiments with feature selection, feature transformation, training different models and tuning parameters.While there are a few excellent machine learning libraries for Python and R, like scikit-learn, their capabilities are typically limited to relatively small datasets that you fit on a single machine.
 
-With the large datasets and/or CPU intensive workloads you may want to scale out beyond a single machine. And this is not a problem for InsightEdge at all, since it can scale the computation and data storage layers across many machines in the cluster.
+With the large datasets and/or CPU intensive workloads you may want to scale out beyond a single machine. This is one of the key benefits of InsightEdge, since it’s able to scale the computation and data storage layers across many machines under one unified cluster.
 
 ## Loading the data
 
@@ -46,7 +45,7 @@ Though for the big datasets or compute-intensive tasks the resources of a single
 
 For this problem we will [setup a cluster](http://insightedge.io/docs/010/13_cluster_setup.html) with four workers and place the downloaded files on HDFS.
 
-![Alt cluster](img/0_cluster.png?raw=true "Cluster")
+<img src="{{ root_url }}/images/ie-ml/0_cluster.png" />
 
 Let's open the interactive [Web Notebook](http://insightedge.io/docs/010/14_notebook.html) and start exploring our dataset.
 
@@ -153,11 +152,11 @@ and run the SQL query:
 SELECT device_conn_type, SUM(click) as clicks_num, COUNT(click) as impression, SUM(click)/COUNT(click) as ctr
 FROM training
 GROUP BY device_conn_type
-````
+```
 
-![Alt](img/6_device_conn_type.png?raw=true "device_conn_type")
+<img src="{{ root_url }}/images/ie-ml/6_device_conn_type.png" />
 
-![Alt](img/7_device_conn_type_2.png?raw=true "device_conn_type")
+<img src="{{ root_url }}/images/ie-ml/7_device_conn_type_2.png" />
 
 We see that there are four connection type categories. Two categories with CTR 18% and 13%, and the first one is almost 90% of the whole dataset. The other two categories have significantly lower CTR.
 
@@ -171,7 +170,7 @@ GROUP BY C15, C16
 ORDER BY ctr DESC
 ```
 
-![Alt](img/11_banner_dimension.png?raw=true "banner dimension")
+<img src="{{ root_url }}/images/ie-ml/11_banner_dimension.png" />
 
 We can notice some correlation between the ad size and its performance. The most common one appears to be 320x50px known as "mobile leaderboard" in [Google AdSense](https://support.google.com/adsense/answer/68727?hl=en).
 
@@ -451,12 +450,12 @@ val assembledDf = new VectorAssembler()
 The results are the following:
 
 * with additionally included `device_type`: AUROC = 0.531015564807053
-* + `time_day` and `time_hour`: AUROC = 0.5555488992624483
-* + `C15`, `C16`, `C17`, `C18`, `C19`, `C20`, `C21`: AUROC = 0.7000630113145946
+* `+` `time_day` and `time_hour`: AUROC = 0.5555488992624483
+* `+` `C15`, `C16`, `C17`, `C18`, `C19`, `C20`, `C21`: AUROC = 0.7000630113145946
 
 You can notice how the AUROC is being improved as we add more and more features. This comes with the cost of the training time:
 
-![Alt](img/13_application_time.png?raw=true "application time")
+<img src="{{ root_url }}/images/ie-ml/13_application_time.png" />
 
 We didn't include high-cardinality features such as `device_ip` and `device_id` as they will blow up the feature vector size. One may consider applying techniques such as feature hashing
 to reduce the dimension. We will leave it out of this blog post's scope.
@@ -546,7 +545,7 @@ The future improvements are only limited by data science skills and creativity. 
 
 The following diagram demonstrates the design of machine learning application with InsightEdge.
 
-![Alt Arch](img/arch.png?raw=true "Arch")
+<img src="{{ root_url }}/images/ie-ml/arch.png" />
 
 The key design advantages are:
 
