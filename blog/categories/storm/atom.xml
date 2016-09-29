@@ -4,7 +4,7 @@
   <title><![CDATA[Category: storm, | Shady Minds]]></title>
   <link href="http://dyagilev.org/blog/categories/storm/atom.xml" rel="self"/>
   <link href="http://dyagilev.org/"/>
-  <updated>2016-06-11T14:57:12+03:00</updated>
+  <updated>2016-09-29T16:47:33+03:00</updated>
   <id>http://dyagilev.org/</id>
   <author>
     <name><![CDATA[Oleksiy Dyagilev]]></name>
@@ -131,11 +131,11 @@ public class PageViewSpout extends XAPSimpleSpout&lt;PageView&gt; {
 <p>To create a spout, we have to specify how we want our space class be converted to Storm tuple. That is exactly what <code>TupleConverter</code> knows about.</p>
 
 <p>&#8220;`java
-class PageViewTupleConverter implements TupleConverter<pageview> {
+class PageViewTupleConverter implements TupleConverter<PageView> {
     @Override
     public Fields tupleFields() {
         return new Fields(&#8220;page&#8221;, &#8220;session&#8221;);
-    }</pageview></p>
+    }</PageView></p>
 
 <pre><code>@Override
 public List&lt;Object&gt; spaceObjectToTuple(PageView pageView) {

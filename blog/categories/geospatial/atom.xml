@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: geospatial | Shady Minds]]></title>
+  <link href="http://dyagilev.org/blog/categories/geospatial/atom.xml" rel="self"/>
+  <link href="http://dyagilev.org/"/>
+  <updated>2016-09-29T16:47:33+03:00</updated>
+  <id>http://dyagilev.org/</id>
+  <author>
+    <name><![CDATA[Oleksiy Dyagilev]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Real-time Spatial Analytics with InsightEdge Spark: Taxi Price Surge Use Case]]></title>
+    <link href="http://dyagilev.org/blog/2016/09/29/real-time-spatial-analytics-with-insightedge-spark-taxi-price-surge-use-case/"/>
+    <updated>2016-09-29T16:35:41+03:00</updated>
+    <id>http://dyagilev.org/blog/2016/09/29/real-time-spatial-analytics-with-insightedge-spark-taxi-price-surge-use-case</id>
+    <content type="html"><![CDATA[<p>A couple of weeks ago we <a href="http://insightedge.io/blog/insightedge-1-0-ga-real-time-insights-actionable-analytics/">launched InsightEdge</a>, introducing you to our high performance Spark distribution with enterprise-grade OLTP capabilities. In this blog post, we will create a demo application for a taxi price surge use case that runs real-time analytics on a streaming geospatial data.</p>
+
+<!-- more -->
+
+<p>We take a fundamental supply and demand economic model of price determination in a market. We will then compute price in real-time based on the current supply and demand.</p>
+
+<p>To make our demo even more fun, we will create a taxi price surge use case. We will consider the transportation business domain, and taxi companies like Uber or Lyft in particular.</p>
+
+<p>In taxi services, the order requests and available drivers represent the supply and demand data correspondingly. It is interesting that this data is bound to geographical location, which introduces additional complexity. Comparing to business areas like retail, where the product demand is linked to either offline store or a well known list of warehouses, the order requests are geographically distributed.</p>
+
+<p>With services like Uber, the fare rates automatically increase when the taxi demand is higher than drivers around you. The Uber prices are surging to ensure reliability and availability for those who agree to pay a bit more.</p>
+
+<h2 id="taxi-price-surge-use-case--3-key-architectural-questions">Taxi Price Surge Use Case – 3 Key Architectural Questions</h2>
+
+<ul>
+  <li>How do we handle the events like an ‘Order Request’ event or a ‘Pickup’ event?</li>
+  <li>How do we compute the price accounting the nearby requests? We will need to find an efficient way to execute geospatial queries.</li>
+  <li>How can we scale technology to run business in many cities, states or countries?</li>
+</ul>
+
+<h2 id="architecture">Architecture</h2>
+
+<p>The following diagram illustrates the application architecture:</p>
+
+<p><img src="/images/ie-geospatial/geo-demo-arch-diagram.jpg" /></p>
+
+<h2 id="how-does-this-architecture-addresses-our-3-key-questions">How Does this Architecture Addresses Our 3 Key Questions?</h2>
+
+<p>With InsightEdge Geospatial API we are able to efficiently find nearby orders and, therefore, minimize the time required to compute the price. The efficiency comes from the ability to index order request location in the datagrid.</p>
+
+<p>Kafka allows to handle a high throughput of incoming raw events. Even if the computation layer starts processing slower(say during the peak hour), all the events will be reliably buffered in Kafka. The seamless and proven integration with Spark makes it a good choice for streaming applications.</p>
+
+<p>InsightEdge Data Grid also plays a role of a serving layer handling any operational/transactional queries from web/mobile apps.</p>
+
+<p>All the components(Kafka and InsightEdge) can scale out almost linearly;</p>
+
+<p>To scale to many cities, we can leverage data locality principle through a full pipeline (Kafka, Spark, Data Grid) partitioning by the <code>city</code> or even with a more granular geographical units of scale. In this case the geospatial search query will be limited to a single Data Grid partition. We leave this enhancement out of the scope of the demo.</p>
+
+<h2 id="building-a-demo-application-for-a-taxi-price-surge-use-case">Building a Demo Application for a Taxi Price Surge Use Case</h2>
+
+<p>To simulate the taxi orders we took a <a href="https://github.com/fivethirtyeight/uber-tlc-foil-response">csv dataset</a> with Uber pickups in New York City. The demo application consists of following components:</p>
+
+<ul>
+  <li>Feeder application, reads the csv file and sends order and pickup events to Kafka</li>
+  <li>InsightEdge processing, a Spark Streaming application that reads from Kafka, computes price and saves to datagrid</li>
+  <li>Web app, reads orders from datagrid and visualizes them on a map</li>
+</ul>
+
+<p><img src="/images/ie-geospatial/demo_screenshot.jpg" /></p>
+
+<h2 id="coding-processing-logic-with-insightedge-api">Coding Processing Logic with InsightEdge API</h2>
+
+<p>Let’s see how InsightEdge API can be used to calculate the price:</p>
+
+<p>&#8220;`scala
+val ordersStream = initKafkaStream(ssc, “orders”) // step 1</p>
+
+<p>ordersStream
+  .map(message =&gt; Json.parse(message).as[OrderEvent]) // step 2
+  .transform { rdd =&gt;  // step 3
+    val query = “location spatial:within ? AND status = ?”
+    val radius = 0.5 * DistanceUtils.KM_TO_DEG
+    val queryParamsConstructor = (e: OrderEvent) =&gt; Seq(circle(point(e.longitude, e.latitude), radius), NewOrder)
+    val projections = Some(Seq(“id”))
+    rdd.zipWithGridSql<a href="query, queryParamsConstructor, projections">OrderRequest</a>
+  }
+  .map { case (e: OrderEvent, nearOrders: Seq[OrderRequest]) =&gt; // step 4
+    val location = point(e.longitude, e.latitude)
+    val nearOrderIds = nearOrders.map(_.id)
+    val priceFactor = if (nearOrderIds.length &gt; 3) {
+      1.0 + (nearOrderIds.length - 3) * 0.1
+    } else {
+      1.0
+    }
+    OrderRequest(e.id, e.time, location, priceFactor, nearOrderIds, NewOrder)
+  }
+  .saveToGrid() // step 5
+&#8220;`</p>
+
+<ul>
+  <li>Step 1: Initialize a stream of Kafka <code>orders</code> topic</li>
+  <li>Step 2: Parse Kafka message that is in Json format (in real app you may want to use formats like Avro)</li>
+  <li>Step 3: For every order we find other non-processed orders within 0.3 km using InsightEdge’s <code>zipWithGridSql()</code> function</li>
+  <li>Step 4: Given near orders, we calculate the price with a simple linear function</li>
+  <li>Step 5: Finally we save the order details including price and near order ids into the data grid with <code>saveToGrid()</code>function</li>
+</ul>
+
+<p>The full source of the application is available on <a href="https://github.com/InsightEdge/insightedge-geo-demo">github</a></p>
+
+<h2 id="taxi-price-surge-use-case-summary">Taxi Price Surge Use Case Summary</h2>
+
+<p>In this blog post we created a demo application that processes the data stream using InsightEdge geospatial features.</p>
+
+<p>An alternative approach for implementing dynamic price surging can use machine learning clustering algorithms to split order requests into clusters and calculate if the demand within a cluster is higher than the supply. This streaming application saves the cluster details in the datagrid. Then, to determine the price we execute a geospatial datagrid query to find which cluster the given location belongs to.</p>
+
+]]></content>
+  </entry>
+  
+</feed>

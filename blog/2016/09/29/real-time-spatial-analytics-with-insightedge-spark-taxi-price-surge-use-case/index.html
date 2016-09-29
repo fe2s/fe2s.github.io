@@ -1,0 +1,352 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Real-time Spatial Analytics with InsightEdge Spark: Taxi Price Surge Use Case - Shady Minds</title>
+  <meta name="author" content="Oleksiy Dyagilev">
+
+  
+  <meta name="description" content="A couple of weeks ago we launched InsightEdge, introducing you to our high performance Spark distribution with enterprise-grade OLTP capabilities. In &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://dyagilev.org/blog/2016/09/29/real-time-spatial-analytics-with-insightedge-spark-taxi-price-surge-use-case">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Shady Minds" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-30316607-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Shady Minds</a></h1>
+  
+    <h2>Oleksiy Dyagilev on computer science and related ..</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:dyagilev.org" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Real-time Spatial Analytics with InsightEdge Spark: Taxi Price Surge Use Case</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-09-29T16:35:41+03:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:35 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>A couple of weeks ago we <a href="http://insightedge.io/blog/insightedge-1-0-ga-real-time-insights-actionable-analytics/">launched InsightEdge</a>, introducing you to our high performance Spark distribution with enterprise-grade OLTP capabilities. In this blog post, we will create a demo application for a taxi price surge use case that runs real-time analytics on a streaming geospatial data.</p>
+
+<!-- more -->
+
+<p>We take a fundamental supply and demand economic model of price determination in a market. We will then compute price in real-time based on the current supply and demand.</p>
+
+<p>To make our demo even more fun, we will create a taxi price surge use case. We will consider the transportation business domain, and taxi companies like Uber or Lyft in particular.</p>
+
+<p>In taxi services, the order requests and available drivers represent the supply and demand data correspondingly. It is interesting that this data is bound to geographical location, which introduces additional complexity. Comparing to business areas like retail, where the product demand is linked to either offline store or a well known list of warehouses, the order requests are geographically distributed.</p>
+
+<p>With services like Uber, the fare rates automatically increase when the taxi demand is higher than drivers around you. The Uber prices are surging to ensure reliability and availability for those who agree to pay a bit more.</p>
+
+<h2 id="taxi-price-surge-use-case--3-key-architectural-questions">Taxi Price Surge Use Case – 3 Key Architectural Questions</h2>
+
+<ul>
+  <li>How do we handle the events like an ‘Order Request’ event or a ‘Pickup’ event?</li>
+  <li>How do we compute the price accounting the nearby requests? We will need to find an efficient way to execute geospatial queries.</li>
+  <li>How can we scale technology to run business in many cities, states or countries?</li>
+</ul>
+
+<h2 id="architecture">Architecture</h2>
+
+<p>The following diagram illustrates the application architecture:</p>
+
+<p><img src="/images/ie-geospatial/geo-demo-arch-diagram.jpg" /></p>
+
+<h2 id="how-does-this-architecture-addresses-our-3-key-questions">How Does this Architecture Addresses Our 3 Key Questions?</h2>
+
+<p>With InsightEdge Geospatial API we are able to efficiently find nearby orders and, therefore, minimize the time required to compute the price. The efficiency comes from the ability to index order request location in the datagrid.</p>
+
+<p>Kafka allows to handle a high throughput of incoming raw events. Even if the computation layer starts processing slower(say during the peak hour), all the events will be reliably buffered in Kafka. The seamless and proven integration with Spark makes it a good choice for streaming applications.</p>
+
+<p>InsightEdge Data Grid also plays a role of a serving layer handling any operational/transactional queries from web/mobile apps.</p>
+
+<p>All the components(Kafka and InsightEdge) can scale out almost linearly;</p>
+
+<p>To scale to many cities, we can leverage data locality principle through a full pipeline (Kafka, Spark, Data Grid) partitioning by the <code>city</code> or even with a more granular geographical units of scale. In this case the geospatial search query will be limited to a single Data Grid partition. We leave this enhancement out of the scope of the demo.</p>
+
+<h2 id="building-a-demo-application-for-a-taxi-price-surge-use-case">Building a Demo Application for a Taxi Price Surge Use Case</h2>
+
+<p>To simulate the taxi orders we took a <a href="https://github.com/fivethirtyeight/uber-tlc-foil-response">csv dataset</a> with Uber pickups in New York City. The demo application consists of following components:</p>
+
+<ul>
+  <li>Feeder application, reads the csv file and sends order and pickup events to Kafka</li>
+  <li>InsightEdge processing, a Spark Streaming application that reads from Kafka, computes price and saves to datagrid</li>
+  <li>Web app, reads orders from datagrid and visualizes them on a map</li>
+</ul>
+
+<p><img src="/images/ie-geospatial/demo_screenshot.jpg" /></p>
+
+<h2 id="coding-processing-logic-with-insightedge-api">Coding Processing Logic with InsightEdge API</h2>
+
+<p>Let’s see how InsightEdge API can be used to calculate the price:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+</pre></td><td class="code"><pre><code class="scala"><span class="line"><span class="k">val</span> <span class="n">ordersStream</span> <span class="k">=</span> <span class="n">initKafkaStream</span><span class="o">(</span><span class="n">ssc</span><span class="o">,</span> <span class="s">&quot;orders&quot;</span><span class="o">)</span> <span class="c1">// step 1</span>
+</span><span class="line">
+</span><span class="line"><span class="n">ordersStream</span>
+</span><span class="line">  <span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">message</span> <span class="k">=&gt;</span> <span class="nc">Json</span><span class="o">.</span><span class="n">parse</span><span class="o">(</span><span class="n">message</span><span class="o">).</span><span class="n">as</span><span class="o">[</span><span class="kt">OrderEvent</span><span class="o">])</span> <span class="c1">// step 2</span>
+</span><span class="line">  <span class="o">.</span><span class="n">transform</span> <span class="o">{</span> <span class="n">rdd</span> <span class="k">=&gt;</span>  <span class="c1">// step 3</span>
+</span><span class="line">    <span class="k">val</span> <span class="n">query</span> <span class="k">=</span> <span class="s">&quot;location spatial:within ? AND status = ?&quot;</span>
+</span><span class="line">    <span class="k">val</span> <span class="n">radius</span> <span class="k">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="nc">DistanceUtils</span><span class="o">.</span><span class="nc">KM_TO_DEG</span>
+</span><span class="line">    <span class="k">val</span> <span class="n">queryParamsConstructor</span> <span class="k">=</span> <span class="o">(</span><span class="n">e</span><span class="k">:</span> <span class="kt">OrderEvent</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nc">Seq</span><span class="o">(</span><span class="n">circle</span><span class="o">(</span><span class="n">point</span><span class="o">(</span><span class="n">e</span><span class="o">.</span><span class="n">longitude</span><span class="o">,</span> <span class="n">e</span><span class="o">.</span><span class="n">latitude</span><span class="o">),</span> <span class="n">radius</span><span class="o">),</span> <span class="nc">NewOrder</span><span class="o">)</span>
+</span><span class="line">    <span class="k">val</span> <span class="n">projections</span> <span class="k">=</span> <span class="nc">Some</span><span class="o">(</span><span class="nc">Seq</span><span class="o">(</span><span class="s">&quot;id&quot;</span><span class="o">))</span>
+</span><span class="line">    <span class="n">rdd</span><span class="o">.</span><span class="n">zipWithGridSql</span><span class="o">[</span><span class="kt">OrderRequest</span><span class="o">](</span><span class="n">query</span><span class="o">,</span> <span class="n">queryParamsConstructor</span><span class="o">,</span> <span class="n">projections</span><span class="o">)</span>
+</span><span class="line">  <span class="o">}</span>
+</span><span class="line">  <span class="o">.</span><span class="n">map</span> <span class="o">{</span> <span class="k">case</span> <span class="o">(</span><span class="n">e</span><span class="k">:</span> <span class="kt">OrderEvent</span><span class="o">,</span> <span class="n">nearOrders</span><span class="k">:</span> <span class="kt">Seq</span><span class="o">[</span><span class="kt">OrderRequest</span><span class="o">])</span> <span class="k">=&gt;</span> <span class="c1">// step 4</span>
+</span><span class="line">    <span class="k">val</span> <span class="n">location</span> <span class="k">=</span> <span class="n">point</span><span class="o">(</span><span class="n">e</span><span class="o">.</span><span class="n">longitude</span><span class="o">,</span> <span class="n">e</span><span class="o">.</span><span class="n">latitude</span><span class="o">)</span>
+</span><span class="line">    <span class="k">val</span> <span class="n">nearOrderIds</span> <span class="k">=</span> <span class="n">nearOrders</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">id</span><span class="o">)</span>
+</span><span class="line">    <span class="k">val</span> <span class="n">priceFactor</span> <span class="k">=</span> <span class="k">if</span> <span class="o">(</span><span class="n">nearOrderIds</span><span class="o">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="o">)</span> <span class="o">{</span>
+</span><span class="line">      <span class="mf">1.0</span> <span class="o">+</span> <span class="o">(</span><span class="n">nearOrderIds</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="mi">3</span><span class="o">)</span> <span class="o">*</span> <span class="mf">0.1</span>
+</span><span class="line">    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span><span class="line">      <span class="mf">1.0</span>
+</span><span class="line">    <span class="o">}</span>
+</span><span class="line">    <span class="nc">OrderRequest</span><span class="o">(</span><span class="n">e</span><span class="o">.</span><span class="n">id</span><span class="o">,</span> <span class="n">e</span><span class="o">.</span><span class="n">time</span><span class="o">,</span> <span class="n">location</span><span class="o">,</span> <span class="n">priceFactor</span><span class="o">,</span> <span class="n">nearOrderIds</span><span class="o">,</span> <span class="nc">NewOrder</span><span class="o">)</span>
+</span><span class="line">  <span class="o">}</span>
+</span><span class="line">  <span class="o">.</span><span class="n">saveToGrid</span><span class="o">()</span> <span class="c1">// step 5</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>Step 1: Initialize a stream of Kafka <code>orders</code> topic</li>
+  <li>Step 2: Parse Kafka message that is in Json format (in real app you may want to use formats like Avro)</li>
+  <li>Step 3: For every order we find other non-processed orders within 0.3 km using InsightEdge’s <code>zipWithGridSql()</code> function</li>
+  <li>Step 4: Given near orders, we calculate the price with a simple linear function</li>
+  <li>Step 5: Finally we save the order details including price and near order ids into the data grid with <code>saveToGrid()</code>function</li>
+</ul>
+
+<p>The full source of the application is available on <a href="https://github.com/InsightEdge/insightedge-geo-demo">github</a></p>
+
+<h2 id="taxi-price-surge-use-case-summary">Taxi Price Surge Use Case Summary</h2>
+
+<p>In this blog post we created a demo application that processes the data stream using InsightEdge geospatial features.</p>
+
+<p>An alternative approach for implementing dynamic price surging can use machine learning clustering algorithms to split order requests into clusters and calculate if the demand within a cluster is higher than the supply. This streaming application saves the cluster details in the datagrid. Then, to determine the price we execute a geospatial datagrid query to find which cluster the given location belongs to.</p>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Oleksiy Dyagilev</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-09-29T16:35:41+03:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:35 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/geospatial/'>geospatial</a>, <a class='category' href='/blog/categories/insightedge/'>insightedge,</a>, <a class='category' href='/blog/categories/spark/'>spark,</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://dyagilev.org/blog/2016/09/29/real-time-spatial-analytics-with-insightedge-spark-taxi-price-surge-use-case/" data-via="" data-counturl="http://dyagilev.org/blog/2016/09/29/real-time-spatial-analytics-with-insightedge-spark-taxi-price-surge-use-case/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/05/30/scalable-machine-learning-with-insightedge-mobile-advertisement-clicks-prediction/" title="Previous Post: Scalable machine learning with InsightEdge: mobile advertisement clicks prediction">&laquo; Scalable machine learning with InsightEdge: mobile advertisement clicks prediction</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/09/29/real-time-spatial-analytics-with-insightedge-spark-taxi-price-surge-use-case/">Real-time Spatial Analytics with InsightEdge Spark: Taxi Price Surge Use Case</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/05/30/scalable-machine-learning-with-insightedge-mobile-advertisement-clicks-prediction/">Scalable machine learning with InsightEdge: mobile advertisement clicks prediction</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/20/java-enums-in-distributed-systems/">Java enums in distributed systems</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/10/03/slides-for-my-javaday-2015-talk/">Slides for my JavaDay 2015 talk</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/10/resilient-distributed-systems-with-netflix-hystrix/">Resilient distributed systems with Netflix Hystrix</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Oleksiy Dyagilev -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'dyagilev';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://dyagilev.org/blog/2016/09/29/real-time-spatial-analytics-with-insightedge-spark-taxi-price-surge-use-case/';
+        var disqus_url = 'http://dyagilev.org/blog/2016/09/29/real-time-spatial-analytics-with-insightedge-spark-taxi-price-surge-use-case/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

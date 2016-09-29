@@ -1,79 +1,261 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>http://dyagilev.org/blog/2016/05/30/scalable-machine-learning-with-insightedge-mobile-advertisement-clicks-prediction/</loc>
-    <lastmod>2016-05-30T20:34:42+03:00</lastmod>
-  </url>
-  <url>
-    <loc>http://dyagilev.org/blog/2016/01/20/java-enums-in-distributed-systems/</loc>
-    <lastmod>2016-01-20T23:01:20+02:00</lastmod>
-  </url>
-  <url>
-    <loc>http://dyagilev.org/blog/2015/10/03/slides-for-my-javaday-2015-talk/</loc>
-    <lastmod>2015-10-03T20:03:35+03:00</lastmod>
-  </url>
-  <url>
-    <loc>http://dyagilev.org/blog/2015/08/10/resilient-distributed-systems-with-netflix-hystrix/</loc>
-    <lastmod>2015-08-10T20:20:31+03:00</lastmod>
-  </url>
-  <url>
-    <loc>http://dyagilev.org/blog/2015/07/15/understanding-parser-combinators-in-scala/</loc>
-    <lastmod>2015-07-15T21:50:16+03:00</lastmod>
-  </url>
-  <url>
-    <loc>http://dyagilev.org/blog/2015/06/01/distributed-configuration-for-saas-application/</loc>
-    <lastmod>2015-06-01T21:36:36+03:00</lastmod>
-  </url>
-  <url>
-    <loc>http://dyagilev.org/blog/2015/04/12/spring-data-and-type-safe-api-for-gigaspaces-xap/</loc>
-    <lastmod>2015-04-12T21:21:13+03:00</lastmod>
-  </url>
-  <url>
-    <loc>http://dyagilev.org/blog/2015/03/07/Keep-up-with-Spark-Streaming-at-in-memory-speed-using-GigaSpaces-XAP/</loc>
-    <lastmod>2015-03-07T21:33:06+02:00</lastmod>
-  </url>
-  <url>
-    <loc>http://dyagilev.org/blog/2014/09/23/slides-for-my-talk-on-storm-kafka-gigaspaces/</loc>
-    <lastmod>2014-09-23T18:39:26+03:00</lastmod>
-  </url>
-  <url>
-    <loc>http://dyagilev.org/blog/2014/08/21/gigaspaces-storm/</loc>
-    <lastmod>2014-08-21T17:27:50+03:00</lastmod>
-  </url>
-  <url>
-    <loc>http://dyagilev.org/blog/2014/05/14/xap-kafka/</loc>
-    <lastmod>2014-05-14T16:46:56+03:00</lastmod>
-  </url>
-  <url>
-    <loc>http://dyagilev.org/blog/2014/05/13/optimization-trick/</loc>
-    <lastmod>2014-05-13T21:48:28+03:00</lastmod>
-  </url>
-  <url>
-    <loc>http://dyagilev.org/blog/2013/03/26/how-to-decrypt-jettys-https-tcp-dump/</loc>
-    <lastmod>2013-03-26T15:22:03+02:00</lastmod>
-  </url>
-  <url>
-    <loc>http://dyagilev.org/blog/2012/03/29/fractal-tree-indexes/</loc>
-    <lastmod>2012-03-29T15:58:13+03:00</lastmod>
-  </url>
-  <url>
-    <loc>http://dyagilev.org/blog/2012/03/23/consistent-hashing/</loc>
-    <lastmod>2012-03-23T14:34:54+02:00</lastmod>
-  </url>
-  <url>
-    <loc>http://dyagilev.org/blog/2012/03/21/code-refactoring-detection/</loc>
-    <lastmod>2012-03-21T14:13:35+02:00</lastmod>
-  </url>
-  <url>
-    <loc>http://dyagilev.org/blog/2012/03/21/hello/</loc>
-    <lastmod>2012-03-21T13:11:52+02:00</lastmod>
-  </url>
-  <url>
-    <loc>http://dyagilev.org/blog/archives/</loc>
-    <lastmod>2016-06-11T14:57:12+03:00</lastmod>
-  </url>
-  <url>
-    <loc>http://dyagilev.org/</loc>
-    <lastmod>2016-06-11T14:57:12+03:00</lastmod>
-  </url>
+<url>
+<loc>http://dyagilev.org/blog/2016/09/29/real-time-spatial-analytics-with-insightedge-spark-taxi-price-surge-use-case/</loc>
+<lastmod>2016-09-29T16:35:41+03:00</lastmod>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/2016/05/30/scalable-machine-learning-with-insightedge-mobile-advertisement-clicks-prediction/</loc>
+<lastmod>2016-05-30T20:34:42+03:00</lastmod>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/2016/01/20/java-enums-in-distributed-systems/</loc>
+<lastmod>2016-01-20T23:01:20+02:00</lastmod>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/2015/10/03/slides-for-my-javaday-2015-talk/</loc>
+<lastmod>2015-10-03T20:03:35+03:00</lastmod>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/2015/08/10/resilient-distributed-systems-with-netflix-hystrix/</loc>
+<lastmod>2015-08-10T20:20:31+03:00</lastmod>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/2015/07/15/understanding-parser-combinators-in-scala/</loc>
+<lastmod>2015-07-15T21:50:16+03:00</lastmod>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/2015/06/01/distributed-configuration-for-saas-application/</loc>
+<lastmod>2015-06-01T21:36:36+03:00</lastmod>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/2015/04/12/spring-data-and-type-safe-api-for-gigaspaces-xap/</loc>
+<lastmod>2015-04-12T21:21:13+03:00</lastmod>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/2015/03/07/Keep-up-with-Spark-Streaming-at-in-memory-speed-using-GigaSpaces-XAP/</loc>
+<lastmod>2015-03-07T21:33:06+02:00</lastmod>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/2014/09/23/slides-for-my-talk-on-storm-kafka-gigaspaces/</loc>
+<lastmod>2014-09-23T18:39:26+03:00</lastmod>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/2014/08/21/gigaspaces-storm/</loc>
+<lastmod>2014-08-21T17:27:50+03:00</lastmod>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/2014/05/14/xap-kafka/</loc>
+<lastmod>2014-05-14T16:46:56+03:00</lastmod>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/2014/05/13/optimization-trick/</loc>
+<lastmod>2014-05-13T21:48:28+03:00</lastmod>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/2013/03/26/how-to-decrypt-jettys-https-tcp-dump/</loc>
+<lastmod>2013-03-26T15:22:03+02:00</lastmod>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/2012/03/29/fractal-tree-indexes/</loc>
+<lastmod>2012-03-29T15:58:13+03:00</lastmod>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/2012/03/23/consistent-hashing/</loc>
+<lastmod>2012-03-23T14:34:54+02:00</lastmod>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/2012/03/21/code-refactoring-detection/</loc>
+<lastmod>2012-03-21T14:13:35+02:00</lastmod>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/2012/03/21/hello/</loc>
+<lastmod>2012-03-21T13:11:52+02:00</lastmod>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/archives/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/code/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/review/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/diff/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/merge/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/refactoring/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/consistent/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/hashing/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/hash/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/konsistientnoie/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/khieshirovaniie/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/b-tree/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/data/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/structure/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/fractal/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/tree/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/fractional/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/cascading/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/index/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/fraktal'noie/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/dierievo/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/https/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/jetty/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/ssl/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/tcp/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/storm/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/optimization/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/gigaspaces/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/xap/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/kafka/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/big/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/realtime/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/slides/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/gigaspaces/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/spark/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/streaming/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/spring/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/saas/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/configuration/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/service/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/discovery/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/zookeeper/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/scala/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/parser/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/combinators/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/hystrix/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/resilience/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/javaday/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/slides/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/monad/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/monoid/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/java/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/distributed/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/enum/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/insightedge/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/machine/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/learning/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/blog/categories/geospatial/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/posts/2/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/posts/3/</loc>
+</url>
+<url>
+<loc>http://dyagilev.org/posts/4/</loc>
+</url>
 </urlset>

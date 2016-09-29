@@ -4,7 +4,7 @@
   <title><![CDATA[Category: kafka, | Shady Minds]]></title>
   <link href="http://dyagilev.org/blog/categories/kafka/atom.xml" rel="self"/>
   <link href="http://dyagilev.org/"/>
-  <updated>2016-06-11T14:57:12+03:00</updated>
+  <updated>2016-09-29T16:47:33+03:00</updated>
   <id>http://dyagilev.org/</id>
   <author>
     <name><![CDATA[Oleksiy Dyagilev]]></name>
@@ -87,8 +87,8 @@ mvn os:deploy
 
 <p>&#8220;`xml</p>
 <dependency>
-	<groupid>com.epam</groupid>
-	<artifactid>kafka-persistence</artifactid>
+	<groupId>com.epam</groupId>
+	<artifactId>kafka-persistence</artifactId>
 	<version>1.0-SNAPSHOT</version>
 </dependency>
 <p>&#8220;`</p>
