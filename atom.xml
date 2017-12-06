@@ -4,7 +4,7 @@
   <title><![CDATA[Shady Minds]]></title>
   <link href="http://dyagilev.org/atom.xml" rel="self"/>
   <link href="http://dyagilev.org/"/>
-  <updated>2016-09-29T16:47:33+03:00</updated>
+  <updated>2017-12-06T14:34:42+02:00</updated>
   <id>http://dyagilev.org/</id>
   <author>
     <name><![CDATA[Oleksiy Dyagilev]]></name>
@@ -12,6 +12,42 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[How we built InsightEdge. Slides and talk recording]]></title>
+    <link href="http://dyagilev.org/blog/2017/12/06/how-we-built-insightedge/"/>
+    <updated>2017-12-06T12:36:00+02:00</updated>
+    <id>http://dyagilev.org/blog/2017/12/06/how-we-built-insightedge</id>
+    <content type="html"><![CDATA[<p>Sharing my slides and talk recording (in Russian) from JavaDay 2016 conference.</p>
+
+<p>In this talk I discuss how we built an open-source Spark distribution <a href="http://insightedge.io">http://insightedge.io</a> that runs on top of in-memory database.</p>
+
+<!-- more -->
+
+<p>The agenda of the talk:</p>
+
+<ul>
+  <li>a need of hybrid transactional and analytical processing</li>
+  <li>an overview of in-memory datagrid features</li>
+  <li>how we designed InsightEdge RDD partitions to make it scalable</li>
+  <li>implementation of Spark DataSource API to support DataFrame/SQL</li>
+  <li>optimization techniques: predicates push-down and columns pruning</li>
+  <li>how InsightEdge can run 30 times faster that regular Spark</li>
+  <li>designing API with Scala, the good and unpleasant parts</li>
+  <li>extending Spark API with geo spatial queries</li>
+  <li>testing with Docker</li>
+</ul>
+
+<p>Video recording (in Russian):</p>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/RGoIlpB13U0?rel=0" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen=""></iframe>
+
+<p>Slides:</p>
+
+<script async="" class="speakerdeck-embed" data-id="67f31bb62d8e42feafdcc1c24db17524" data-ratio="1.41436464088398" src="//speakerdeck.com/assets/embed.js"></script>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Real-time Spatial Analytics with InsightEdge Spark: Taxi Price Surge Use Case]]></title>

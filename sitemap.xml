@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://dyagilev.org/blog/2017/12/06/how-we-built-insightedge/</loc>
+<lastmod>2017-12-06T12:36:00+02:00</lastmod>
+</url>
+<url>
 <loc>http://dyagilev.org/blog/2016/09/29/real-time-spatial-analytics-with-insightedge-spark-taxi-price-surge-use-case/</loc>
 <lastmod>2016-09-29T16:35:41+03:00</lastmod>
 </url>
@@ -73,10 +77,10 @@
 <lastmod>2012-03-21T13:11:52+02:00</lastmod>
 </url>
 <url>
-<loc>http://dyagilev.org/blog/archives/</loc>
+<loc>http://dyagilev.org/</loc>
 </url>
 <url>
-<loc>http://dyagilev.org/</loc>
+<loc>http://dyagilev.org/blog/archives/</loc>
 </url>
 <url>
 <loc>http://dyagilev.org/blog/categories/code/</loc>

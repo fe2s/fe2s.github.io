@@ -4,7 +4,7 @@
   <title><![CDATA[Category: spark, | Shady Minds]]></title>
   <link href="http://dyagilev.org/blog/categories/spark/atom.xml" rel="self"/>
   <link href="http://dyagilev.org/"/>
-  <updated>2016-09-29T16:47:33+03:00</updated>
+  <updated>2017-12-06T14:34:44+02:00</updated>
   <id>http://dyagilev.org/</id>
   <author>
     <name><![CDATA[Oleksiy Dyagilev]]></name>
@@ -42,7 +42,7 @@
 
 <p>The following diagram illustrates the application architecture:</p>
 
-<p><img src="/images/ie-geospatial/geo-demo-arch-diagram.jpg" /></p>
+<p><img src="{{ root_url }}/images/ie-geospatial/geo-demo-arch-diagram.jpg" /></p>
 
 <h2 id="how-does-this-architecture-addresses-our-3-key-questions">How Does this Architecture Addresses Our 3 Key Questions?</h2>
 
@@ -66,13 +66,13 @@
   <li>Web app, reads orders from datagrid and visualizes them on a map</li>
 </ul>
 
-<p><img src="/images/ie-geospatial/demo_screenshot.jpg" /></p>
+<p><img src="{{ root_url }}/images/ie-geospatial/demo_screenshot.jpg" /></p>
 
 <h2 id="coding-processing-logic-with-insightedge-api">Coding Processing Logic with InsightEdge API</h2>
 
 <p>Let’s see how InsightEdge API can be used to calculate the price:</p>
 
-<p>&#8220;`scala
+<p>```scala
 val ordersStream = initKafkaStream(ssc, “orders”) // step 1</p>
 
 <p>ordersStream
@@ -95,7 +95,7 @@ val ordersStream = initKafkaStream(ssc, “orders”) // step 1</p>
     OrderRequest(e.id, e.time, location, priceFactor, nearOrderIds, NewOrder)
   }
   .saveToGrid() // step 5
-&#8220;`</p>
+```</p>
 
 <ul>
   <li>Step 1: Initialize a stream of Kafka <code>orders</code> topic</li>
@@ -171,7 +171,7 @@ Though for the big datasets or compute-intensive tasks the resources of a single
 
 <p>For this problem we will <a href="http://insightedge.io/docs/010/13_cluster_setup.html">setup a cluster</a> with four workers and place the downloaded files on HDFS.</p>
 
-<p><img src="/images/ie-ml/0_cluster.png" /></p>
+<p><img src="{{ root_url }}/images/ie-ml/0_cluster.png" /></p>
 
 <p>Let’s open the interactive <a href="http://insightedge.io/docs/010/14_notebook.html">Web Notebook</a> and start exploring our dataset.</p>
 
@@ -184,7 +184,7 @@ z.load("com.databricks:spark-csv_2.10:1.3.0")
 
 <p>Load the dataframe into Spark memory and cache:</p>
 
-<p>&#8220;`scala
+<p>```scala
 val df = sqlContext.read
       .format(“com.databricks.spark.csv”)
       .option(“header”, “true”)
@@ -192,7 +192,7 @@ val df = sqlContext.read
       .load(“hdfs://10.8.1.116/data/avazu_ctr/train”)</p>
 
 <p>df.cache()
-&#8220;`</p>
+```</p>
 
 <h2 id="exploring-the-data">Exploring the data</h2>
 
@@ -244,23 +244,23 @@ only showing top 10 rows
 
 <p>Let’s see how many rows are in the training dataset:</p>
 
-<p>&#8220;`scala
+<p>```scala
 val totalCount = df.count()</p>
 
 <p>totalCount: Long = 40428967
-&#8220;`</p>
+```</p>
 
 <p>There are about 40M+ rows in the dataset.</p>
 
 <p>Let’s now calculate the CTR (click-through rate) of the dataset. The click-through rate is the number of times a click is made on the advertisement divided by the total impressions (the number of times an advertisement was served):</p>
 
-<p>&#8220;`scala
+<p>```scala
 val clicks = df.filter(“click = 1”).count()
 val ctr = clicks.toFloat / totalCount</p>
 
 <p>clicks: Long = 6865066
 ctr: Float = 0.16980562
-&#8220;`
+```
 The CTR is 0.169 (or 16.9%) which is quite a high number, the common value in the industry is about 0.2-0.3%. So a high value is probably because non-clicks and clicks are subsampled according to different strategies, as stated by Avazu.</p>
 
 <p>Now, the question is which features should we use to create a predictive model? This is a difficult question that requires a deep knowledge of the problem domain. Let’s try to learn it from the dataset we have.</p>
@@ -282,9 +282,9 @@ FROM training
 GROUP BY device_conn_type
 </code></p>
 
-<p><img src="/images/ie-ml/6_device_conn_type.png" /></p>
+<p><img src="{{ root_url }}/images/ie-ml/6_device_conn_type.png" /></p>
 
-<p><img src="/images/ie-ml/7_device_conn_type_2.png" /></p>
+<p><img src="{{ root_url }}/images/ie-ml/7_device_conn_type_2.png" /></p>
 
 <p>We see that there are four connection type categories. Two categories with CTR 18% and 13%, and the first one is almost 90% of the whole dataset. The other two categories have significantly lower CTR.</p>
 
@@ -298,17 +298,17 @@ GROUP BY C15, C16
 ORDER BY ctr DESC
 </code></p>
 
-<p><img src="/images/ie-ml/11_banner_dimension.png" /></p>
+<p><img src="{{ root_url }}/images/ie-ml/11_banner_dimension.png" /></p>
 
 <p>We can notice some correlation between the ad size and its performance. The most common one appears to be 320x50px known as “mobile leaderboard” in <a href="https://support.google.com/adsense/answer/68727?hl=en">Google AdSense</a>.</p>
 
 <p>What about other features? All of them represent categorical values, how many unique categories for each feature?</p>
 
-<p>&#8220;`scala
+<p>```scala
 df.columns.map(c =&gt; (c, df.select(c).distinct().count()))</p>
 
 <p>res14: Array[(String, Long)] = Array((id,40428967), (click,2), (hour,240), (C1,7), (banner_pos,7), (site_id,4737), (site_domain,7745), (site_category,26), (app_id,8552), (app_domain,559), (app_category,36), (device_id,2686408), (device_ip,6729486), (device_model,8251), (device_type,5), (device_conn_type,4), (C14,2626), (C15,8), (C16,9), (C17,435), (C18,4), (C19,68), (C20,172), (C21,60))
-&#8220;`</p>
+```</p>
 
 <p>We see that there are some features with a lot of unique values, for example, <code>device_ip</code> has 6M+ different values.
 Machine learning algorithms are typically defined in terms of numerical vectors rather than categorical values. Converting such categorical features will result in a high dimensional vector which might be very expensive.
@@ -320,7 +320,7 @@ We will need to deal with this later.</p>
 To allow the predictive model to effectively learn from this feature it makes sense to transform it into three features: year, month and hour.
 Let’s develop the function to transform the dataframe:</p>
 
-<p>&#8220;`scala
+<p>```scala
 import java.text.SimpleDateFormat
 import java.util.{Calendar, Date}
 import org.apache.spark.sql.DataFrame</p>
@@ -350,7 +350,7 @@ import org.apache.spark.sql.DataFrame</p>
   .withColumn(“time_hour”, toHour(df(“hour”)))
   .drop(“hour”)
 }
-&#8220;`</p>
+```</p>
 
 <p>We can now apply this transformation to our dataframe and see the result:</p>
 
@@ -379,13 +379,13 @@ hourDecoded.show(10)
 
 <p>It looks like the year and month have only one value, let’s verify it:</p>
 
-<p>&#8220;`scala
+<p>```scala
 hourDecoded.select(“time_month”).distinct.count()
 hourDecoded.select(“time_year”).distinct.count()</p>
 
 <p>res20: Long = 1
 res21: Long = 1
-&#8220;`</p>
+```</p>
 
 <p>We can safely drop these columns as they don’t bring any knowledge to our model:</p>
 
@@ -395,14 +395,14 @@ val hourDecoded2 = hourDecoded.drop("time_month").drop("time_year")
 
 <p>Let’s also convert <code>click</code> from String to Double type.</p>
 
-<p>&#8220;`scala
+<p>```scala
 import org.apache.spark.sql.types.DoubleType</p>
 
 <p>val prepared = hourDecoded2
     .withColumn(“clickTmp”, hourDecoded2(“click”).cast(DoubleType))
     .drop(“click”)
     .withColumnRenamed(“clickTmp”, “click”)
-&#8220;`</p>
+```</p>
 
 <h2 id="saving-preprocessed-data-to-the-data-grid">Saving preprocessed data to the data grid</h2>
 
@@ -414,11 +414,11 @@ This way we can:
 
 <p>Since the training dataset contains the data for the 10 days, we can pick any day and sample it:</p>
 
-<p>&#8220;`scala
+<p>```scala
 prepared.filter(“time_day = 21”).count()</p>
 
 <p>res51: Long = 4122995
-&#8220;`</p>
+```</p>
 
 <p>There are 4M+ rows for this day, which is about 10% of the entire dataset.</p>
 
@@ -436,7 +436,7 @@ val df = sqlContext.read.grid.load("day_21")
 
 <p>Also, we want to transform the <code>test</code> dataset that we will use for prediction in a similar way.</p>
 
-<p>&#8220;`scala
+<p>```scala
 val testDf = sqlContext.read
       .format(“com.databricks.spark.csv”)
       .option(“header”, “true”)
@@ -448,7 +448,7 @@ val testDf = sqlContext.read
     .drop(“time_year”)
     .write.grid.save(“test”)</p>
 
-<p>&#8220;`</p>
+<p>```</p>
 
 <p>The complete listing of notebook can be found on <a href="https://github.com/InsightEdge/insightedge-ctr-demo/blob/master/zeppelin/CTR%20demo.json">github</a>. You can import it to Zeppelin and play with it on your own.</p>
 
@@ -459,7 +459,7 @@ different techniques and algorithms by submitting Spark applications.</p>
 
 <p>For our first baseline approach let’s take a single feature <code>device_conn_type</code> and <a href="https://en.wikipedia.org/wiki/Logistic_regression">logistic regression</a> algorithm:</p>
 
-<p>&#8220;`scala
+<p>```scala
 import com.gigaspaces.spark.context.GigaSpacesConfig
 import com.gigaspaces.spark.implicits._
 import org.apache.spark.ml.feature.{OneHotEncoder, StringIndexer}
@@ -475,7 +475,7 @@ import org.apache.spark.{SparkConf, SparkContext}</p>
 
 <p>def main(args: Array[String]): Unit = {
     if (args.length &lt; 3) {
-      System.err.println(“Usage: CtrDemo1 <spark master="" url=""> <grid locator=""> <train collection="">&#8221;)
+      System.err.println(“Usage: CtrDemo1 <spark master="" url=""> <grid locator=""> <train collection="">")
       System.exit(1)
     }</train></grid></spark></p>
 
@@ -582,7 +582,7 @@ val assembledDf = new VectorAssembler()
 
 <p>You can notice how the AUROC is being improved as we add more and more features. This comes with the cost of the training time:</p>
 
-<p><img src="/images/ie-ml/13_application_time.png" /></p>
+<p><img src="{{ root_url }}/images/ie-ml/13_application_time.png" /></p>
 
 <p>We didn’t include high-cardinality features such as <code>device_ip</code> and <code>device_id</code> as they will blow up the feature vector size. One may consider applying techniques such as feature hashing
 to reduce the dimension. We will leave it out of this blog post’s scope.</p>
@@ -595,7 +595,7 @@ Grid search evaluates a model for each combination of algorithm parameters speci
 <p>Pipeline API supports model selection using <a href="https://en.wikipedia.org/wiki/Cross-validation_(statistics)">cross-validation</a> technique. For each set of parameters it trains the given <code>Estimator</code> and evaluates it using the given <code>Evaluator</code>.
 We will use <code>BinaryClassificationEvaluator</code> that has AUROC as a metric by default.</p>
 
-<p>&#8220;`scala
+<p>```scala
 val lr = new LogisticRegression().setLabelCol(“click”)
 val pipeline = new Pipeline().setStages(Array(assembler, lr))</p>
 
@@ -612,13 +612,13 @@ val pipeline = new Pipeline().setStages(Array(assembler, lr))</p>
   .setNumFolds(3)</p>
 
 <p>val cvModel = cv.fit(encodedTrainDf)
-&#8220;`</p>
+```</p>
 
 <p>We included two regularization parameters 0.01 and 0.1 in our search grid for now, others are commented out for now.</p>
 
 <p>Output the best set of parameters:</p>
 
-<p>&#8220;`scala
+<p>```scala
 println(“Grid search results:”)
 cvModel.getEstimatorParamMaps.zip(cvModel.avgMetrics).foreach(println)</p>
 
@@ -626,7 +626,7 @@ cvModel.getEstimatorParamMaps.zip(cvModel.avgMetrics).foreach(println)</p>
   .zip(cvModel.avgMetrics)
   .maxBy(_._2)
   ._1)
-&#8220;`</p>
+```</p>
 
 <p>Use the best model to predict <code>test</code> dataset loaded from the data grid:
 <code>scala
@@ -638,7 +638,7 @@ val predictionDf = cvModel.transform(encodedTestDf).select("id", "probability").
 <p>Then the results are saved back to csv on hdfs, so we can submit them to Kaggle, see the complete listing in <a href="https://github.com/InsightEdge/insightedge-ctr-demo/blob/master/src/main/scala/io/insightedge/demo/ctr/CtrDemo3.scala">CtrDemo3</a>.</p>
 
 <p>It takes about 27 mins to train and compare models for two regularization parameters 0.01 and 0.1. The results are:
-&#8220;`
+```
 Grid search results:
 ({
 	logreg_2b70e3edf1f0-elasticNetParam: 0.0,
@@ -656,7 +656,7 @@ Grid search results:
 	logreg_2b70e3edf1f0-fitIntercept: false,
 	logreg_2b70e3edf1f0-regParam: 0.01
 }
-&#8220;`</p>
+```</p>
 
 <p>This simple logistic regression model has a rank of 1109 out of 1603 competitors in Kaggle.</p>
 
@@ -674,7 +674,7 @@ Grid search results:
 
 <p>The following diagram demonstrates the design of machine learning application with InsightEdge.</p>
 
-<p><img src="/images/ie-ml/arch.png" /></p>
+<p><img src="{{ root_url }}/images/ie-ml/arch.png" /></p>
 
 <p>The key design advantages are:</p>
 
@@ -753,7 +753,7 @@ With InsightEdge, Spark applications can view the <strong>live</strong> data;</l
 
 <p>Data can be ingested to Spark cluster from many sources like HDS, Kafka, Flume, etc and can be processed using complex algorithms expressed with high-level functions like <code>map</code>, <code>reduce</code>, <code>join</code> and <code>window</code>. Finally, processed data can be pushed out to filesystems or databases.</p>
 
-<p><img src="/images/xap-spark/spark-streaming.jpg" /></p>
+<p><img src="{{ root_url }}/images/xap-spark/spark-streaming.jpg" /></p>
 
 <h1 id="challenge">Challenge</h1>
 
@@ -763,7 +763,7 @@ With InsightEdge, Spark applications can view the <strong>live</strong> data;</l
 
 <p>In this pattern we address performance challenge by integrating Spark Streaming with XAP. XAP is used as a stream data source and a scalable, fast, reliable persistent storage.</p>
 
-<p><img src="/images/xap-spark/high-level.jpg" /></p>
+<p><img src="{{ root_url }}/images/xap-spark/high-level.jpg" /></p>
 
 <ol>
   <li>Producer writes the data to XAP stream</li>
@@ -868,13 +868,13 @@ wordCountWindow.foreachRDD(rdd =&gt; {
 
 <p>As a part of this integration pattern, we demonstrate how to build an application that consumes live stream of text and displays top 10 five-letter words over a sliding window in real-time. The user interface consists of a simple single page web application displaying a table of top 10 words and a word cloud. The data on UI is updated every second.</p>
 
-<p><img src="/images/xap-spark/spark-word-counter.jpg" /></p>
+<p><img src="{{ root_url }}/images/xap-spark/spark-word-counter.jpg" /></p>
 
 <h2 id="high-level-design">High-level design</h2>
 
 <p>The high-level design diagram of the Word Counter Demo is below:</p>
 
-<p><img src="/images/xap-spark/example.jpg" /></p>
+<p><img src="{{ root_url }}/images/xap-spark/example.jpg" /></p>
 
 <ol>
   <li>Feeder is a standalone scala application that reads book from text file in a cycle and writes lines to XAP Stream.</li>
