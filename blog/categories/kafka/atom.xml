@@ -4,7 +4,7 @@
   <title><![CDATA[Category: kafka, | Shady Minds]]></title>
   <link href="http://dyagilev.org/blog/categories/kafka/atom.xml" rel="self"/>
   <link href="http://dyagilev.org/"/>
-  <updated>2017-12-06T14:34:44+02:00</updated>
+  <updated>2017-12-06T15:56:46+02:00</updated>
   <id>http://dyagilev.org/</id>
   <author>
     <name><![CDATA[Oleksiy Dyagilev]]></name>
@@ -37,7 +37,7 @@
 
 <p>The XAP Kafka integration is done via the <code>SpaceSynchronizationEndpoint</code> interface deployed as a Mirror service PU. It consumes a batch of IMDG operations, converts them to custom Kafka messages and sends these to the Kafka server using the Kafka Producer API.</p>
 
-<p><img src="{{ root_url }}/images/xap-kafka/xap-kafka.jpg" /></p>
+<p><img src="/images/xap-kafka/xap-kafka.jpg" /></p>
 
 <p>GigaSpace-Kafka protocol is simple and represents the data and its IMDG operation. The message consists of the IMDG operation type (Write, Update , remove, etc.) and the actual data object. The Data object itself could be represented either as a single object or as a Space Document with key/values pairs (<code>SpaceDocument</code>).
 Since a Kafka message is sent over the wire, it should be serialized to bytes in some way.
@@ -45,7 +45,7 @@ The default encoder utilizes Java serialization mechanism which implies Space cl
 
 <p>By default Kafka messages are uniformly distributed across Kafka partitions. Please note, even though IMDG operations appear ordered in <code>SpaceSynchronizationEndpoint</code>, it doesn’t imply correct ordering of data processing in Kafka consumers. See below diagram:</p>
 
-<p><img src="{{ root_url }}/images/xap-kafka/xap-kafka-ordering.jpg" /></p>
+<p><img src="/images/xap-kafka/xap-kafka-ordering.jpg" /></p>
 
 <h2 id="getting-started">Getting started</h2>
 
@@ -85,19 +85,19 @@ mvn os:deploy
 
 <p>The following maven dependency needs to be included in your project in order to use Kafka persistence. This artifact is built from <code>&lt;project_rood&gt;/kafka-persistence</code> source directory.</p>
 
-<p>```xml</p>
+<p>&#8220;`xml</p>
 <dependency>
 	<groupId>com.epam</groupId>
 	<artifactId>kafka-persistence</artifactId>
 	<version>1.0-SNAPSHOT</version>
 </dependency>
-<p>```</p>
+<p>&#8220;`</p>
 
 <h2 id="mirror-service">Mirror service</h2>
 
 <p>Here is an example of the Kafka Space Synchronization Endpoint configuration:</p>
 
-<p>```xml</p>
+<p>&#8220;`xml</p>
 <bean id="kafkaSpaceSynchronizationEndpoint" class="com.epam.openspaces.persistency.kafka.KafkaSpaceSynchronizationEndpointFactoryBean">
 	<property name="producerProperties">
 		<props>
@@ -114,7 +114,7 @@ mvn os:deploy
 <os-core:mirror id="mirror" url="/./mirror-service" space-sync-endpoint="kafkaSpaceSynchronizationEndpoint" operation-grouping="group-by-replication-bulk">
 	<os-core:source-space name="space" partitions="2" backups="1" />
 </os-core:mirror>
-<p>```</p>
+<p>&#8220;`</p>
 
 <p>Please consult Kafka documentation for the full list of available producer properties.
 You can override the default properties if there is a need to customize GigaSpace-Kafka protocol. See Customization section below for details.</p>
@@ -135,23 +135,23 @@ public class UserActivity implements Serializable {
 
 <p>To configure a Kafka topic for a SpaceDocuments or Extended SpaceDocument, the property <code>KafkaPersistenceConstants.SPACE_DOCUMENT_KAFKA_TOPIC_PROPERTY_NAME</code> should be added to document. Here is an example</p>
 
-<p>```java
+<p>&#8220;`java
 public class Product extends SpaceDocument {</p>
 
 <p>public Product() {
 	super(“Product”);
 	super.setProperty(SPACE_DOCUMENT_KAFKA_TOPIC_PROPERTY_NAME, “product”);
 }
-```</p>
+&#8220;`</p>
 
 <p>It’s also possible to configure the name of the property which defines the Kafka topic for SpaceDocuments. Set <code>spaceDocumentKafkaTopicName</code> to the desired value as shown below.</p>
 
-<p>```xml</p>
+<p>&#8220;`xml</p>
 <bean id="kafkaSpaceSynchronizationEndpoint" class="com.epam.openspaces.persistency.kafka.KafkaSpaceSynchrspaceDocumentKafkaTopicNameonizationEndpointFactoryBean">
-	...
+	&#8230;
 	<property name="spaceDocumentKafkaTopicName" value="topic_name" />
 </bean>
-<p>```</p>
+<p>&#8220;`</p>
 
 <h2 id="kafka-consumers">Kafka consumers</h2>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: streaming | Shady Minds]]></title>
   <link href="http://dyagilev.org/blog/categories/streaming/atom.xml" rel="self"/>
   <link href="http://dyagilev.org/"/>
-  <updated>2017-12-06T14:34:44+02:00</updated>
+  <updated>2017-12-06T15:56:46+02:00</updated>
   <id>http://dyagilev.org/</id>
   <author>
     <name><![CDATA[Oleksiy Dyagilev]]></name>
@@ -59,7 +59,7 @@
 
 <p>Data can be ingested to Spark cluster from many sources like HDS, Kafka, Flume, etc and can be processed using complex algorithms expressed with high-level functions like <code>map</code>, <code>reduce</code>, <code>join</code> and <code>window</code>. Finally, processed data can be pushed out to filesystems or databases.</p>
 
-<p><img src="{{ root_url }}/images/xap-spark/spark-streaming.jpg" /></p>
+<p><img src="/images/xap-spark/spark-streaming.jpg" /></p>
 
 <h1 id="challenge">Challenge</h1>
 
@@ -69,7 +69,7 @@
 
 <p>In this pattern we address performance challenge by integrating Spark Streaming with XAP. XAP is used as a stream data source and a scalable, fast, reliable persistent storage.</p>
 
-<p><img src="{{ root_url }}/images/xap-spark/high-level.jpg" /></p>
+<p><img src="/images/xap-spark/high-level.jpg" /></p>
 
 <ol>
   <li>Producer writes the data to XAP stream</li>
@@ -174,13 +174,13 @@ wordCountWindow.foreachRDD(rdd =&gt; {
 
 <p>As a part of this integration pattern, we demonstrate how to build an application that consumes live stream of text and displays top 10 five-letter words over a sliding window in real-time. The user interface consists of a simple single page web application displaying a table of top 10 words and a word cloud. The data on UI is updated every second.</p>
 
-<p><img src="{{ root_url }}/images/xap-spark/spark-word-counter.jpg" /></p>
+<p><img src="/images/xap-spark/spark-word-counter.jpg" /></p>
 
 <h2 id="high-level-design">High-level design</h2>
 
 <p>The high-level design diagram of the Word Counter Demo is below:</p>
 
-<p><img src="{{ root_url }}/images/xap-spark/example.jpg" /></p>
+<p><img src="/images/xap-spark/example.jpg" /></p>
 
 <ol>
   <li>Feeder is a standalone scala application that reads book from text file in a cycle and writes lines to XAP Stream.</li>

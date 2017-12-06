@@ -4,7 +4,7 @@
   <title><![CDATA[Category: geospatial | Shady Minds]]></title>
   <link href="http://dyagilev.org/blog/categories/geospatial/atom.xml" rel="self"/>
   <link href="http://dyagilev.org/"/>
-  <updated>2017-12-06T14:34:44+02:00</updated>
+  <updated>2017-12-06T15:56:46+02:00</updated>
   <id>http://dyagilev.org/</id>
   <author>
     <name><![CDATA[Oleksiy Dyagilev]]></name>
@@ -42,7 +42,7 @@
 
 <p>The following diagram illustrates the application architecture:</p>
 
-<p><img src="{{ root_url }}/images/ie-geospatial/geo-demo-arch-diagram.jpg" /></p>
+<p><img src="/images/ie-geospatial/geo-demo-arch-diagram.jpg" /></p>
 
 <h2 id="how-does-this-architecture-addresses-our-3-key-questions">How Does this Architecture Addresses Our 3 Key Questions?</h2>
 
@@ -66,13 +66,13 @@
   <li>Web app, reads orders from datagrid and visualizes them on a map</li>
 </ul>
 
-<p><img src="{{ root_url }}/images/ie-geospatial/demo_screenshot.jpg" /></p>
+<p><img src="/images/ie-geospatial/demo_screenshot.jpg" /></p>
 
 <h2 id="coding-processing-logic-with-insightedge-api">Coding Processing Logic with InsightEdge API</h2>
 
 <p>Let’s see how InsightEdge API can be used to calculate the price:</p>
 
-<p>```scala
+<p>&#8220;`scala
 val ordersStream = initKafkaStream(ssc, “orders”) // step 1</p>
 
 <p>ordersStream
@@ -95,7 +95,7 @@ val ordersStream = initKafkaStream(ssc, “orders”) // step 1</p>
     OrderRequest(e.id, e.time, location, priceFactor, nearOrderIds, NewOrder)
   }
   .saveToGrid() // step 5
-```</p>
+&#8220;`</p>
 
 <ul>
   <li>Step 1: Initialize a stream of Kafka <code>orders</code> topic</li>

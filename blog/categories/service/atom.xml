@@ -4,7 +4,7 @@
   <title><![CDATA[Category: service | Shady Minds]]></title>
   <link href="http://dyagilev.org/blog/categories/service/atom.xml" rel="self"/>
   <link href="http://dyagilev.org/"/>
-  <updated>2017-12-06T14:34:44+02:00</updated>
+  <updated>2017-12-06T15:56:46+02:00</updated>
   <id>http://dyagilev.org/</id>
   <author>
     <name><![CDATA[Oleksiy Dyagilev]]></name>
@@ -52,7 +52,7 @@
 
 <p>Let’s see how SaaS configuration will look from service discovery perspective.</p>
 
-<p><img src="{{ root_url }}/images/saas-configuration/service-discovery.jpg" width="75%" height="75%" /></p>
+<p><img src="/images/saas-configuration/service-discovery.jpg" width="75%" height="75%" /></p>
 
 <p>Okay, but can we just use simple database with inserts and selects to register and discovery? Well, there are a few concerns with that:</p>
 
@@ -79,7 +79,7 @@
 
 <p>Beware that this model has its drawbacks such as weaker scale-in (reducing the quantity of servers) and cost saving capabilities since the load is not equally spread comparing to true multitenancy. On the other hand this can be compensated with container virtualization in some sort. Also this model implies support of multiple release versions of application and has better support of application level caching. Again, the tenancy model itself is not a subject here rather than a centralized configuration.</p>
 
-<p><img src="{{ root_url }}/images/saas-configuration/poc-tenancy.jpg" width="75%" height="75%" /></p>
+<p><img src="/images/saas-configuration/poc-tenancy.jpg" width="75%" height="75%" /></p>
 
 <p>Our stack is:</p>
 
