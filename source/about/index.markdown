@@ -8,9 +8,7 @@ footer: false
 ---
 
 
-I help companies to design and build software. 
-
-My interests are Big Data and Machine Learning.
+Help companies to design and build software. My interests are Big Data and Machine Learning.
 
 I provide consulting and engineering services. 
 
