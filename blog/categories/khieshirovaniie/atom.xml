@@ -4,7 +4,7 @@
   <title><![CDATA[Category: хеширование | Shady Minds]]></title>
   <link href="http://dyagilev.org/blog/categories/khieshirovaniie/atom.xml" rel="self"/>
   <link href="http://dyagilev.org/"/>
-  <updated>2018-09-28T18:08:09+03:00</updated>
+  <updated>2018-09-28T18:10:05+03:00</updated>
   <id>http://dyagilev.org/</id>
   <author>
     <name><![CDATA[Oleksiy Dyagilev]]></name>
@@ -39,21 +39,21 @@ Item get(Key k); // вытащить элемент по ключу k
 
 <p>Здесь появляется консистентное кеширование. Идея простая, возьмем окружность и будем рассматривать ее как интервал на котором определена хеш-функция функция. Применив хеш-функцию к набору ключей (синие точки) и серверов (зеленые точки) сможем разместить их на окружности.</p>
 
-<p><img src="/images/consistent-hashing/consistent_hashing11.png" width="50%" height="50%" /></p>
+<p><img src="{{ root_url }}/images/consistent-hashing/consistent_hashing11.png" width="50%" height="50%" /></p>
 
 <p>Для того чтобы определить на каком сервере размещен ключ, найдем ключ на окружности и будем двигаться по часовой стрелке до ближайшего сервера.</p>
 
 <p>Теперь в случае падения (недоступности) сервера, загрузить на новые сервер необходимо только недоступные данные. Все остальные хеши не меняют свое местоположение, то есть консистенты.</p>
 
-<p><img src="/images/consistent-hashing/consistent_hashing2.png" width="50%" height="50%" /></p>
+<p><img src="{{ root_url }}/images/consistent-hashing/consistent_hashing2.png" width="50%" height="50%" /></p>
 
 <p>При добавлении нового сервера соседний разделяет с ним часть своих данных.</p>
 
-<p><img src="/images/consistent-hashing/consistent_hashing3.png" width="50%" height="50%" /></p>
+<p><img src="{{ root_url }}/images/consistent-hashing/consistent_hashing3.png" width="50%" height="50%" /></p>
 
 <p>В целом ето все. На практике также применяют следующий трюк. Сервер можно пометить на окружности не одной точкой, а несколькими.</p>
 
-<p><img src="/images/consistent-hashing/consistent_hashing4.png" width="50%" height="50%" /></p>
+<p><img src="{{ root_url }}/images/consistent-hashing/consistent_hashing4.png" width="50%" height="50%" /></p>
 
 <p>Что ето дает ?
 - более равномерное распределение данных по серверам

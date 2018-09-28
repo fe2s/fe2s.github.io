@@ -4,7 +4,7 @@
   <title><![CDATA[Category: tcp | Shady Minds]]></title>
   <link href="http://dyagilev.org/blog/categories/tcp/atom.xml" rel="self"/>
   <link href="http://dyagilev.org/"/>
-  <updated>2018-09-28T18:08:09+03:00</updated>
+  <updated>2018-09-28T18:10:05+03:00</updated>
   <id>http://dyagilev.org/</id>
   <author>
     <name><![CDATA[Oleksiy Dyagilev]]></name>
@@ -24,7 +24,7 @@
 
 <p><strong>Step 1.</strong> Find obfuscated password in jetty.xml, it should start with OBF: prefix. Run it through the following deobfuscating function which I found in jetty sources.</p>
 
-<p>&#8220;`java
+<p>```java
 	public class Password {
 	    public static final String __OBFUSCATE = “OBF:”;</p>
 

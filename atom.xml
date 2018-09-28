@@ -4,7 +4,7 @@
   <title><![CDATA[Shady Minds]]></title>
   <link href="http://dyagilev.org/atom.xml" rel="self"/>
   <link href="http://dyagilev.org/"/>
-  <updated>2018-09-28T18:08:09+03:00</updated>
+  <updated>2018-09-28T18:09:53+03:00</updated>
   <id>http://dyagilev.org/</id>
   <author>
     <name><![CDATA[Oleksiy Dyagilev]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[How we built SQL driver for in-memory datagrid. Slides]]></title>
+    <title type="html"><![CDATA[Building SQL driver for in-memory datagrid. Slides]]></title>
     <link href="http://dyagilev.org/blog/2018/02/02/how-we-built-sql-driver-for-in-memory-datagrid-slides/"/>
     <updated>2018-02-02T16:57:37+02:00</updated>
     <id>http://dyagilev.org/blog/2018/02/02/how-we-built-sql-driver-for-in-memory-datagrid-slides</id>
