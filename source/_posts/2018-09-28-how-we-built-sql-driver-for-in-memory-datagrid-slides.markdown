@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "How we built SQL driver for in-memory datagrid. Slides"
+title: "Building SQL driver for in-memory datagrid. Slides"
 date: 2018-02-02 17:57:37 +0300
 comments: true
 categories: 
