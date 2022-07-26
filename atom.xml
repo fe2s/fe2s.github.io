@@ -4,10 +4,10 @@
   <title><![CDATA[Shady Minds]]></title>
   <link href="http://dyagilev.org/atom.xml" rel="self"/>
   <link href="http://dyagilev.org/"/>
-  <updated>2018-09-28T18:09:53+03:00</updated>
+  <updated>2022-07-25T20:53:02-07:00</updated>
   <id>http://dyagilev.org/</id>
   <author>
-    <name><![CDATA[Oleksiy Dyagilev]]></name>
+    <name><![CDATA[Oleksii Diagiliev]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Building SQL driver for in-memory datagrid. Slides]]></title>
     <link href="http://dyagilev.org/blog/2018/02/02/how-we-built-sql-driver-for-in-memory-datagrid-slides/"/>
-    <updated>2018-02-02T16:57:37+02:00</updated>
+    <updated>2018-02-02T17:57:37+03:00</updated>
     <id>http://dyagilev.org/blog/2018/02/02/how-we-built-sql-driver-for-in-memory-datagrid-slides</id>
     <content type="html"><![CDATA[<p>What it takes to build a SQL driver for distributed data storage with Apache Calcite. Sharing my experience in <a href="https://speakerdeck.com/fe2s/how-we-built-sql-driver-for-in-memory-data-grid">the deck</a>.</p>
 
@@ -28,7 +28,7 @@
   <entry>
     <title type="html"><![CDATA[How we built InsightEdge. Slides and talk recording]]></title>
     <link href="http://dyagilev.org/blog/2017/12/06/how-we-built-insightedge/"/>
-    <updated>2017-12-06T12:36:00+02:00</updated>
+    <updated>2017-12-06T12:36:00-08:00</updated>
     <id>http://dyagilev.org/blog/2017/12/06/how-we-built-insightedge</id>
     <content type="html"><![CDATA[<p>Sharing my slides and talk recording (in Russian) from JavaDay 2016 conference.</p>
 
@@ -2276,7 +2276,7 @@ You can override the default properties if there is a need to customize GigaSpac
   <entry>
     <title type="html"><![CDATA[How To Decrypt Jetty's Https Tcp Dump]]></title>
     <link href="http://dyagilev.org/blog/2013/03/26/how-to-decrypt-jettys-https-tcp-dump/"/>
-    <updated>2013-03-26T15:22:03+02:00</updated>
+    <updated>2013-03-26T16:22:03+03:00</updated>
     <id>http://dyagilev.org/blog/2013/03/26/how-to-decrypt-jettys-https-tcp-dump</id>
     <content type="html"><![CDATA[<p>If you want to capture jetty’s tcp dump of https and analyze encrypted packets later - here is an instruction. Applies for Jetty 7, not sure if the same works for other versions.</p>
 
@@ -2405,7 +2405,7 @@ You can override the default properties if there is a need to customize GigaSpac
   <entry>
     <title type="html"><![CDATA[Consistent Hashing]]></title>
     <link href="http://dyagilev.org/blog/2012/03/23/consistent-hashing/"/>
-    <updated>2012-03-23T14:34:54+02:00</updated>
+    <updated>2012-03-23T15:34:54+03:00</updated>
     <id>http://dyagilev.org/blog/2012/03/23/consistent-hashing</id>
     <content type="html"><![CDATA[<p>Техника консистентного хеширования <a href="http://en.wikipedia.org/wiki/Consistent_hashing">consistent hashing</a> довольно популярна при создании распределенных систем, тем не менее я не смог найти описания алгоритма на русском языке. Попробую изложить, возможно кому-то пригодится.</p>
 
@@ -2461,7 +2461,7 @@ You can override the default properties if there is a need to customize GigaSpac
   <entry>
     <title type="html"><![CDATA[Code Refactoring Detection]]></title>
     <link href="http://dyagilev.org/blog/2012/03/21/code-refactoring-detection/"/>
-    <updated>2012-03-21T14:13:35+02:00</updated>
+    <updated>2012-03-21T15:13:35+03:00</updated>
     <id>http://dyagilev.org/blog/2012/03/21/code-refactoring-detection</id>
     <content type="html"><![CDATA[<p>An idea of feature I would love to see in code review and diff/merge tools.</p>
 
@@ -2478,7 +2478,7 @@ You can override the default properties if there is a need to customize GigaSpac
   <entry>
     <title type="html"><![CDATA[Hello Blog]]></title>
     <link href="http://dyagilev.org/blog/2012/03/21/hello/"/>
-    <updated>2012-03-21T13:11:52+02:00</updated>
+    <updated>2012-03-21T14:11:52+03:00</updated>
     <id>http://dyagilev.org/blog/2012/03/21/hello</id>
     <content type="html"><![CDATA[<p>This blog is my shady nook to write some random thoughts on computer science and related topics.</p>
 

@@ -4,10 +4,10 @@
   <title><![CDATA[Category: optimization | Shady Minds]]></title>
   <link href="http://dyagilev.org/blog/categories/optimization/atom.xml" rel="self"/>
   <link href="http://dyagilev.org/"/>
-  <updated>2018-09-28T18:10:05+03:00</updated>
+  <updated>2022-07-25T20:53:02-07:00</updated>
   <id>http://dyagilev.org/</id>
   <author>
-    <name><![CDATA[Oleksiy Dyagilev]]></name>
+    <name><![CDATA[Oleksii Diagiliev]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
@@ -24,7 +24,7 @@
 
 <!-- more -->
 
-<p><img src="{{ root_url }}/images/storm/storm.png" /></p>
+<p><img src="/images/storm/storm.png" /></p>
 
 <p>The incoming tuple(message in Storm terminology) is processed by the bolt(processing node). Bolt can spawn more tuples which in their turn are further processed by succeeding bolt(s). So you end up with a tuple tree (directed acyclic graph actually).</p>
 

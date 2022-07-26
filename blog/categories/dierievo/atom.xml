@@ -4,10 +4,10 @@
   <title><![CDATA[Category: дерево | Shady Minds]]></title>
   <link href="http://dyagilev.org/blog/categories/dierievo/atom.xml" rel="self"/>
   <link href="http://dyagilev.org/"/>
-  <updated>2018-09-28T18:10:05+03:00</updated>
+  <updated>2022-07-25T20:53:02-07:00</updated>
   <id>http://dyagilev.org/</id>
   <author>
-    <name><![CDATA[Oleksiy Dyagilev]]></name>
+    <name><![CDATA[Oleksii Diagiliev]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
@@ -50,7 +50,7 @@
   <li>каждый массив отсортирован</li>
 </ul>
 
-<p><img src="{{ root_url }}/images/fractal-tree/fractal_tree1.png" width="50%" height="50%" /></p>
+<p><img src="/images/fractal-tree/fractal_tree1.png" width="50%" height="50%" /></p>
 
 <h3 id="section-1">Вставка</h3>
 <p>Начинаем сверху. Смотрим на верхний массив размером 1. Если он пустой - кладем туда элемент. Иначе вынимаем элемент и сортируем с данным во временом массиве. Спускаемся вниз к массиву размером 2. Если он пустой - кладем туда нашу пару. Если нет - мержим их с временным массивом. Так как оба массива отсортированы, то делаем ето за <code>O(X)</code>, где <code>X</code> ето длина массива. По сути ето операция merge из merge-сортировки. 
@@ -62,7 +62,7 @@
 <p>Идея состоит в том, чтобы во время поиска в очередном массиве использовать некоторую информацию из поиска предыдущего массива. И так по цепочке. А информация следующая - каждый элемент массива хранит ссылку на его ‘виртуальное’ место в следующем массиве. Называется ето fractional cascading. 
 Итого, <code>log N</code> массивов, константное время на каждом массиве дает <code>O(log N)</code>.</p>
 
-<p><img src="{{ root_url }}/images/fractal-tree/fractal_tree2.png" width="50%" height="50%" /></p>
+<p><img src="/images/fractal-tree/fractal_tree2.png" width="50%" height="50%" /></p>
 
 <p>В целом товарищи из Tokutek считают что в будущем все перейдут на фрактальные деревья как замена Б-деревьям. Детали алгоритма запатентованы.</p>
 

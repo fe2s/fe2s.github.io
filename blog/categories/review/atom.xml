@@ -4,10 +4,10 @@
   <title><![CDATA[Category: review, | Shady Minds]]></title>
   <link href="http://dyagilev.org/blog/categories/review/atom.xml" rel="self"/>
   <link href="http://dyagilev.org/"/>
-  <updated>2018-09-28T18:10:05+03:00</updated>
+  <updated>2022-07-25T20:53:02-07:00</updated>
   <id>http://dyagilev.org/</id>
   <author>
-    <name><![CDATA[Oleksiy Dyagilev]]></name>
+    <name><![CDATA[Oleksii Diagiliev]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Code Refactoring Detection]]></title>
     <link href="http://dyagilev.org/blog/2012/03/21/code-refactoring-detection/"/>
-    <updated>2012-03-21T14:13:35+02:00</updated>
+    <updated>2012-03-21T15:13:35+03:00</updated>
     <id>http://dyagilev.org/blog/2012/03/21/code-refactoring-detection</id>
     <content type="html"><![CDATA[<p>An idea of feature I would love to see in code review and diff/merge tools.</p>
 

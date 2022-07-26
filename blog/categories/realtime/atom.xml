@@ -4,10 +4,10 @@
   <title><![CDATA[Category: realtime, | Shady Minds]]></title>
   <link href="http://dyagilev.org/blog/categories/realtime/atom.xml" rel="self"/>
   <link href="http://dyagilev.org/"/>
-  <updated>2018-09-28T18:10:05+03:00</updated>
+  <updated>2022-07-25T20:53:02-07:00</updated>
   <id>http://dyagilev.org/</id>
   <author>
-    <name><![CDATA[Oleksiy Dyagilev]]></name>
+    <name><![CDATA[Oleksii Diagiliev]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
@@ -65,7 +65,7 @@
 
 <p>Storm is designed to be run on several machines to provide parallelism.  Storm topologies are deployed in a manner somewhat similar to a webapp or a XAP processing unit; a jar file is presented to a deployer which distributes it around the cluster where it is loaded and executed.  A topology runs until it is killed.</p>
 
-<p><img src="{{ root_url }}/images/xap-storm/storm-nutshell.png" /></p>
+<p><img src="/images/xap-storm/storm-nutshell.png" /></p>
 
 <p>Beside Storm, there is a <strong>Trident</strong> – a high-level abstraction for doing realtime computing on top of Storm. Trident adds primitives like groupBy, filter, merge, aggregation to simplify common computation routines. Trident has consistent, exactly-once semantics, so it is easy to reason about Trident topologies.</p>
 
@@ -75,7 +75,7 @@
 
 <p>Basically, Spouts provide the source of tuples for Storm processing.  For spouts to be maximally performant and reliable, they need to provide tuples in batches, and be able to replay failed batches when necessary.  Of course, in order to have batches, you need storage, and to be able to replay batches, you need reliable storage.  XAP is about the highest performing, reliable source of data out there, so a spout that serves tuples from XAP is a natural combination.</p>
 
-<p><img src="{{ root_url }}/images/xap-storm/xap-general-spout.jpg" /></p>
+<p><img src="/images/xap-storm/xap-general-spout.jpg" /></p>
 
 <p>Depending on domain model and level of guarantees you want to provide, you choose either pure Storm or Trident. We provide Spout implementations for both – <code>XAPSimpleSpout</code> and <code>XAPTranscationalTridentSpout</code> respectively.</p>
 
@@ -83,7 +83,7 @@
 
 <p><code>XAPSimpleSpout</code> is a spout implementation for pure Storm that reads data in batches from XAP. On XAP side we introduce conception of stream. Please find <code>SimpleStream</code> – a stream implementation that supports writing data in single and batch modes and reading in batch mode. <code>SimpleStream</code> leverages XAP’s FIFO(First In, First Out) capabilities.</p>
 
-<p><img src="{{ root_url }}/images/xap-storm/simple-spout.jpg" /></p>
+<p><img src="/images/xap-storm/simple-spout.jpg" /></p>
 
 <p><code>SimpleStream</code> works with arbitrary space class that has <code>FifoSupport.OPERATION</code> annotation and implements <code>Serializable</code>.</p>
 
@@ -121,11 +121,11 @@ public class PageViewSpout extends XAPSimpleSpout&lt;PageView&gt; {
 
 <p>To create a spout, we have to specify how we want our space class be converted to Storm tuple. That is exactly what <code>TupleConverter</code> knows about.</p>
 
-<p>```java
+<p>&#8220;`java
 class PageViewTupleConverter implements TupleConverter<PageView> {
     @Override
     public Fields tupleFields() {
-        return new Fields("page", "session");
+        return new Fields(&#8220;page&#8221;, &#8220;session&#8221;);
     }</PageView></p>
 
 <pre><code>@Override
@@ -163,7 +163,7 @@ builder.setSpout("pageViewSpout", new PageViewSpout());
 
 <p>For our implementation we choose <code>ITridentSpout</code> API.</p>
 
-<p><img src="{{ root_url }}/images/xap-storm/trident-spout.jpg" /></p>
+<p><img src="/images/xap-storm/trident-spout.jpg" /></p>
 
 <p>There is one to one mapping between XAP partitions and emitters.</p>
 
@@ -171,7 +171,7 @@ builder.setSpout("pageViewSpout", new PageViewSpout());
 
 <p>When emitter is created, it calls remote service <code>ConsumerRegistryService</code> to register itself. <code>ConsumerRegistryService</code> knows the number of XAP partitions and keeps track of the last allocated partition.  This information is reliably stored in the space, see <code>ConsumerRegistry.java</code>.</p>
 
-<p><img src="{{ root_url }}/images/xap-storm/consumer-registry.jpg" /></p>
+<p><img src="/images/xap-storm/consumer-registry.jpg" /></p>
 
 <p>Remember that parallelism hint for <code>XAPTranscationalTridentSpout</code> should equal to the number of XAP partitions.</p>
 
@@ -182,7 +182,7 @@ builder.setSpout("pageViewSpout", new PageViewSpout());
 
 <p><code>XAPTranscationalTridentSpout</code> works with <code>PartitionedStream</code> that wraps stream elements into Item class and keeps items ordered by ‘offset’ property. There is one <code>PartitionStream</code> instance per XAP partition.</p>
 
-<p><img src="{{ root_url }}/images/xap-storm/partitioned-stream.jpg" /></p>
+<p><img src="/images/xap-storm/partitioned-stream.jpg" /></p>
 
 <p>Stream’s <code>WriterHead</code> holds the last offset in the stream.  Any time batch of elements (or single element) written to stream, <code>WriterHead</code> incremented by the number of elements. Allocated numbers used to populate offset property of Items. <code>WriterHead</code> object is kept in heap, there is no need to keep it in space. If primary partition fails, <code>WriterHead</code> is reinitialized to be the max offset value for given stream.</p>
 
@@ -216,7 +216,7 @@ TridentState wordCounts = topology
 
 <p>In Trident topology that is persisting state via this mechanism, the overall throughput is almost certainly constrained by the performance of the state persistence.  This is a good place where XAP can step in and provide extremely high performance persistence for stream processing state.</p>
 
-<p><img src="{{ root_url }}/images/xap-storm/trident-state.jpg" /></p>
+<p><img src="/images/xap-storm/trident-state.jpg" /></p>
 
 <p>XAP Trident state implementation supports all state types – non-transactional, transactional and opaque.  All you need to create a Trident state is configure space url and choose appropriate factory method of <code>XAPStateFactory</code> class:</p>
 
@@ -297,11 +297,11 @@ public class TotalActiveUsersBolt extends XAPAwareBasicBolt {
   <li>which pages or events they’re interacting with</li>
 </ul>
 
-<p><img src="{{ root_url }}/images/xap-storm/storm-screen-with-browser.jpg" /></p>
+<p><img src="/images/xap-storm/storm-screen-with-browser.jpg" /></p>
 
 <h2 id="high-level-architecture-diagram">High-level architecture diagram</h2>
 
-<p><img src="{{ root_url }}/images/xap-storm/google-analytics-high-level.jpg" /></p>
+<p><img src="/images/xap-storm/google-analytics-high-level.jpg" /></p>
 
 <p><em>PageView feeder</em> is a standalone java application that simulates users on the site. It continuously sends <code>PageView</code> json to rest service endpoints deployed in XAP web PU. PageView looks like this</p>
 
@@ -320,7 +320,7 @@ public class TotalActiveUsersBolt extends XAPAwareBasicBolt {
 
 <h2 id="google-analytics-topology-high-level-overview">Google Analytics Topology. High level overview.</h2>
 
-<p><img src="{{ root_url }}/images/xap-storm/google-analytics-topology.jpg" /></p>
+<p><img src="/images/xap-storm/google-analytics-topology.jpg" /></p>
 
 <p>PageView spout forks five branches, each branch calculates its report and can be scaled independently. The final bolt in the branch writes data to XAP space.  In the next sections we take a closer look at branches design.</p>
 
@@ -328,7 +328,7 @@ public class TotalActiveUsersBolt extends XAPAwareBasicBolt {
 
 <p>Top urls report displays top 10 visited urls for the last ten seconds. Topology implements distributed rolling count algorithm. The report is updated every second.</p>
 
-<p><img src="{{ root_url }}/images/xap-storm/top-urls.jpg" /></p>
+<p><img src="/images/xap-storm/top-urls.jpg" /></p>
 
 <p>Tuples flow from spout to <code>UrlRollingCountBolt</code> grouped by ‘url’. <code>UrlRollingCountBolt</code> calculates rolling count with sliding windows of 10 seconds for every url. Sliding windows is basically a cyclic buffer with a head pointing to current slot. When bolt receives new tuple, it finds a sliding window for this tuple and increments the number in current slot. Every two seconds <code>UrlRollingCountBolt</code> emits the sum of sliding window for every url, then sliding windows advance and head points to the next slot.</p>
 
@@ -340,7 +340,7 @@ public class TotalActiveUsersBolt extends XAPAwareBasicBolt {
 
 <p>Active users report displays how many people on the site right now. We assume that if user hasn’t opened any page for the last N seconds, then user has left the site. Users are uniquely identified by ‘sessionId’ tuple field. For demo purpose N is configured to 5 seconds, though it should be much longer in real life application.</p>
 
-<p><img src="{{ root_url }}/images/xap-storm/active-users.jpg" /></p>
+<p><img src="/images/xap-storm/active-users.jpg" /></p>
 
 <p>Tuples flow from spout to <code>PartitionedActiveUsersBolt</code> grouped by ‘sessionId’. For every sessionId  <code>PartitionedActiveUsersBolt</code>  keeps track of the last seen time. Every second it removes sessions seen last time earlier than N seconds before and then emits the number of remaining ones.</p>
 
@@ -350,7 +350,7 @@ public class TotalActiveUsersBolt extends XAPAwareBasicBolt {
 
 <p>Page view time series report displays the dynamic of visited pages for last minute. The chart is updated every second.</p>
 
-<p><img src="{{ root_url }}/images/xap-storm/page-views.jpg" /></p>
+<p><img src="/images/xap-storm/page-views.jpg" /></p>
 
 <p><code>PageViewCountBolt</code> calculates the number of page views and passes local count to <code>PageViewTimeSeriesBolt</code> every second. <code>PageViewTimeSeriesBolt</code> maintains a sliding window counter and writes report to XAP space.</p>
 
@@ -358,7 +358,7 @@ public class TotalActiveUsersBolt extends XAPAwareBasicBolt {
 
 <p>Geo report displays a map of users’ geographical location. Depending on the volume of traffic from particular country, country is filled with different colors on the map.</p>
 
-<p><img src="{{ root_url }}/images/xap-storm/geo.jpg" /></p>
+<p><img src="/images/xap-storm/geo.jpg" /></p>
 
 <p>IP address converted to country using <a href="http://dev.maxmind.com/">MaxMind GeoIP database</a>. The database is a binary file loaded into <code>GeoIPBolt’s</code> heap. <code>GeoIpLookupService</code> ensures that it’s loaded only once per JVM.</p>
 

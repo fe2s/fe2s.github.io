@@ -4,10 +4,10 @@
   <title><![CDATA[Category: jetty | Shady Minds]]></title>
   <link href="http://dyagilev.org/blog/categories/jetty/atom.xml" rel="self"/>
   <link href="http://dyagilev.org/"/>
-  <updated>2018-09-28T18:10:05+03:00</updated>
+  <updated>2022-07-25T20:53:02-07:00</updated>
   <id>http://dyagilev.org/</id>
   <author>
-    <name><![CDATA[Oleksiy Dyagilev]]></name>
+    <name><![CDATA[Oleksii Diagiliev]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[How To Decrypt Jetty's Https Tcp Dump]]></title>
     <link href="http://dyagilev.org/blog/2013/03/26/how-to-decrypt-jettys-https-tcp-dump/"/>
-    <updated>2013-03-26T15:22:03+02:00</updated>
+    <updated>2013-03-26T16:22:03+03:00</updated>
     <id>http://dyagilev.org/blog/2013/03/26/how-to-decrypt-jettys-https-tcp-dump</id>
     <content type="html"><![CDATA[<p>If you want to capture jetty’s tcp dump of https and analyze encrypted packets later - here is an instruction. Applies for Jetty 7, not sure if the same works for other versions.</p>
 
@@ -24,7 +24,7 @@
 
 <p><strong>Step 1.</strong> Find obfuscated password in jetty.xml, it should start with OBF: prefix. Run it through the following deobfuscating function which I found in jetty sources.</p>
 
-<p>```java
+<p>&#8220;`java
 	public class Password {
 	    public static final String __OBFUSCATE = “OBF:”;</p>
 

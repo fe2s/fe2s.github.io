@@ -4,10 +4,10 @@
   <title><![CDATA[Category: xap, | Shady Minds]]></title>
   <link href="http://dyagilev.org/blog/categories/xap/atom.xml" rel="self"/>
   <link href="http://dyagilev.org/"/>
-  <updated>2018-09-28T18:10:05+03:00</updated>
+  <updated>2022-07-25T20:53:02-07:00</updated>
   <id>http://dyagilev.org/</id>
   <author>
-    <name><![CDATA[Oleksiy Dyagilev]]></name>
+    <name><![CDATA[Oleksii Diagiliev]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
@@ -104,7 +104,7 @@
 
 <p>Data can be ingested to Spark cluster from many sources like HDS, Kafka, Flume, etc and can be processed using complex algorithms expressed with high-level functions like <code>map</code>, <code>reduce</code>, <code>join</code> and <code>window</code>. Finally, processed data can be pushed out to filesystems or databases.</p>
 
-<p><img src="{{ root_url }}/images/xap-spark/spark-streaming.jpg" /></p>
+<p><img src="/images/xap-spark/spark-streaming.jpg" /></p>
 
 <h1 id="challenge">Challenge</h1>
 
@@ -114,7 +114,7 @@
 
 <p>In this pattern we address performance challenge by integrating Spark Streaming with XAP. XAP is used as a stream data source and a scalable, fast, reliable persistent storage.</p>
 
-<p><img src="{{ root_url }}/images/xap-spark/high-level.jpg" /></p>
+<p><img src="/images/xap-spark/high-level.jpg" /></p>
 
 <ol>
   <li>Producer writes the data to XAP stream</li>
@@ -219,13 +219,13 @@ wordCountWindow.foreachRDD(rdd =&gt; {
 
 <p>As a part of this integration pattern, we demonstrate how to build an application that consumes live stream of text and displays top 10 five-letter words over a sliding window in real-time. The user interface consists of a simple single page web application displaying a table of top 10 words and a word cloud. The data on UI is updated every second.</p>
 
-<p><img src="{{ root_url }}/images/xap-spark/spark-word-counter.jpg" /></p>
+<p><img src="/images/xap-spark/spark-word-counter.jpg" /></p>
 
 <h2 id="high-level-design">High-level design</h2>
 
 <p>The high-level design diagram of the Word Counter Demo is below:</p>
 
-<p><img src="{{ root_url }}/images/xap-spark/example.jpg" /></p>
+<p><img src="/images/xap-spark/example.jpg" /></p>
 
 <ol>
   <li>Feeder is a standalone scala application that reads book from text file in a cycle and writes lines to XAP Stream.</li>
@@ -351,7 +351,7 @@ wordCountWindow.foreachRDD(rdd =&gt; {
 
 <p>Storm is designed to be run on several machines to provide parallelism.  Storm topologies are deployed in a manner somewhat similar to a webapp or a XAP processing unit; a jar file is presented to a deployer which distributes it around the cluster where it is loaded and executed.  A topology runs until it is killed.</p>
 
-<p><img src="{{ root_url }}/images/xap-storm/storm-nutshell.png" /></p>
+<p><img src="/images/xap-storm/storm-nutshell.png" /></p>
 
 <p>Beside Storm, there is a <strong>Trident</strong> – a high-level abstraction for doing realtime computing on top of Storm. Trident adds primitives like groupBy, filter, merge, aggregation to simplify common computation routines. Trident has consistent, exactly-once semantics, so it is easy to reason about Trident topologies.</p>
 
@@ -361,7 +361,7 @@ wordCountWindow.foreachRDD(rdd =&gt; {
 
 <p>Basically, Spouts provide the source of tuples for Storm processing.  For spouts to be maximally performant and reliable, they need to provide tuples in batches, and be able to replay failed batches when necessary.  Of course, in order to have batches, you need storage, and to be able to replay batches, you need reliable storage.  XAP is about the highest performing, reliable source of data out there, so a spout that serves tuples from XAP is a natural combination.</p>
 
-<p><img src="{{ root_url }}/images/xap-storm/xap-general-spout.jpg" /></p>
+<p><img src="/images/xap-storm/xap-general-spout.jpg" /></p>
 
 <p>Depending on domain model and level of guarantees you want to provide, you choose either pure Storm or Trident. We provide Spout implementations for both – <code>XAPSimpleSpout</code> and <code>XAPTranscationalTridentSpout</code> respectively.</p>
 
@@ -369,7 +369,7 @@ wordCountWindow.foreachRDD(rdd =&gt; {
 
 <p><code>XAPSimpleSpout</code> is a spout implementation for pure Storm that reads data in batches from XAP. On XAP side we introduce conception of stream. Please find <code>SimpleStream</code> – a stream implementation that supports writing data in single and batch modes and reading in batch mode. <code>SimpleStream</code> leverages XAP’s FIFO(First In, First Out) capabilities.</p>
 
-<p><img src="{{ root_url }}/images/xap-storm/simple-spout.jpg" /></p>
+<p><img src="/images/xap-storm/simple-spout.jpg" /></p>
 
 <p><code>SimpleStream</code> works with arbitrary space class that has <code>FifoSupport.OPERATION</code> annotation and implements <code>Serializable</code>.</p>
 
@@ -407,11 +407,11 @@ public class PageViewSpout extends XAPSimpleSpout&lt;PageView&gt; {
 
 <p>To create a spout, we have to specify how we want our space class be converted to Storm tuple. That is exactly what <code>TupleConverter</code> knows about.</p>
 
-<p>```java
+<p>&#8220;`java
 class PageViewTupleConverter implements TupleConverter<PageView> {
     @Override
     public Fields tupleFields() {
-        return new Fields("page", "session");
+        return new Fields(&#8220;page&#8221;, &#8220;session&#8221;);
     }</PageView></p>
 
 <pre><code>@Override
@@ -449,7 +449,7 @@ builder.setSpout("pageViewSpout", new PageViewSpout());
 
 <p>For our implementation we choose <code>ITridentSpout</code> API.</p>
 
-<p><img src="{{ root_url }}/images/xap-storm/trident-spout.jpg" /></p>
+<p><img src="/images/xap-storm/trident-spout.jpg" /></p>
 
 <p>There is one to one mapping between XAP partitions and emitters.</p>
 
@@ -457,7 +457,7 @@ builder.setSpout("pageViewSpout", new PageViewSpout());
 
 <p>When emitter is created, it calls remote service <code>ConsumerRegistryService</code> to register itself. <code>ConsumerRegistryService</code> knows the number of XAP partitions and keeps track of the last allocated partition.  This information is reliably stored in the space, see <code>ConsumerRegistry.java</code>.</p>
 
-<p><img src="{{ root_url }}/images/xap-storm/consumer-registry.jpg" /></p>
+<p><img src="/images/xap-storm/consumer-registry.jpg" /></p>
 
 <p>Remember that parallelism hint for <code>XAPTranscationalTridentSpout</code> should equal to the number of XAP partitions.</p>
 
@@ -468,7 +468,7 @@ builder.setSpout("pageViewSpout", new PageViewSpout());
 
 <p><code>XAPTranscationalTridentSpout</code> works with <code>PartitionedStream</code> that wraps stream elements into Item class and keeps items ordered by ‘offset’ property. There is one <code>PartitionStream</code> instance per XAP partition.</p>
 
-<p><img src="{{ root_url }}/images/xap-storm/partitioned-stream.jpg" /></p>
+<p><img src="/images/xap-storm/partitioned-stream.jpg" /></p>
 
 <p>Stream’s <code>WriterHead</code> holds the last offset in the stream.  Any time batch of elements (or single element) written to stream, <code>WriterHead</code> incremented by the number of elements. Allocated numbers used to populate offset property of Items. <code>WriterHead</code> object is kept in heap, there is no need to keep it in space. If primary partition fails, <code>WriterHead</code> is reinitialized to be the max offset value for given stream.</p>
 
@@ -502,7 +502,7 @@ TridentState wordCounts = topology
 
 <p>In Trident topology that is persisting state via this mechanism, the overall throughput is almost certainly constrained by the performance of the state persistence.  This is a good place where XAP can step in and provide extremely high performance persistence for stream processing state.</p>
 
-<p><img src="{{ root_url }}/images/xap-storm/trident-state.jpg" /></p>
+<p><img src="/images/xap-storm/trident-state.jpg" /></p>
 
 <p>XAP Trident state implementation supports all state types – non-transactional, transactional and opaque.  All you need to create a Trident state is configure space url and choose appropriate factory method of <code>XAPStateFactory</code> class:</p>
 
@@ -583,11 +583,11 @@ public class TotalActiveUsersBolt extends XAPAwareBasicBolt {
   <li>which pages or events they’re interacting with</li>
 </ul>
 
-<p><img src="{{ root_url }}/images/xap-storm/storm-screen-with-browser.jpg" /></p>
+<p><img src="/images/xap-storm/storm-screen-with-browser.jpg" /></p>
 
 <h2 id="high-level-architecture-diagram">High-level architecture diagram</h2>
 
-<p><img src="{{ root_url }}/images/xap-storm/google-analytics-high-level.jpg" /></p>
+<p><img src="/images/xap-storm/google-analytics-high-level.jpg" /></p>
 
 <p><em>PageView feeder</em> is a standalone java application that simulates users on the site. It continuously sends <code>PageView</code> json to rest service endpoints deployed in XAP web PU. PageView looks like this</p>
 
@@ -606,7 +606,7 @@ public class TotalActiveUsersBolt extends XAPAwareBasicBolt {
 
 <h2 id="google-analytics-topology-high-level-overview">Google Analytics Topology. High level overview.</h2>
 
-<p><img src="{{ root_url }}/images/xap-storm/google-analytics-topology.jpg" /></p>
+<p><img src="/images/xap-storm/google-analytics-topology.jpg" /></p>
 
 <p>PageView spout forks five branches, each branch calculates its report and can be scaled independently. The final bolt in the branch writes data to XAP space.  In the next sections we take a closer look at branches design.</p>
 
@@ -614,7 +614,7 @@ public class TotalActiveUsersBolt extends XAPAwareBasicBolt {
 
 <p>Top urls report displays top 10 visited urls for the last ten seconds. Topology implements distributed rolling count algorithm. The report is updated every second.</p>
 
-<p><img src="{{ root_url }}/images/xap-storm/top-urls.jpg" /></p>
+<p><img src="/images/xap-storm/top-urls.jpg" /></p>
 
 <p>Tuples flow from spout to <code>UrlRollingCountBolt</code> grouped by ‘url’. <code>UrlRollingCountBolt</code> calculates rolling count with sliding windows of 10 seconds for every url. Sliding windows is basically a cyclic buffer with a head pointing to current slot. When bolt receives new tuple, it finds a sliding window for this tuple and increments the number in current slot. Every two seconds <code>UrlRollingCountBolt</code> emits the sum of sliding window for every url, then sliding windows advance and head points to the next slot.</p>
 
@@ -626,7 +626,7 @@ public class TotalActiveUsersBolt extends XAPAwareBasicBolt {
 
 <p>Active users report displays how many people on the site right now. We assume that if user hasn’t opened any page for the last N seconds, then user has left the site. Users are uniquely identified by ‘sessionId’ tuple field. For demo purpose N is configured to 5 seconds, though it should be much longer in real life application.</p>
 
-<p><img src="{{ root_url }}/images/xap-storm/active-users.jpg" /></p>
+<p><img src="/images/xap-storm/active-users.jpg" /></p>
 
 <p>Tuples flow from spout to <code>PartitionedActiveUsersBolt</code> grouped by ‘sessionId’. For every sessionId  <code>PartitionedActiveUsersBolt</code>  keeps track of the last seen time. Every second it removes sessions seen last time earlier than N seconds before and then emits the number of remaining ones.</p>
 
@@ -636,7 +636,7 @@ public class TotalActiveUsersBolt extends XAPAwareBasicBolt {
 
 <p>Page view time series report displays the dynamic of visited pages for last minute. The chart is updated every second.</p>
 
-<p><img src="{{ root_url }}/images/xap-storm/page-views.jpg" /></p>
+<p><img src="/images/xap-storm/page-views.jpg" /></p>
 
 <p><code>PageViewCountBolt</code> calculates the number of page views and passes local count to <code>PageViewTimeSeriesBolt</code> every second. <code>PageViewTimeSeriesBolt</code> maintains a sliding window counter and writes report to XAP space.</p>
 
@@ -644,7 +644,7 @@ public class TotalActiveUsersBolt extends XAPAwareBasicBolt {
 
 <p>Geo report displays a map of users’ geographical location. Depending on the volume of traffic from particular country, country is filled with different colors on the map.</p>
 
-<p><img src="{{ root_url }}/images/xap-storm/geo.jpg" /></p>
+<p><img src="/images/xap-storm/geo.jpg" /></p>
 
 <p>IP address converted to country using <a href="http://dev.maxmind.com/">MaxMind GeoIP database</a>. The database is a binary file loaded into <code>GeoIPBolt’s</code> heap. <code>GeoIpLookupService</code> ensures that it’s loaded only once per JVM.</p>
 
@@ -716,7 +716,7 @@ mvn os:deploy
 
 <p>The XAP Kafka integration is done via the <code>SpaceSynchronizationEndpoint</code> interface deployed as a Mirror service PU. It consumes a batch of IMDG operations, converts them to custom Kafka messages and sends these to the Kafka server using the Kafka Producer API.</p>
 
-<p><img src="{{ root_url }}/images/xap-kafka/xap-kafka.jpg" /></p>
+<p><img src="/images/xap-kafka/xap-kafka.jpg" /></p>
 
 <p>GigaSpace-Kafka protocol is simple and represents the data and its IMDG operation. The message consists of the IMDG operation type (Write, Update , remove, etc.) and the actual data object. The Data object itself could be represented either as a single object or as a Space Document with key/values pairs (<code>SpaceDocument</code>).
 Since a Kafka message is sent over the wire, it should be serialized to bytes in some way.
@@ -724,7 +724,7 @@ The default encoder utilizes Java serialization mechanism which implies Space cl
 
 <p>By default Kafka messages are uniformly distributed across Kafka partitions. Please note, even though IMDG operations appear ordered in <code>SpaceSynchronizationEndpoint</code>, it doesn’t imply correct ordering of data processing in Kafka consumers. See below diagram:</p>
 
-<p><img src="{{ root_url }}/images/xap-kafka/xap-kafka-ordering.jpg" /></p>
+<p><img src="/images/xap-kafka/xap-kafka-ordering.jpg" /></p>
 
 <h2 id="getting-started">Getting started</h2>
 
@@ -764,19 +764,19 @@ mvn os:deploy
 
 <p>The following maven dependency needs to be included in your project in order to use Kafka persistence. This artifact is built from <code>&lt;project_rood&gt;/kafka-persistence</code> source directory.</p>
 
-<p>```xml</p>
+<p>&#8220;`xml</p>
 <dependency>
 	<groupId>com.epam</groupId>
 	<artifactId>kafka-persistence</artifactId>
 	<version>1.0-SNAPSHOT</version>
 </dependency>
-<p>```</p>
+<p>&#8220;`</p>
 
 <h2 id="mirror-service">Mirror service</h2>
 
 <p>Here is an example of the Kafka Space Synchronization Endpoint configuration:</p>
 
-<p>```xml</p>
+<p>&#8220;`xml</p>
 <bean id="kafkaSpaceSynchronizationEndpoint" class="com.epam.openspaces.persistency.kafka.KafkaSpaceSynchronizationEndpointFactoryBean">
 	<property name="producerProperties">
 		<props>
@@ -793,7 +793,7 @@ mvn os:deploy
 <os-core:mirror id="mirror" url="/./mirror-service" space-sync-endpoint="kafkaSpaceSynchronizationEndpoint" operation-grouping="group-by-replication-bulk">
 	<os-core:source-space name="space" partitions="2" backups="1" />
 </os-core:mirror>
-<p>```</p>
+<p>&#8220;`</p>
 
 <p>Please consult Kafka documentation for the full list of available producer properties.
 You can override the default properties if there is a need to customize GigaSpace-Kafka protocol. See Customization section below for details.</p>
@@ -814,23 +814,23 @@ public class UserActivity implements Serializable {
 
 <p>To configure a Kafka topic for a SpaceDocuments or Extended SpaceDocument, the property <code>KafkaPersistenceConstants.SPACE_DOCUMENT_KAFKA_TOPIC_PROPERTY_NAME</code> should be added to document. Here is an example</p>
 
-<p>```java
+<p>&#8220;`java
 public class Product extends SpaceDocument {</p>
 
 <p>public Product() {
 	super(“Product”);
 	super.setProperty(SPACE_DOCUMENT_KAFKA_TOPIC_PROPERTY_NAME, “product”);
 }
-```</p>
+&#8220;`</p>
 
 <p>It’s also possible to configure the name of the property which defines the Kafka topic for SpaceDocuments. Set <code>spaceDocumentKafkaTopicName</code> to the desired value as shown below.</p>
 
-<p>```xml</p>
+<p>&#8220;`xml</p>
 <bean id="kafkaSpaceSynchronizationEndpoint" class="com.epam.openspaces.persistency.kafka.KafkaSpaceSynchrspaceDocumentKafkaTopicNameonizationEndpointFactoryBean">
-	...
+	&#8230;
 	<property name="spaceDocumentKafkaTopicName" value="topic_name" />
 </bean>
-<p>```</p>
+<p>&#8220;`</p>
 
 <h2 id="kafka-consumers">Kafka consumers</h2>
 

@@ -2,11 +2,11 @@
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
 <loc>http://dyagilev.org/blog/2018/02/02/how-we-built-sql-driver-for-in-memory-datagrid-slides/</loc>
-<lastmod>2018-02-02T16:57:37+02:00</lastmod>
+<lastmod>2018-02-02T17:57:37+03:00</lastmod>
 </url>
 <url>
 <loc>http://dyagilev.org/blog/2017/12/06/how-we-built-insightedge/</loc>
-<lastmod>2017-12-06T12:36:00+02:00</lastmod>
+<lastmod>2017-12-06T12:36:00-08:00</lastmod>
 </url>
 <url>
 <loc>http://dyagilev.org/blog/2016/09/29/real-time-spatial-analytics-with-insightedge-spark-taxi-price-surge-use-case/</loc>
@@ -62,7 +62,7 @@
 </url>
 <url>
 <loc>http://dyagilev.org/blog/2013/03/26/how-to-decrypt-jettys-https-tcp-dump/</loc>
-<lastmod>2013-03-26T15:22:03+02:00</lastmod>
+<lastmod>2013-03-26T16:22:03+03:00</lastmod>
 </url>
 <url>
 <loc>http://dyagilev.org/blog/2012/03/29/fractal-tree-indexes/</loc>
@@ -70,15 +70,15 @@
 </url>
 <url>
 <loc>http://dyagilev.org/blog/2012/03/23/consistent-hashing/</loc>
-<lastmod>2012-03-23T14:34:54+02:00</lastmod>
+<lastmod>2012-03-23T15:34:54+03:00</lastmod>
 </url>
 <url>
 <loc>http://dyagilev.org/blog/2012/03/21/code-refactoring-detection/</loc>
-<lastmod>2012-03-21T14:13:35+02:00</lastmod>
+<lastmod>2012-03-21T15:13:35+03:00</lastmod>
 </url>
 <url>
 <loc>http://dyagilev.org/blog/2012/03/21/hello/</loc>
-<lastmod>2012-03-21T13:11:52+02:00</lastmod>
+<lastmod>2012-03-21T14:11:52+03:00</lastmod>
 </url>
 <url>
 <loc>http://dyagilev.org/</loc>
